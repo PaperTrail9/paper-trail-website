@@ -1,0 +1,42 @@
+{
+  "lastUpdated": "2026-02-03T08:10:27.348Z",
+  "providers": {
+    "openai": {
+      "daily": 0,
+      "monthly": 0,
+      "source": "API",
+      "note": ""
+    },
+    "openrouter": {
+      "daily": 0,
+      "monthly": 30.6173574,
+      "source": "OpenRouter /credits API",
+      "note": "",
+      "credits": {
+        "total": 40,
+        "used": 30.6173574,
+        "remaining": 9.3826426,
+        "currency": "USD"
+      }
+    },
+    "minimax": {
+      "daily": 0,
+      "monthly": 0,
+      "source": "MiniMax Dashboard (manual)",
+      "note": "Usage data not available via API - check MiniMax dashboard"
+    },
+    "kimicoding": {
+      "daily": 0,
+      "monthly": 0,
+      "source": "Kimi Dashboard (manual)",
+      "note": "API key not exposed - check provider dashboard"
+    },
+    "anthropic": {
+      "daily": 0,
+      "monthly": 0.9754795055589289,
+      "source": "model-usage.json (estimated from token usage)",
+      "note": "Admin API key required - regular API key has insufficient permissions"
+    }
+  },
+  "totalMonthly": 31.59283690555893
+}

@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-02-15T15:00:06.187Z",
+  "results": {
+    "email": {
+      "success": false,
+      "error": "client.sendHybridNotification is not a function"
+    },
+    "calendar": {
+      "success": true,
+      "icsPath": "C:\\Users\\Admin\\.openclaw\\workspace\\dinner-automation\\data\\dinner-plan.ics",
+      "note": "Apple Calendar ONLY - Import via iCloud.com or Apple Calendar app"
+    },
+    "heb": {
+      "success": true,
+      "pid": 590592,
+      "items": 44,
+      "note": "Chrome opened to heb.com - extension will auto-start"
+    }
+  },
+  "allSuccessful": false,
+  "instructions": {
+    "email": "Check alex@1v1a.com for dinner plan",
+    "heb": "Click Chrome window, HEB.com loads, extension auto-adds items",
+    "calendar": "Double-click: C:\\Users\\Admin\\.openclaw\\workspace\\dinner-automation\\data\\dinner-plan.ics"
+  }
+}

@@ -1,10 +1,23 @@
 /**
- * HEB Automation Utilities - Shared Module
+ * HEB Automation Utilities - Shared Module (Refactored)
  * Consolidates common functions to reduce code duplication
+ * 
+ * REFACTORED: Now uses shared library modules
+ * - Uses lib/logger for structured logging
+ * - Uses lib/date-utils for date/time operations
+ * - Uses lib/retry-utils for retry logic
+ * - Uses lib/config for configuration loading
  */
 
 const fs = require('fs').promises;
 const path = require('path');
+const { logger, formatDateTime, formatDuration, withRetry, getConfig } = require('../../lib');
+
+// Component-specific logger
+const log = logger.child('heb-utils');
+
+// Load configuration
+const config = getConfig();
 
 // ============================================================================
 // PERFORMANCE CONFIGURATION
@@ -13,29 +26,29 @@ const path = require('path');
 const CONFIG = {
   // Timing (optimized based on empirical data)
   delays: {
-    min: 800,           // Was 3000ms - reduced with smart waiting
-    max: 2500,          // Was 8000ms
-    click: 50,          // Was 100-400ms
-    scroll: 200,        // Was 500-1200ms
-    batchPauseMin: 3000,// Was 10000ms
-    batchPauseMax: 5000,// Was 16000ms
+    min: config.get('automation.delayMin', 800),
+    max: config.get('automation.delayMax', 2500),
+    click: 50,
+    scroll: 200,
+    batchPauseMin: 3000,
+    batchPauseMax: 5000,
   },
   
   // Concurrency
-  batchSize: 5,
-  maxRetries: 2,        // Reduced from 3 - better selectors = fewer retries needed
+  batchSize: config.get('automation.batchSize', 5),
+  maxRetries: config.get('automation.maxRetries', 2),
   
   // Timeouts
-  navigationTimeout: 12000,
+  navigationTimeout: config.get('automation.timeout', 12000),
   selectorTimeout: 6000,
-  cartCacheTTL: 3000,   // 3 second cart cache
+  cartCacheTTL: 3000,
   
   // Selectors (prioritized by speed/reliability)
   buttonSelectors: [
-    'button[data-testid*="add-to-cart" i]',  // Fastest - modern HEB
-    'button[data-qe-id="addToCart"]',        // Legacy but reliable
-    'button[data-automation-id*="add" i]',   // Alternative
-    'button:has-text("Add to cart")',        // Text-based fallback
+    'button[data-testid*="add-to-cart" i]',
+    'button[data-qe-id="addToCart"]',
+    'button[data-automation-id*="add" i]',
+    'button:has-text("Add to cart")',
   ],
 };
 
@@ -88,7 +101,7 @@ class CartTracker {
 
     try {
       const count = await page.evaluate(() => {
-        // Fast path: localStorage (single call)
+        // Fast path: localStorage
         try {
           const raw = localStorage.getItem('PurchaseCart');
           if (raw) {
@@ -100,7 +113,7 @@ class CartTracker {
           }
         } catch (e) {}
 
-        // Fallback: DOM query with multiple strategies in one evaluate
+        // Fallback: DOM query
         const cartLink = document.querySelector('a[data-testid="cart-link"], a[href*="/cart"]');
         if (cartLink) {
           const label = cartLink.getAttribute('aria-label');
@@ -134,23 +147,20 @@ class CartTracker {
 }
 
 async function verifyCartIncreased(page, initialCount, tracker, maxRetries = CONFIG.maxRetries) {
-  for (let i = 0; i < maxRetries; i++) {
-    // Shorter wait with exponential backoff
-    const waitTime = 1500 * Math.pow(1.5, i);
-    await randomDelay(waitTime, waitTime + 500);
-    
+  return withRetry(async () => {
     const newCount = await tracker.getCount(page, false);
-    
-    if (newCount > initialCount) {
-      return { success: true, newCount, added: newCount - initialCount };
+    if (newCount <= initialCount) {
+      throw new Error('Cart count did not increase');
     }
-    
-    if (i < maxRetries - 1) {
-      console.log(`    🔄 Verification retry ${i + 1}/${maxRetries}...`);
+    return { success: true, newCount, added: newCount - initialCount };
+  }, {
+    maxRetries,
+    delay: 1500,
+    backoff: 1.5,
+    onRetry: ({ attempt, maxRetries }) => {
+      log.debug(`Cart verification retry ${attempt}/${maxRetries}...`);
     }
-  }
-  
-  return { success: false, newCount: await tracker.getCount(page, false) };
+  });
 }
 
 // ============================================================================
@@ -158,10 +168,8 @@ async function verifyCartIncreased(page, initialCount, tracker, maxRetries = CON
 // ============================================================================
 
 async function findAddButton(page, timeout = CONFIG.selectorTimeout) {
-  // Quick scroll to ensure buttons are visible
   await page.evaluate(() => window.scrollTo(0, 250));
   
-  // Single optimized evaluate for button discovery
   const buttonInfo = await page.evaluate((selectors) => {
     for (const selector of selectors) {
       const buttons = document.querySelectorAll(selector);
@@ -170,7 +178,6 @@ async function findAddButton(page, timeout = CONFIG.selectorTimeout) {
         const isDisabled = btn.disabled || btn.getAttribute('aria-disabled') === 'true';
         
         if (rect.width > 0 && rect.height > 0 && !isDisabled) {
-          // Create a unique identifier for the button
           const identifier = btn.getAttribute('data-testid') || 
                            btn.getAttribute('data-qe-id') || 
                            btn.textContent?.trim().slice(0, 30);
@@ -185,7 +192,6 @@ async function findAddButton(page, timeout = CONFIG.selectorTimeout) {
     return null;
   }
   
-  // Get the Playwright locator for the found button
   try {
     const locator = page.locator(buttonInfo.selector).filter({ visible: true }).first();
     if (await locator.count() > 0) {
@@ -201,11 +207,9 @@ async function clickButton(page, button, options = {}) {
   
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
-      // Quick scroll
       await button.scrollIntoViewIfNeeded({ timeout: 3000 });
       await randomDelay(200, 500);
       
-      // Check disabled state
       const isDisabled = await button.evaluate(el => 
         el.disabled || el.getAttribute('aria-disabled') === 'true'
       ).catch(() => true);
@@ -218,7 +222,6 @@ async function clickButton(page, button, options = {}) {
         return { success: false, error: 'Button disabled' };
       }
       
-      // Visual feedback (fire and forget)
       if (visualFeedback) {
         button.evaluate(el => {
           el.style.outline = '3px solid #22c55e';
@@ -230,7 +233,6 @@ async function clickButton(page, button, options = {}) {
         }).catch(() => {});
       }
       
-      // Click with human-like delay
       await button.click({ delay: CONFIG.delays.click, timeout: 5000 });
       
       return { success: true };
@@ -277,17 +279,18 @@ async function loadItems(itemsPath) {
         }
       }
       
+      log.info(`Loaded ${items.length} items from shopping list`);
       return items;
     }
     
     return parsed.items || parsed;
   } catch (e) {
-    console.error('Could not load items:', e.message);
+    log.error('Could not load items:', e.message);
     return [];
   }
 }
 
-// Hardcoded fallback items (all 42)
+// Hardcoded fallback items
 const ALL_ITEMS_FALLBACK = [
   { name: "cod fillets", searchTerm: "wild caught cod" },
   { name: "ribeye steak", searchTerm: "organic grass-fed ribeye" },
@@ -340,16 +343,14 @@ const ALL_ITEMS_FALLBACK = [
 async function warmupSession(page, options = {}) {
   const { skipIfWarmed = true, timeout = 10000 } = options;
   
-  // Check if already on HEB
   const currentUrl = page.url();
   if (currentUrl.includes('heb.com') && skipIfWarmed) {
-    console.log('  ♻️  Already on HEB, skipping warmup');
+    log.debug('Already on HEB, skipping warmup');
     return;
   }
   
-  console.log('  🌡️  Session warmup...');
+  log.info('Session warmup...');
   
-  // Anti-detection script injection
   await page.addInitScript(() => {
     Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
     delete window.chrome?.runtime?.OnInstalledReason;
@@ -362,12 +363,10 @@ async function warmupSession(page, options = {}) {
   });
   
   await randomDelay(1500, 2500);
-  
-  // Single scroll
   await page.evaluate(() => window.scrollBy(0, 200));
   await randomDelay(500, 1000);
   
-  console.log('  ✅ Session warmed');
+  log.success('Session warmed');
 }
 
 async function checkLogin(page) {
@@ -384,22 +383,27 @@ async function checkLogin(page) {
 async function processBatch(items, processor, options = {}) {
   const { batchSize = CONFIG.batchSize, onBatchComplete } = options;
   const results = [];
+  const startTime = Date.now();
   
   for (let i = 0; i < items.length; i += batchSize) {
     const batch = items.slice(i, i + batchSize);
     const batchNum = Math.floor(i / batchSize) + 1;
     const totalBatches = Math.ceil(items.length / batchSize);
     
-    console.log(`\n📦 Batch ${batchNum}/${totalBatches} (${batch.length} items)`);
+    log.section(`BATCH ${batchNum}/${totalBatches} (${batch.length} items)`);
     
     for (let j = 0; j < batch.length; j++) {
       const item = batch[j];
       const globalIndex = i + j + 1;
       
-      const result = await processor(item, globalIndex, batch.length);
-      results.push({ item, result, index: globalIndex });
+      try {
+        const result = await processor(item, globalIndex, batch.length);
+        results.push({ item, result, index: globalIndex, success: true });
+      } catch (error) {
+        log.error(`Failed to process item ${globalIndex}:`, error.message);
+        results.push({ item, error: error.message, index: globalIndex, success: false });
+      }
       
-      // Inter-item delay (except last in batch)
       if (j < batch.length - 1) {
         await randomDelay(CONFIG.delays.min, CONFIG.delays.max);
       }
@@ -409,13 +413,15 @@ async function processBatch(items, processor, options = {}) {
       await onBatchComplete(batchNum, totalBatches, results);
     }
     
-    // Pause between batches (except last)
     if (i + batchSize < items.length) {
       const pause = gaussianRandom(CONFIG.delays.batchPauseMin, CONFIG.delays.batchPauseMax);
-      console.log(`\n⏱️  Pausing ${Math.round(pause/1000)}s...`);
+      log.info(`Pausing ${formatDuration(pause, { short: true })}...`);
       await randomDelay(pause, pause + 1000);
     }
   }
+  
+  const totalDuration = Date.now() - startTime;
+  log.success(`Batch processing complete: ${results.filter(r => r.success).length}/${items.length} items in ${formatDuration(totalDuration, { short: true })}`);
   
   return results;
 }
@@ -443,7 +449,7 @@ class PerformanceMonitor {
   getStats() {
     const total = this.itemTimings.length;
     const successful = this.itemTimings.filter(t => t.success).length;
-    const avgDuration = this.itemTimings.reduce((a, b) => a + b.duration, 0) / total;
+    const avgDuration = total > 0 ? this.itemTimings.reduce((a, b) => a + b.duration, 0) / total : 0;
     const totalTime = Date.now() - this.startTime;
     
     return {
@@ -452,8 +458,20 @@ class PerformanceMonitor {
       failed: total - successful,
       avgItemTime: Math.round(avgDuration),
       totalTime: Math.round(totalTime / 1000),
-      itemsPerMinute: (total / (totalTime / 60000)).toFixed(1)
+      itemsPerMinute: total > 0 && totalTime > 0 ? (total / (totalTime / 60000)).toFixed(1) : '0.0'
     };
+  }
+  
+  logStats() {
+    const stats = this.getStats();
+    log.table('Performance Stats', {
+      'Total Items': stats.total,
+      'Successful': stats.successful,
+      'Failed': stats.failed,
+      'Avg Time/Item': `${stats.avgItemTime}ms`,
+      'Total Time': `${stats.totalTime}s`,
+      'Items/Min': stats.itemsPerMinute
+    });
   }
 }
 
@@ -475,5 +493,9 @@ module.exports = {
   warmupSession,
   checkLogin,
   processBatch,
-  PerformanceMonitor
+  PerformanceMonitor,
+  // Additional exports from shared lib
+  formatDateTime,
+  formatDuration,
+  log
 };

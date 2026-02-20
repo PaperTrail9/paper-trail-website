@@ -1,0 +1,21 @@
+{
+  "_replyText": "Looks good!",
+  "_parsed": {
+    "intent": "confirm",
+    "actions": [
+      {
+        "action": "confirm",
+        "confidence": 0.9
+      }
+    ],
+    "confidence": 0.9,
+    "raw": "Looks good!",
+    "cleaned": "Looks good!"
+  },
+  "changes": [
+    {
+      "action": "confirm",
+      "confidence": 0.9
+    }
+  ]
+}

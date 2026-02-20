@@ -1,0 +1,71 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Marvin//Dinner Planner//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Dinner Plans
+X-WR-TIMEZONE:America/Chicago
+BEGIN:VEVENT
+UID:1771167601102-ifvuxlfk8@marvin.local
+DTSTAMP:20260215T150001Z
+DTSTART;TZID=America/Chicago:20260208T170000
+DTEND;TZID=America/Chicago:20260208T180000
+SUMMARY:Pan-Seared Cod with Lemon Butter
+DESCRIPTION:Dinner: Pan-Seared Cod with Lemon Butter\nPrep: 20 min\nDifficulty: easy\nCost: $30
+LOCATION:Home
+END:VEVENT
+BEGIN:VEVENT
+UID:1771167601102-m19e8b1x1@marvin.local
+DTSTAMP:20260215T150001Z
+DTSTART;TZID=America/Chicago:20260209T170000
+DTEND;TZID=America/Chicago:20260209T180000
+SUMMARY:Beef Stir-Fry with Vegetables
+DESCRIPTION:Dinner: Beef Stir-Fry with Vegetables\nPrep: 20 min\nDifficulty: easy\nCost: $24
+LOCATION:Home
+END:VEVENT
+BEGIN:VEVENT
+UID:1771167601102-q3mkeq118@marvin.local
+DTSTAMP:20260215T150001Z
+DTSTART;TZID=America/Chicago:20260210T170000
+DTEND;TZID=America/Chicago:20260210T180000
+SUMMARY:Fish Tacos with Mango Salsa
+DESCRIPTION:Dinner: Fish Tacos with Mango Salsa\nPrep: 30 min\nDifficulty: easy\nCost: $26
+LOCATION:Home
+END:VEVENT
+BEGIN:VEVENT
+UID:1771167601102-xkb0ko5gd@marvin.local
+DTSTAMP:20260215T150001Z
+DTSTART;TZID=America/Chicago:20260211T170000
+DTEND;TZID=America/Chicago:20260211T180000
+SUMMARY:Korean Beef Bulgogi Bowl
+DESCRIPTION:Dinner: Korean Beef Bulgogi Bowl\nPrep: 40 min\nDifficulty: medium\nCost: $27
+LOCATION:Home
+END:VEVENT
+BEGIN:VEVENT
+UID:1771167601102-k7yf8rxq4@marvin.local
+DTSTAMP:20260215T150001Z
+DTSTART;TZID=America/Chicago:20260212T170000
+DTEND;TZID=America/Chicago:20260212T180000
+SUMMARY:Mediterranean Chicken Bowl
+DESCRIPTION:Dinner: Mediterranean Chicken Bowl\nPrep: 30 min\nDifficulty: easy\nCost: $26
+LOCATION:Home
+END:VEVENT
+BEGIN:VEVENT
+UID:1771167601102-oe95btnj5@marvin.local
+DTSTAMP:20260215T150001Z
+DTSTART;TZID=America/Chicago:20260213T170000
+DTEND;TZID=America/Chicago:20260213T180000
+SUMMARY:Chicken Tikka Masala
+DESCRIPTION:Dinner: Chicken Tikka Masala\nPrep: 45 min\nDifficulty: medium\nCost: $22
+LOCATION:Home
+END:VEVENT
+BEGIN:VEVENT
+UID:1771167601102-bly30g09p@marvin.local
+DTSTAMP:20260215T150001Z
+DTSTART;TZID=America/Chicago:20260214T170000
+DTEND;TZID=America/Chicago:20260214T180000
+SUMMARY:Grilled Salmon with Asparagus
+DESCRIPTION:Dinner: Grilled Salmon with Asparagus\nPrep: 25 min\nDifficulty: medium\nCost: $28
+LOCATION:Home
+END:VEVENT
+END:VCALENDAR

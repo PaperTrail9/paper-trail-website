@@ -1,0 +1,28 @@
+{
+  "task": "Expand Facebook Marketplace Groups",
+  "priority": "high",
+  "added": "2026-02-15",
+  "status": "in_progress",
+  "details": {
+    "targetRadius": "80 miles",
+    "zipCode": "78610",
+    "exclude": ["Sunfield"],
+    "includeAreas": [
+      "Austin metro (all neighborhoods)",
+      "San Marcos",
+      "New Braunfels", 
+      "Kyle",
+      "Round Rock",
+      "Cedar Park",
+      "Leander",
+      "Pflugerville",
+      "Lockhart",
+      "Bastrop",
+      "Elgin",
+      "Seguin",
+      "San Antonio north side"
+    ],
+    "schedule": "Weekly discovery (Wednesdays 7 PM)",
+    "firstRun": "2026-02-18"
+  }
+}

@@ -1,55 +1,52 @@
-const { chromium } = require('playwright');
+/**
+ * Shared Browser Connector (Refactored)
+ * All scripts use ONE browser instance via CDP
+ * Configured for Microsoft Edge (dinner automation)
+ * 
+ * REFACTORED: Now uses shared library modules
+ * - Uses lib/cdp-client for CDP connection management
+ * - Uses lib/logger for structured logging
+ * - Uses lib/config for configuration loading
+ */
+
+const { CDPClient, logger, getConfig } = require('../lib');
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const http = require('http');
 
-/**
- * Shared Browser Connector
- * All scripts use ONE browser instance via CDP
- * Configured for Microsoft Edge (dinner automation)
- */
+// Load configuration
+const config = getConfig();
 
-const CONFIG = {
-  debugPort: 9222,
-  chromePath: 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
-  userDataDir: 'C:\\Users\\Admin\\AppData\\Local\\Microsoft\\Edge\\User Data',
-  profileDirectory: 'Marvin',  // LOCKED: Only use Marvin profile, never create new ones
+const LOCAL_CONFIG = {
+  debugPort: config.get('browser.debugPort', 9222),
+  chromePath: config.get('browser.edgePath', 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'),
+  userDataDir: config.get('browser.userDataDir', process.env.LOCALAPPDATA + '\\Microsoft\\Edge\\User Data'),
+  profileDirectory: config.get('browser.profile', 'Marvin'),
   pidFile: path.join(__dirname, '..', 'data', 'edge-shared.pid'),
-  logFile: path.join(__dirname, '..', 'data', 'edge-connector.log')
 };
 
-function log(message, level = 'info') {
-  const timestamp = new Date().toISOString();
-  const prefix = { error: '❌', warn: '⚠️', success: '✅', info: 'ℹ️' }[level] || 'ℹ️';
-  const line = `[${timestamp}] ${prefix} ${message}`;
-  console.log(line);
-  try {
-    fs.appendFileSync(CONFIG.logFile, line + '\n');
-  } catch {}
-}
+// Create component-specific logger
+const log = logger.child('connector');
 
-// Get browser name for logging
+// Create CDP client instance
+let cdpClient = null;
+
+/**
+ * Get browser name for logging
+ */
 function getBrowserName() {
-  return CONFIG.chromePath.includes('edge') ? 'Edge' : 'Chrome';
+  return LOCAL_CONFIG.chromePath.includes('edge') ? 'Edge' : 'Chrome';
 }
 
 /**
  * Check if browser is responding on debug port
+ * REFACTORED: Delegates to CDPClient
  */
 async function isBrowserRunning() {
-  return new Promise((resolve) => {
-    const req = http.get(`http://localhost:${CONFIG.debugPort}/json/version`, {
-      timeout: 3000
-    }, (res) => {
-      resolve(res.statusCode === 200);
-    });
-    req.on('error', () => resolve(false));
-    req.on('timeout', () => {
-      req.destroy();
-      resolve(false);
-    });
-  });
+  if (!cdpClient) {
+    cdpClient = new CDPClient({ debugPort: LOCAL_CONFIG.debugPort });
+  }
+  return cdpClient.isBrowserRunning();
 }
 
 /**
@@ -57,13 +54,13 @@ async function isBrowserRunning() {
  */
 function launchBrowser() {
   const browserName = getBrowserName();
-  log(`Launching ${browserName} with shared debug port...`);
+  log.info(`Launching ${browserName} with shared debug port...`);
   
   const args = [
-    `"${CONFIG.chromePath}"`,
-    `--remote-debugging-port=${CONFIG.debugPort}`,
-    `--user-data-dir="${CONFIG.userDataDir}"`,
-    `--profile-directory=${CONFIG.profileDirectory}`,
+    `"${LOCAL_CONFIG.chromePath}"`,
+    `--remote-debugging-port=${LOCAL_CONFIG.debugPort}`,
+    `--user-data-dir="${LOCAL_CONFIG.userDataDir}"`,
+    `--profile-directory=${LOCAL_CONFIG.profileDirectory}`,
     '--restore-last-session',
     '--no-first-run',
     '--no-default-browser-check',
@@ -89,30 +86,42 @@ start "" ${args}
   cmd.unref();
   
   // Store placeholder PID (actual PID will be discovered via netstat)
-  fs.writeFileSync(CONFIG.pidFile, 'detached');
+  fs.writeFileSync(LOCAL_CONFIG.pidFile, 'detached');
   
-  log(`${browserName} launched (detached)`);
+  log.success(`${browserName} launched (detached)`);
   return 'detached';
 }
 
 /**
  * Ensure browser is running and connect
+ * REFACTORED: Uses CDPClient for connection management
  */
 async function getBrowser() {
   const browserName = getBrowserName();
-  const isRunning = await isBrowserRunning();
+  
+  if (!cdpClient) {
+    cdpClient = new CDPClient({ debugPort: LOCAL_CONFIG.debugPort });
+    
+    // Set up event listeners
+    cdpClient.on('connecting', () => log.debug('Connecting to browser...'));
+    cdpClient.on('connected', () => log.success(`Connected to ${browserName}`));
+    cdpClient.on('disconnected', () => log.warn(`Disconnected from ${browserName}`));
+    cdpClient.on('reconnecting', ({ attempt }) => log.warn(`Reconnecting... (attempt ${attempt})`));
+  }
+  
+  const isRunning = await cdpClient.isBrowserRunning();
   
   if (!isRunning) {
-    log(`${browserName} not running, launching...`);
+    log.info(`${browserName} not running, launching...`);
     launchBrowser();
     
     // Wait for browser to start
-    log(`Waiting for ${browserName} to initialize...`);
+    log.info(`Waiting for ${browserName} to initialize...`);
     let attempts = 0;
     while (attempts < 20) {
-      await new Promise(r => setTimeout(r, 1000));
-      if (await isBrowserRunning()) {
-        log(`${browserName} is responding!`);
+      await sleep(1000);
+      if (await cdpClient.isBrowserRunning()) {
+        log.success(`${browserName} is responding!`);
         break;
       }
       attempts++;
@@ -122,31 +131,22 @@ async function getBrowser() {
       throw new Error(`${browserName} failed to start`);
     }
   } else {
-    log(`Connecting to existing ${browserName} instance`);
+    log.debug(`Connecting to existing ${browserName} instance`);
   }
   
   // Connect via CDP
-  const browser = await chromium.connectOverCDP(`http://localhost:${CONFIG.debugPort}`);
+  const { browser } = await cdpClient.connect();
   return browser;
 }
 
 /**
  * Get a page - creates new if needed
+ * REFACTORED: Uses CDPClient connection
  */
 async function getPage(browser, url = null) {
-  const contexts = browser.contexts();
-  let context = contexts[0];
+  const { context, page } = await cdpClient.getConnection();
   
-  if (!context) {
-    context = await browser.newContext();
-  }
-  
-  let page = context.pages()[0];
-  if (!page) {
-    page = await context.newPage();
-  }
-  
-  if (url) {
+  if (url && page) {
     await page.goto(url);
   }
   
@@ -154,21 +154,110 @@ async function getPage(browser, url = null) {
 }
 
 /**
- * Disconnect (don't close browser, just disconnect)
+ * Close excess pages, keep only main page
  */
-async function releaseBrowser(browser) {
-  const browserName = getBrowserName();
+async function cleanupPages(browser, keepPages = 1) {
   try {
-    // Check if browser has disconnect method (connectOverCDP returns different type)
-    if (browser && typeof browser.disconnect === 'function') {
-      await browser.disconnect();
-      log(`Disconnected from ${browserName} (${browserName} keeps running)`);
-    } else if (browser && typeof browser.close === 'function') {
-      // For persistent context, we shouldn't close as it kills the browser
-      log('Persistent context - skipping close to keep browser running');
+    const { context } = cdpClient.getConnection();
+    const pages = context.pages();
+    
+    if (pages.length > keepPages) {
+      log.info(`Closing ${pages.length - keepPages} excess pages...`);
+      for (let i = keepPages; i < pages.length; i++) {
+        try {
+          await pages[i].close();
+        } catch (e) {
+          // Page may already be closed
+        }
+      }
     }
   } catch (e) {
-    log('Disconnect error (may be normal): ' + e.message, 'warn');
+    log.warn('Page cleanup error: ' + e.message);
+  }
+}
+
+/**
+ * Disconnect (don't close browser, just disconnect)
+ * REFACTORED: Uses CDPClient for clean disconnect
+ */
+async function releaseBrowser(browser, closePages = true) {
+  const browserName = getBrowserName();
+  try {
+    // Close excess pages before disconnecting
+    if (closePages) {
+      await cleanupPages(browser, 1);
+    }
+    
+    await cdpClient.disconnect();
+    log.info(`Disconnected from ${browserName} (${browserName} keeps running)`);
+  } catch (e) {
+    // Suppress benign disconnect warnings (handled in CDPClient)
+    const msg = e.message || '';
+    const isBenign = msg.includes('disconnect is not a function') ||
+                     msg.includes('Browser has been closed') ||
+                     msg.includes('Target closed');
+    
+    if (!isBenign) {
+      log.warn('Disconnect error: ' + e.message);
+    }
+    // Benign errors are silently ignored
+  }
+}
+
+/**
+ * Force cleanup all tabs except homepage
+ * Call this periodically to prevent tab buildup
+ */
+async function forceTabCleanup() {
+  log.section('FORCED TAB CLEANUP');
+  
+  try {
+    if (!cdpClient) {
+      cdpClient = new CDPClient({ debugPort: LOCAL_CONFIG.debugPort });
+    }
+    
+    await cdpClient.connect();
+    const { context } = cdpClient.getConnection();
+    const pages = context.pages();
+    let closedCount = 0;
+    
+    for (const page of pages) {
+      try {
+        const url = page.url();
+        // Keep only blank/new tab pages or Facebook main page or HEB
+        if (!url.includes('facebook.com') && !url.includes('heb.com') && url !== 'about:blank') {
+          await page.close();
+          closedCount++;
+        }
+      } catch (e) {
+        // Page may already be closed
+      }
+    }
+    
+    await releaseBrowser(null, false);
+    log.success(`Closed ${closedCount} orphaned tabs`);
+    return closedCount;
+  } catch (e) {
+    log.error('Force cleanup error: ' + e.message);
+    return 0;
+  }
+}
+
+/**
+ * Utility sleep function
+ * REFACTORED: Imported from shared lib, kept for backward compatibility
+ */
+async function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Cleanup resources
+ */
+async function cleanup() {
+  if (cdpClient) {
+    await cdpClient.cleanup();
+    cdpClient = null;
   }
 }
 
@@ -179,5 +268,22 @@ module.exports = {
   isBrowserRunning,
   launchBrowser,
   getBrowserName,
-  CONFIG
+  cleanupPages,
+  forceTabCleanup,
+  cleanup,
+  sleep,
+  LOCAL_CONFIG,
+  // Also export CDPClient for advanced usage
+  CDPClient
 };
+
+// Run forced cleanup if called directly
+if (require.main === module) {
+  forceTabCleanup().then(count => {
+    log.success(`Cleanup complete. Closed ${count} tabs.`);
+    process.exit(0);
+  }).catch(err => {
+    log.error('Cleanup failed:', err);
+    process.exit(1);
+  });
+}

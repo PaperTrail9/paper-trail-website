@@ -1,0 +1,12 @@
+{
+  "task": "Fix Home Assistant Unit System Deprecation",
+  "priority": "medium",
+  "added": "2026-02-15",
+  "status": "pending",
+  "details": {
+    "issue": "HA showing 'imperial unit system is deprecated' warning",
+    "fix": "Update configuration.yaml to use 'us_customary' instead of 'imperial'",
+    "action": "Edit HA configuration and reload core",
+    "location": "http://localhost:8123"
+  }
+}
