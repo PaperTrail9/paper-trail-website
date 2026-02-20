@@ -6,8 +6,8 @@
       "displayName": "Kanban Sync",
       "type": "cron",
       "status": "online",
-      "lastRecovery": "2026-02-20T14:30:04.805Z",
-      "uptimeStarted": "2026-02-20T14:30:04.806Z",
+      "lastRecovery": "2026-02-20T15:00:11.728Z",
+      "uptimeStarted": "2026-02-20T15:00:11.728Z",
       "checkInterval": "30m",
       "description": "Auto-sync kanban board every 30 minutes"
     },
@@ -17,7 +17,7 @@
       "displayName": "Calendar Sync",
       "type": "cron",
       "status": "online",
-      "lastRecovery": "2026-02-20T14:45:05.419Z",
+      "lastRecovery": "2026-02-20T15:00:38.804Z",
       "uptimeStarted": "2026-02-04T08:15:00.000Z",
       "checkInterval": "15m",
       "description": "Two-way sync with iCloud CalDAV"
@@ -83,7 +83,7 @@
       "displayName": "Auto Recovery",
       "type": "daemon",
       "status": "online",
-      "lastRecovery": "2026-02-20T14:49:02.712Z",
+      "lastRecovery": "2026-02-20T14:59:02.648Z",
       "uptimeStarted": "2026-02-04T15:27:37.968Z",
       "checkInterval": "5m",
       "description": "Automatic service monitoring and recovery"
@@ -100,5 +100,5 @@
       "description": "Rolling backups with auto-rollback capability"
     }
   ],
-  "lastUpdated": "2026-02-20T14:49:02.712Z"
+  "lastUpdated": "2026-02-20T15:00:38.804Z"
 }
