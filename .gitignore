@@ -50,3 +50,7 @@ Thumbs.db
 *.tmp
 *.temp
 .cache/
+
+# Large backup files
+marvin-dash/backups/*.zip
+*.zip
