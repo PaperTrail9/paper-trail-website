@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-03-16T02:30:01.710Z",
-  "duration": 1703,
+  "timestamp": "2026-03-16T05:15:02.213Z",
+  "duration": 1799,
   "overall": {
     "status": "critical",
     "score": 70,
@@ -29,20 +29,20 @@
           "details": null
         }
       },
-      "timestamp": 1773628201661,
-      "duration": 1654
+      "timestamp": 1773638102152,
+      "duration": 1738
     },
     {
       "name": "disk-space",
       "status": "healthy",
-      "message": "Disk usage: 72.0% (66.57GB free on C:)",
+      "message": "Disk usage: 73.8% (62.14GB free on C:)",
       "data": {
         "disks": [
           {
             "drive": "C:",
             "totalGB": 237.53,
-            "freeGB": 66.57,
-            "usedPercent": 71.97
+            "freeGB": 62.14,
+            "usedPercent": 73.84
           },
           {
             "drive": "E:",
@@ -51,22 +51,22 @@
             "usedPercent": 73.81
           }
         ],
-        "maxUsedPercent": 73.81
+        "maxUsedPercent": 73.84
       },
-      "timestamp": 1773628200386,
-      "duration": 379
+      "timestamp": 1773638100775,
+      "duration": 361
     },
     {
       "name": "memory-usage",
       "status": "healthy",
-      "message": "Memory: 47.6% used (16.67GB free of 31.80GB)",
+      "message": "Memory: 50.5% used (15.76GB free of 31.80GB)",
       "data": {
         "totalGB": 31.8,
-        "freeGB": 16.67,
-        "usedPercent": 47.57
+        "freeGB": 15.76,
+        "usedPercent": 50.45
       },
-      "timestamp": 1773628200773,
-      "duration": 387
+      "timestamp": 1773638101205,
+      "duration": 430
     },
     {
       "name": "cron-jobs",
@@ -78,8 +78,8 @@
             "name": "Marvin Auto Recovery",
             "status": "healthy",
             "enabled": true,
-            "lastRun": "3/15/2026 9:27:01 PM",
-            "nextRun": "3/15/2026 9:32:00 PM",
+            "lastRun": "3/16/2026 12:12:01 AM",
+            "nextRun": "3/16/2026 12:17:00 AM",
             "lastResult": "0",
             "hoursSinceLastRun": 0
           },
@@ -87,8 +87,8 @@
             "name": "Marvin Email Monitor",
             "status": "healthy",
             "enabled": true,
-            "lastRun": "3/15/2026 9:19:01 PM",
-            "nextRun": "3/15/2026 9:34:00 PM",
+            "lastRun": "3/16/2026 12:04:01 AM",
+            "nextRun": "3/16/2026 12:19:00 AM",
             "lastResult": "0",
             "hoursSinceLastRun": 0
           },
@@ -96,8 +96,8 @@
             "name": "Marvin Backup",
             "status": "healthy",
             "enabled": true,
-            "lastRun": "3/15/2026 9:18:01 PM",
-            "nextRun": "3/15/2026 9:33:00 PM",
+            "lastRun": "3/16/2026 12:03:01 AM",
+            "nextRun": "3/16/2026 12:18:00 AM",
             "lastResult": "0",
             "hoursSinceLastRun": 0
           },
@@ -108,14 +108,14 @@
             "lastRun": "3/2/2026 12:03:14 AM",
             "nextRun": "N/A",
             "lastResult": "1",
-            "hoursSinceLastRun": 332
+            "hoursSinceLastRun": 335
           },
           {
             "name": "OpenClaw Gateway Auto-Recovery",
             "status": "healthy",
             "enabled": true,
-            "lastRun": "3/15/2026 9:28:01 PM",
-            "nextRun": "3/15/2026 9:33:00 PM",
+            "lastRun": "3/16/2026 12:13:01 AM",
+            "nextRun": "3/16/2026 12:18:00 AM",
             "lastResult": "0",
             "hoursSinceLastRun": 0
           },
@@ -126,7 +126,7 @@
             "lastRun": "3/7/2026 2:23:26 AM",
             "nextRun": "N/A",
             "lastResult": "1",
-            "hoursSinceLastRun": 210
+            "hoursSinceLastRun": 213
           },
           {
             "name": "Marvin Dinner Automation",
@@ -148,25 +148,25 @@
           "total": 8
         }
       },
-      "timestamp": 1773628201044,
-      "duration": 271
+      "timestamp": 1773638101510,
+      "duration": 305
     },
     {
       "name": "email-connectivity",
       "status": "healthy",
-      "message": "SMTP: reachable (617ms), IMAP: reachable (49ms)",
+      "message": "SMTP: reachable (643ms), IMAP: reachable (60ms)",
       "data": {
         "smtp": {
           "status": "reachable",
-          "latency": 617
+          "latency": 643
         },
         "imap": {
           "status": "reachable",
-          "latency": 49
+          "latency": 60
         }
       },
-      "timestamp": 1773628201710,
-      "duration": 666
+      "timestamp": 1773638102213,
+      "duration": 703
     },
     {
       "name": "key-files",
@@ -218,8 +218,8 @@
           "total": 6
         }
       },
-      "timestamp": 1773628201662,
-      "duration": 618
+      "timestamp": 1773638102153,
+      "duration": 643
     },
     {
       "name": "dashboard",
@@ -228,10 +228,10 @@
       "data": {
         "port": 3001,
         "statusCode": 200,
-        "response": "{\"status\":\"healthy\",\"timestamp\":\"2026-03-16T02:30:01.661Z\",\"uptime\":147088.6376803,\"version\":\"1.0.0\"}"
+        "response": "{\"status\":\"healthy\",\"timestamp\":\"2026-03-16T05:15:02.153Z\",\"uptime\":156989.1016505,\"version\":\"1.0.0\"}"
       },
-      "timestamp": 1773628201662,
-      "duration": 618
+      "timestamp": 1773638102153,
+      "duration": 643
     },
     {
       "name": "gateway",
@@ -241,8 +241,8 @@
         "port": 18789,
         "statusCode": 200
       },
-      "timestamp": 1773628201661,
-      "duration": 616
+      "timestamp": 1773638102153,
+      "duration": 642
     },
     {
       "name": "recipe-database",
@@ -251,8 +251,8 @@
       "data": {
         "error": "ENOENT: no such file or directory, open 'C:\\Users\\Admin\\.openclaw\\workspace\\marvin-dash\\dinner-automation\\data\\recipe-database.json'"
       },
-      "timestamp": 1773628201501,
-      "duration": 456
+      "timestamp": 1773638101974,
+      "duration": 463
     },
     {
       "name": "system-processes",
@@ -276,9 +276,9 @@
           "count": 0
         }
       },
-      "timestamp": 1773628201500,
-      "duration": 455
+      "timestamp": 1773638101973,
+      "duration": 462
     }
   ],
-  "lastUpdated": "2026-03-16T02:30:01.710Z"
+  "lastUpdated": "2026-03-16T05:15:02.213Z"
 }

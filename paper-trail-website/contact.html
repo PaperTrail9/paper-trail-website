@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Contact Paper Trail Limited. Email: admin@typewrite.club, Phone: +1 (650) 427-9450, Address: 1 Tika Street, Parnell, Auckland 1052, New Zealand">
+    <meta name="version" content="2026-03-16-v2">
     <title>Contact Us | Paper Trail Limited</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -194,21 +195,24 @@
         <section class="map-section">
             <div class="container">
                 <h2>Find Us</h2>
-                <div class="map-container" style="border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.1234567890123!2d174.77777777777777!3d-36.88888888888889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d0d47c555555555%3A0x5555555555555555!2s1%20Tika%20Street%2C%20Parnell%2C%20Auckland%201052!5e0!3m2!1sen!2snz!4v1234567890123!5m2!1sen!2snz"
-                        width="100%" 
-                        height="400" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                </div>
+                <!-- 
+                    Google Maps Embed - Using static map image with link
+                    Note: Google Maps iframe requires API key or specific embed URL from Google Maps share
+                    Using static image + link as reliable alternative
+                -->
+                <a href="https://www.google.com/maps/search/?api=1&query=1+Tika+Street,+Parnell,+Auckland+1052,+New+Zealand" target="_blank" rel="noopener" class="map-container" style="display: block; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-decoration: none;">
+                    <div style="width: 100%; height: 400px; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+                        <!-- Map pin icon -->
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="#dc2626" style="margin-bottom: 16px;">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <h3 style="font-size: 20px; color: #111; margin-bottom: 8px;">Paper Trail Limited</h3>
+                        <p style="font-size: 16px; color: #666; text-align: center; padding: 0 24px;">1 Tika Street, Parnell<br>Auckland 1052, New Zealand</p>
+                        <span style="margin-top: 16px; padding: 10px 20px; background: #dc2626; color: white; border-radius: 8px; font-weight: 500;">Open in Google Maps →</span>
+                    </div>
+                </a>
                 <div class="map-info" style="text-align: center; margin-top: 16px;">
-                    <h3>Paper Trail Limited</h3>
-                    <p>1 Tika Street, Parnell, Auckland 1052, New Zealand</p>
-                    <a href="https://maps.google.com/?q=1+Tika+Street,+Parnell,+Auckland+1052,+New+Zealand" target="_blank" rel="noopener" style="color: #dc2626; font-weight: 500;">Open in Google Maps →</a>
+                    <p style="color: #666;">Click the map to view our location in Google Maps</p>
                 </div>
             </div>
         </section>
