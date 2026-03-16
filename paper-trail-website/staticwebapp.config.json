@@ -5,41 +5,77 @@
       "route": "/",
       "rewrite": "/index.html",
       "headers": {
-        "Cache-Control": "no-cache, no-store, must-revalidate"
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
+      }
+    },
+    {
+      "route": "/index.html",
+      "headers": {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
       }
     },
     {
       "route": "/blog",
       "rewrite": "/blog/index.html",
       "headers": {
-        "Cache-Control": "no-cache, no-store, must-revalidate"
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
       }
     },
     {
       "route": "/blog/",
       "rewrite": "/blog/index.html",
       "headers": {
-        "Cache-Control": "no-cache, no-store, must-revalidate"
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
+      }
+    },
+    {
+      "route": "/blog/index.html",
+      "headers": {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
       }
     },
     {
       "route": "/blog/posts/*",
       "headers": {
-        "Cache-Control": "no-cache, no-store, must-revalidate"
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
       }
     },
     {
       "route": "/contact",
       "rewrite": "/contact.html",
       "headers": {
-        "Cache-Control": "no-cache, no-store, must-revalidate"
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
       }
     },
     {
       "route": "/contact/",
       "rewrite": "/contact.html",
       "headers": {
-        "Cache-Control": "no-cache, no-store, must-revalidate"
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
+      }
+    },
+    {
+      "route": "/contact.html",
+      "headers": {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
       }
     },
     {
