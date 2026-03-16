@@ -93,7 +93,9 @@
       "/assets/*",
       "/css/*", 
       "/js/*",
-      "/blog/posts/*"
+      "/blog/posts/*",
+      "/staticwebapp.config.json",
+      "*.json"
     ]
   },
   "globalHeaders": {
