@@ -93,6 +93,60 @@ const {
   validateSchema
 } = require('./validation');
 
+// OpenAI Batch API
+const {
+  OpenAIBatchQueue,
+  BATCH_CONFIG,
+  enqueueOpenAIRequest,
+  processOpenAIQueue
+} = require('./openai-batch');
+
+// Connection Pool
+const {
+  ConnectionPool,
+  PooledConnection,
+  POOL_CONFIG,
+  getConnectionPool,
+  resetConnectionPool
+} = require('./connection-pool');
+
+// Cache
+const {
+  Cache,
+  CacheEntry,
+  CACHE_CONFIG,
+  getCache,
+  resetCache
+} = require('./cache');
+
+// Metrics
+const {
+  Metrics,
+  Timer,
+  METRICS_CONFIG,
+  getMetrics,
+  resetMetrics
+} = require('./metrics');
+
+// Performance Utilities
+const {
+  Batcher,
+  SimpleCache,
+  RetryStrategy,
+  Profiler,
+  ProgressTracker,
+  RateLimiter: PerformanceRateLimiter
+} = require('./performance-utils');
+
+// HTTP Client
+const { HTTPClient } = require('./http-client');
+
+// Selector Engine
+const { SelectorEngine, SELECTOR_GROUPS } = require('./selector-engine');
+
+// Anti-Detection v2
+const { AntiDetection } = require('./anti-detection-v2');
+
 module.exports = {
   // CDP Client
   CDPClient,
@@ -174,5 +228,50 @@ module.exports = {
   sanitizeString,
   sanitizeFilename,
   sanitizeHTML,
-  validateSchema
+  validateSchema,
+  
+  // OpenAI Batch API
+  OpenAIBatchQueue,
+  BATCH_CONFIG,
+  enqueueOpenAIRequest,
+  processOpenAIQueue,
+  
+  // Connection Pool
+  ConnectionPool,
+  PooledConnection,
+  POOL_CONFIG,
+  getConnectionPool,
+  resetConnectionPool,
+  
+  // Cache
+  Cache,
+  CacheEntry,
+  CACHE_CONFIG,
+  getCache,
+  resetCache,
+  
+  // Metrics
+  Metrics,
+  Timer,
+  METRICS_CONFIG,
+  getMetrics,
+  resetMetrics,
+  
+  // Performance Utilities
+  Batcher,
+  SimpleCache,
+  RetryStrategy,
+  Profiler,
+  ProgressTracker,
+  PerformanceRateLimiter,
+  
+  // HTTP Client
+  HTTPClient,
+  
+  // Selector Engine
+  SelectorEngine,
+  SELECTOR_GROUPS,
+  
+  // Anti-Detection v2
+  AntiDetection
 };

@@ -1,312 +1,291 @@
 # API Integration Guide
-
-High-value API integrations to expand capabilities beyond the current dinner automation system.
-
----
-
-## Twilio API
-
-**Current use:** SMS fallback for dinner confirmations
-
-**Expansion opportunities:**
-1. **Voice calls for urgent alerts** - Critical system failures, missed confirmations with voice acknowledgment
-2. **WhatsApp Business integration** - Rich messaging with meal photos, interactive buttons for confirmations
-3. **Two-way conversational flows** - Natural language dinner rescheduling via SMS/WhatsApp
-4. **Scheduled SMS reminders** - Future-dated pickup reminders (15 mins - 7 days ahead)
-5. **Conference calls** - Family coordination calls for dinner planning
-
-**Implementation complexity:** Medium
-
-**Value score:** 8/10
-
-**PoC file:** `twilio-poc.js`
-
-**Setup requirements:**
-- Twilio Account SID + Auth Token
-- Phone number ($1/month)
-- WhatsApp Business (requires approval)
-- Webhook endpoint for incoming messages
-
-**Key APIs:**
-- `client.calls.create()` - Voice calls with TwiML
-- `client.messages.create()` - SMS/WhatsApp
-- `scheduleType: 'fixed'` - Scheduled messages
-- `<Gather>` - Interactive voice response
-- `<Conference>` - Multi-party calls
+## Comprehensive Guide for External Service Integrations
 
 ---
 
-## OpenAI API
-
-**Current use:** None (direct LLM calls only)
-
-**Expansion opportunities:**
-1. **Structured outputs for data extraction** - Parse unstructured recipe text into typed meal data
-2. **Function calling for tool integration** - Let AI decide when to check HEB inventory, schedule pickups, search recipes
-3. **Batch API for bulk processing** - Process weekly meal plans efficiently (50% cost reduction)
-4. **Chain of thought reasoning** - Step-by-step meal planning with transparent decision-making
-5. **Streaming with structured outputs** - Real-time meal suggestion generation
-
-**Implementation complexity:** Low-Medium
-
-**Value score:** 9/10
-
-**PoC file:** `openai-poc.js`
-
-**Setup requirements:**
-- OpenAI API key
-- `npm install openai zod` (Zod for schema validation)
-
-**Key features:**
-- `response_format: { type: "json_schema" }` - Guaranteed schema adherence
-- `tools: [...]` - Function calling
-- `client.batches.create()` - Bulk processing
-- Streaming with `client.responses.stream()`
-
-**Cost notes:**
-- GPT-4o: ~$0.005/1K input tokens
-- Batch API: 50% discount for non-urgent tasks
-- Structured outputs add ~10% token overhead
+## Table of Contents
+1. [WhatsApp Business API](#whatsapp-business-api)
+2. [Weather API](#weather-api)
+3. [Notion API](#notion-api)
+4. [Calendar APIs](#calendar-apis)
+5. [Best Practices](#best-practices)
 
 ---
 
-## Claude API
+## WhatsApp Business API
 
-**Current use:** None
+### Overview
+Send notifications, alerts, and updates via WhatsApp. Cost-effective alternative to SMS with rich media support.
 
-**Expansion opportunities:**
-1. **XML-based structured outputs** - Claude's preferred structured format
-2. **Native tool use** - Cleaner function calling than OpenAI
-3. **Long context document analysis** - Analyze months of meal history (200K context)
-4. **Multi-turn conversational planning** - Interactive dinner planning sessions
-5. **Computer use (beta)** - Interact with recipe websites directly
+### Pricing
+- **Free tier**: 1,000 conversations/month
+- **Paid**: ~$0.005 per conversation (24-hour window)
+- Much cheaper than SMS ($0.01-$0.05 per message)
 
-**Implementation complexity:** Low-Medium
+### Setup
+1. Create Meta Developer account
+2. Set up WhatsApp Business account
+3. Verify phone number
+4. Get API key and Phone Number ID
 
-**Value score:** 8/10
+### Environment Variables
+```bash
+WHATSAPP_API_KEY=your_api_key
+WHATSAPP_PHONE_NUMBER_ID=your_phone_number_id
+WHATSAPP_BUSINESS_ACCOUNT_ID=your_business_account_id
+```
 
-**PoC file:** `claude-poc.js`
+### Use Cases
+- Order confirmations
+- Delivery slot alerts
+- Substitution notifications
+- Appointment reminders
 
-**Setup requirements:**
-- Anthropic API key
-- `npm install @anthropic-ai/sdk`
+### Code Example
+```javascript
+const { sendOrderConfirmation } = require('./apis/whatsapp-poc');
 
-**Key features:**
-- 200K token context window
-- XML-based structured outputs
-- Native tool use with `tool_use` blocks
-- Superior at long document analysis
+await sendOrderConfirmation('+1234567890', {
+  orderNumber: 'HEB-12345',
+  store: 'H-E-B Mueller',
+  pickupTime: 'Today 6:00 PM',
+  itemCount: 12,
+  total: '87.43'
+});
+```
 
-**When to use Claude vs OpenAI:**
-- Use Claude for: Long context, document analysis, nuanced reasoning
-- Use OpenAI for: Structured outputs, function calling ecosystem, speed
+---
+
+## Weather API
+
+### Overview
+OpenWeatherMap API for weather-based meal planning and contextual suggestions.
+
+### Pricing
+- **Free tier**: 1,000 calls/day
+- **Paid**: Starting at $0.0013 per call
+- Sufficient for personal use
+
+### Setup
+1. Sign up at openweathermap.org
+2. Get free API key
+3. No credit card required for free tier
+
+### Environment Variables
+```bash
+OPENWEATHER_API_KEY=your_api_key
+```
+
+### Use Cases
+- Weather-based meal suggestions
+- Outdoor cooking recommendations
+- Seasonal ingredient suggestions
+- Event planning
+
+### Code Example
+```javascript
+const { generateWeatherBasedMealPlan } = require('./apis/weather-poc');
+
+const mealPlan = await generateWeatherBasedMealPlan('Austin', 'TX', 5);
+// Returns array of daily suggestions based on forecast
+```
 
 ---
 
 ## Notion API
 
-**Current use:** None (using markdown files)
+### Overview
+Document and track meal plans, recipes, and shopping history in Notion databases.
 
-**Expansion opportunities:**
-1. **Structured task/project tracking** - Better than markdown: queryable, relational, collaborative
-2. **Meal planning database** - Weekly menus with ingredient relations, shopping lists
-3. **Knowledge base/recipe library** - Searchable recipes with tags, ratings, history
-4. **Meeting notes & decisions** - Structured notes with action items, linked to projects
-5. **Cross-system sync** - Two-way sync with GitHub issues, calendar events
+### Pricing
+- **Free tier**: Unlimited for personal use
+- **Paid**: $8/month for teams
 
-**Implementation complexity:** Medium
+### Setup
+1. Go to notion.so/my-integrations
+2. Create new integration
+3. Copy Internal Integration Token
+4. Share databases with integration
 
-**Value score:** 9/10
-
-**PoC file:** `notion-poc.js`
-
-**Setup requirements:**
-- Create integration at https://www.notion.so/my-integrations
-- Copy integration token
-- Share databases/pages with integration
-- `npm install @notionhq/client`
-
-**Key APIs:**
-- `notion.databases.query()` - Query with filters/sorts
-- `notion.pages.create()` - Create pages with properties
-- `notion.blocks.children.append()` - Add content blocks
-- `notion.search()` - Full-text search
-
-**Database schema recommendations:**
-
-**Tasks Database:**
-- Name (Title)
-- Status (Select: To Do, In Progress, Done)
-- Priority (Select: Low, Medium, High)
-- Due Date (Date)
-- Assignee (People)
-- Tags (Multi-select)
-- Project (Relation)
-
-**Meal Plans Database:**
-- Week (Title)
-- Week Start (Date)
-- Status (Select: Planning, Active, Completed)
-- Meals (Relation to Recipes)
-
-**Recipes Database:**
-- Name (Title)
-- Cuisine (Select)
-- Difficulty (Select)
-- Prep Time (Number)
-- Ingredients (Relation to Ingredients DB)
-- Tags (Multi-select)
-
----
-
-## GitHub API
-
-**Current use:** None (manual git operations)
-
-**Expansion opportunities:**
-1. **Automated code review** - Lint-like checks on PRs: console.log detection, TODO tracking, missing tests
-2. **Issue automation** - Auto-create from errors, stale issue management, auto-assignment by labels
-3. **Pull request automation** - Auto-create release PRs, dependabot auto-merge, branch protection
-4. **Repository analytics** - Weekly commit/PR/issue reports, contributor stats
-5. **Webhook-driven workflows** - Deploy on push, auto-review on PR open
-
-**Implementation complexity:** Medium
-
-**Value score:** 7/10
-
-**PoC file:** `github-poc.js`
-
-**Setup requirements:**
-- Fine-grained Personal Access Token
-- Repo permissions: contents, issues, pull_requests, checks
-- `npm install @octokit/rest @octokit/webhooks`
-- Webhook secret for verification
-
-**Key APIs:**
-- `octokit.pulls.createReview()` - Automated reviews
-- `octokit.issues.create()` - Programmatic issue creation
-- `octokit.pulls.merge()` - Auto-merge strategies
-- `octokit.repos.listCommits()` - Analytics
-
-**Webhook events to handle:**
-- `push` - Deploy on main branch
-- `pull_request` - Run automated review
-- `issues` - Auto-assign dinner-related issues
-
----
-
-## Weather API (OpenWeatherMap)
-
-**Current use:** None
-
-**Expansion opportunities:**
-1. **Smart dinner planning** - Adjust meal types based on weather (grill vs oven)
-2. **Pickup time optimization** - Suggest optimal HEB pickup windows avoiding rain/heat
-3. **Weekly meal forecasting** - 7-day forecast for meal planning
-4. **Weather alerts** - Severe weather notifications affecting cooking plans
-5. **AI weather assistant** - Natural language queries about meal-weather relationship
-
-**Implementation complexity:** Low
-
-**Value score:** 7/10
-
-**PoC file:** `weather-poc.js`
-
-**Setup requirements:**
-- Sign up at https://openweathermap.org/
-- Subscribe to "One Call 3.0" (separate subscription)
-- 1,000 free calls/day, then pay-per-call
-- `npm install axios`
-- Set `OPENWEATHER_API_KEY`
-
-**Key endpoints:**
-- `/onecall` - Current + 48hr hourly + 8-day daily + alerts
-- `/onecall/timemachine` - Historical weather
-- `/assistant/session` - AI weather assistant
-
-**Pricing:**
-- Free tier: 1,000 calls/day to One Call 3.0
-- Paid: ~$0.0015/call after free tier
-- No subscription required for One Call 3.0
-
-**Integration points:**
-- Check weather before finalizing meal plan
-- Adjust pickup time recommendations
-- Suggest backup indoor meals for severe weather
-
----
-
-## Implementation Priority
-
-| API | Priority | Effort | Impact | Dependencies |
-|-----|----------|--------|--------|--------------|
-| **Notion** | P0 | Medium | High | None |
-| **OpenAI** | P0 | Low | High | None |
-| **Twilio** | P1 | Medium | High | None |
-| **Claude** | P1 | Low | Medium | None |
-| **GitHub** | P2 | Medium | Medium | None |
-| **Weather** | P2 | Low | Medium | None |
-
-## Quick Start Commands
-
+### Environment Variables
 ```bash
-# Install all dependencies
-npm install twilio openai zod @anthropic-ai/sdk @notionhq/client @octokit/rest axios
-
-# Set environment variables
-export OPENAI_API_KEY="sk-..."
-export ANTHROPIC_API_KEY="sk-ant-..."
-export NOTION_API_KEY="secret_..."
-export GITHUB_TOKEN="ghp_..."
-export TWILIO_ACCOUNT_SID="AC..."
-export TWILIO_AUTH_TOKEN="..."
-export TWILIO_PHONE_NUMBER="+1..."
-export OPENWEATHER_API_KEY="..."
-
-# Run PoC demos
-node self-improvement/apis/openai-poc.js
-node self-improvement/apis/notion-poc.js
-node self-improvement/apis/twilio-poc.js
+NOTION_API_KEY=secret_xxx
+NOTION_DATABASE_ID=your_database_id
 ```
 
-## Architecture Recommendations
+### Use Cases
+- Meal history tracking
+- Recipe database
+- Shopping list export
+- Nutrition tracking
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Dinner Automation System                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │    Notion    │  │   OpenAI     │  │    Claude    │      │
-│  │  Task/Recipe │  │ Structured   │  │   Analysis   │      │
-│  │   Database   │  │   Outputs    │  │   Context    │      │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘      │
-│         │                  │                  │              │
-│  ┌──────▼───────┐  ┌──────▼───────┐  ┌──────▼───────┐      │
-│  │    Twilio    │  │    GitHub    │  │    Weather   │      │
-│  │ SMS/Voice/   │  │   Issues/    │  │  Meal Plan   │      │
-│  │  WhatsApp    │  │     PRs      │  │ Optimization │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+### Code Example
+```javascript
+const { addMealToDatabase } = require('./apis/notion-poc');
+
+await addMealToDatabase({
+  name: 'Grilled Salmon',
+  date: new Date(),
+  ingredients: ['salmon', 'asparagus', 'lemon'],
+  rating: 5,
+  notes: 'Family favorite!'
+});
 ```
 
-## Security Notes
+---
 
-- Never commit API keys to git
-- Use environment variables or secret managers
-- Fine-grained PATs for GitHub (limit to specific repos)
-- Twilio webhook signature verification required
-- Notion: Integration only accesses shared pages
-- OpenWeatherMap: Key has rate limits, monitor usage
+## Calendar APIs
 
-## Monitoring & Cost Tracking
+### Google Calendar
 
-| API | Free Tier | Paid Rate | Monitoring |
-|-----|-----------|-----------|------------|
-| OpenAI | $5 trial credits | $0.005/1K tokens | Dashboard + headers |
-| Claude | $5 trial credits | $3/M input, $15/M output | Dashboard |
-| Notion | Unlimited personal | N/A | Request logs |
-| Twilio | $15.50 trial | $0.0075/SMS, $0.013/min voice | Console |
-| GitHub | 5,000 req/hour | N/A for PAT | Rate limit headers |
-| Weather | 1,000 calls/day | $0.0015/call | Usage dashboard |
+#### Setup
+1. Go to Google Cloud Console
+2. Enable Google Calendar API
+3. Create OAuth 2.0 credentials
+4. Download client_secret.json
+
+#### Scopes Required
+- `https://www.googleapis.com/auth/calendar.events`
+- `https://www.googleapis.com/auth/calendar.readonly`
+
+#### Use Cases
+- Dinner event creation
+- Grocery pickup reminders
+- Meal prep scheduling
+
+### Microsoft Graph (Outlook)
+
+#### Setup
+1. Go to Azure Portal
+2. Register new application
+3. Add Calendar.ReadWrite permission
+4. Get client ID and secret
+
+#### Use Cases
+- Cross-platform calendar sync
+- Teams meeting creation
+- Work calendar integration
+
+---
+
+## Best Practices
+
+### 1. Rate Limiting
+Always implement rate limiting to avoid API bans:
+
+```javascript
+const { IntelligentRetry } = require('../lib/intelligent-retry');
+const retry = new IntelligentRetry({
+  maxRetries: 3,
+  baseDelay: 1000
+});
+
+await retry.execute(async () => {
+  return await apiCall();
+}, { endpoint: 'api-name' });
+```
+
+### 2. Caching
+Cache API responses to reduce costs:
+
+```javascript
+const { getOrCompute, TTL } = require('../lib/intelligent-cache');
+
+const weather = await getOrCompute(
+  `weather:${city}`,
+  () => getWeather(city),
+  { ttl: TTL.MEDIUM } // 1 hour
+);
+```
+
+### 3. Error Handling
+Always handle errors gracefully:
+
+```javascript
+try {
+  const result = await apiCall();
+} catch (error) {
+  if (error.code === 'RATE_LIMITED') {
+    // Back off and retry later
+  } else if (error.code === 'UNAUTHORIZED') {
+    // Refresh credentials
+  } else {
+    // Log and notify
+  }
+}
+```
+
+### 4. Environment Configuration
+Never hardcode API keys:
+
+```javascript
+const config = {
+  apiKey: process.env.API_KEY,
+  timeout: process.env.API_TIMEOUT || 30000
+};
+```
+
+### 5. Monitoring
+Track API usage and costs:
+
+```javascript
+const stats = {
+  calls: 0,
+  errors: 0,
+  cost: 0
+};
+
+// After each call
+stats.calls++;
+stats.cost += costPerCall;
+```
+
+---
+
+## Cost Comparison
+
+| Service | Free Tier | Paid Cost | Best For |
+|---------|-----------|-----------|----------|
+| WhatsApp | 1,000 convo/month | $0.005/convo | Notifications |
+| Weather | 1,000 calls/day | $0.0013/call | Meal planning |
+| Notion | Unlimited | $8/month (teams) | Documentation |
+| Google Calendar | 1M calls/day | $0 (personal) | Scheduling |
+| Twilio SMS | None | $0.0075/message | Fallback SMS |
+
+---
+
+## Integration Checklist
+
+- [ ] API key obtained and secured
+- [ ] Environment variables configured
+- [ ] Rate limiting implemented
+- [ ] Caching layer added
+- [ ] Error handling in place
+- [ ] Monitoring enabled
+- [ ] Documentation updated
+- [ ] Tests written
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**Rate Limiting (429 errors)**
+- Implement exponential backoff
+- Reduce request frequency
+- Use caching
+
+**Authentication Errors (401/403)**
+- Check API key validity
+- Verify scopes/permissions
+- Check token expiration
+
+**Timeout Errors**
+- Increase timeout values
+- Implement circuit breaker
+- Check network connectivity
+
+---
+
+*Last updated: February 26, 2026*

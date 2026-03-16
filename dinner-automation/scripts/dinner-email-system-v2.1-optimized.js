@@ -102,7 +102,8 @@ async function execWithTimeout(command, options = {}) {
     cwd,
     timeout,
     encoding: 'utf8',
-    maxBuffer: 10 * 1024 * 1024 // 10MB buffer
+    maxBuffer: 10 * 1024 * 1024, // 10MB buffer
+    windowsHide: true
   });
 }
 

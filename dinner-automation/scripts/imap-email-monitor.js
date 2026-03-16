@@ -151,7 +151,8 @@ async function processDinnerReply(reply) {
       console.log('   Triggering dinner sync...');
       execSync('node dinner-email-system.js --sync', {
         cwd: __dirname,
-        stdio: 'inherit'
+        stdio: ['ignore', 'pipe', 'pipe'],
+        windowsHide: true
       });
     } catch (error) {
       console.error('   ⚠️ Sync failed:', error.message);

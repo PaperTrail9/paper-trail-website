@@ -268,7 +268,8 @@ async function checkStatus() {
   
   if (!page) {
     page = await context.newPage();
-    await page.goto('https://www.heb.com', { waitUntil: 'networkidle' });
+    await page.goto('https://www.heb.com', { waitUntil: 'domcontentloaded', timeout: 45000 });
+    await randomDelay(5000, 8000); // Let scripts load
   }
   
   // Check login status
@@ -320,7 +321,8 @@ async function addMissingItems() {
   
   if (!page) {
     page = await context.newPage();
-    await page.goto('https://www.heb.com', { waitUntil: 'networkidle' });
+    await page.goto('https://www.heb.com', { waitUntil: 'domcontentloaded', timeout: 45000 });
+    await randomDelay(5000, 8000); // Let scripts load
   }
   
   // Get current cart count

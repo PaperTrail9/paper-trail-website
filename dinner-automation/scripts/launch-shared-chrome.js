@@ -1,4 +1,4 @@
-const { launchBrowser, isBrowserRunning, getBrowserName, CONFIG } = require('./shared-chrome-connector');
+const { launchBrowser, isBrowserRunning, getBrowserName, LOCAL_CONFIG } = require('./shared-chrome-connector');
 const fs = require('fs');
 const path = require('path');
 
@@ -25,7 +25,7 @@ async function main() {
   if (args.includes('--status')) {
     const running = await isBrowserRunning();
     console.log(running ? `✅ ${browserName} is running` : `❌ ${browserName} is not running`);
-    console.log(`Debug port: ${CONFIG.debugPort}`);
+    console.log(`Debug port: ${LOCAL_CONFIG.debugPort}`);
     return;
   }
   
@@ -35,13 +35,13 @@ async function main() {
   const running = await isBrowserRunning();
   
   if (running) {
-    console.log(`✅ ${browserName} is already running on port`, CONFIG.debugPort);
+    console.log(`✅ ${browserName} is already running on port`, LOCAL_CONFIG.debugPort);
     console.log('   All automation scripts will connect to this instance.');
   } else {
     console.log(`🔄 ${browserName} not running, launching...`);
     const pid = launchBrowser();
     console.log(`✅ ${browserName} launched with PID:`, pid);
-    console.log('   Debug port:', CONFIG.debugPort);
+    console.log('   Debug port:', LOCAL_CONFIG.debugPort);
     
     // Wait a moment
     await new Promise(r => setTimeout(r, 3000));

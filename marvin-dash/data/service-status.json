@@ -1,104 +1,16 @@
 {
   "services": [
     {
-      "id": "kanban-sync",
-      "name": "Kanban Sync",
-      "displayName": "Kanban Sync",
-      "type": "cron",
-      "status": "online",
-      "lastRecovery": "2026-02-20T15:00:11.728Z",
-      "uptimeStarted": "2026-02-20T15:00:11.728Z",
-      "checkInterval": "30m",
-      "description": "Auto-sync kanban board every 30 minutes"
-    },
-    {
-      "id": "calendar-sync",
-      "name": "Apple Calendar Sync",
-      "displayName": "Calendar Sync",
-      "type": "cron",
-      "status": "online",
-      "lastRecovery": "2026-02-20T15:00:38.804Z",
-      "uptimeStarted": "2026-02-04T08:15:00.000Z",
-      "checkInterval": "15m",
-      "description": "Two-way sync with iCloud CalDAV"
-    },
-    {
-      "id": "f150-marketplace",
-      "name": "F-150 Marketplace Sharing",
-      "displayName": "F-150 Sharing",
-      "type": "cron",
-      "status": "online",
-      "lastRecovery": null,
-      "uptimeStarted": "2026-02-04T04:27:00.000Z",
-      "checkInterval": "27m",
-      "description": "Share F-150 listing to Facebook Marketplace groups"
-    },
-    {
-      "id": "marketplace-monitor",
-      "name": "Marketplace Monitor",
-      "displayName": "Marketplace Monitor",
-      "type": "cron",
-      "status": "online",
-      "lastRecovery": null,
-      "uptimeStarted": "2026-02-04T05:00:00.000Z",
-      "checkInterval": "1h",
-      "description": "Monitor Facebook Marketplace for buyer messages"
-    },
-    {
-      "id": "gateway",
-      "name": "OpenClaw Gateway",
-      "displayName": "Gateway",
-      "type": "daemon",
-      "status": "online",
-      "lastRecovery": null,
-      "uptimeStarted": "2026-02-04T00:00:00.000Z",
-      "checkInterval": "continuous",
-      "description": "OpenClaw daemon service for 24/7 availability"
-    },
-    {
-      "id": "dashboard-server",
-      "name": "Dashboard Server",
-      "displayName": "Dashboard",
-      "type": "server",
-      "status": "online",
-      "lastRecovery": null,
-      "uptimeStarted": "2026-02-04T00:00:00.000Z",
-      "checkInterval": "continuous",
-      "description": "Marvin's Dashboard on port 3001"
-    },
-    {
-      "id": "wsl-ubuntu",
-      "name": "WSL Ubuntu",
-      "displayName": "WSL Ubuntu",
-      "type": "system",
-      "status": "online",
-      "lastRecovery": null,
-      "uptimeStarted": "2026-02-04T00:00:00.000Z",
-      "checkInterval": "on-demand",
-      "description": "Windows Subsystem for Linux"
-    },
-    {
       "id": "auto-recovery",
       "name": "Auto Recovery",
       "displayName": "Auto Recovery",
       "type": "daemon",
       "status": "online",
-      "lastRecovery": "2026-02-20T14:59:02.648Z",
-      "uptimeStarted": "2026-02-04T15:27:37.968Z",
+      "lastRecovery": "2026-03-16T00:47:06.064Z",
+      "uptimeStarted": "2026-02-24T17:49:05.162Z",
       "checkInterval": "5m",
       "description": "Automatic service monitoring and recovery"
-    },
-    {
-      "id": "backup",
-      "name": "Backup System",
-      "displayName": "Backup",
-      "type": "daemon",
-      "status": "online",
-      "lastRecovery": "2026-02-04T15:50:42.400Z",
-      "uptimeStarted": "2026-02-04T15:50:42.400Z",
-      "checkInterval": "15m",
-      "description": "Rolling backups with auto-rollback capability"
     }
   ],
-  "lastUpdated": "2026-02-20T15:00:38.804Z"
+  "lastUpdated": "2026-03-16T00:47:06.064Z"
 }

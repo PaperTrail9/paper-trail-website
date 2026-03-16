@@ -8,6 +8,7 @@
     "test:unit": "npx vitest run tests/automation/unit",
     "test:integration": "npx vitest run tests/automation/integration",
     "test:benchmarks": "npx vitest run tests/automation/benchmarks",
+    "test:utils": "npx vitest run tests/integration",
     "test:watch": "npx vitest",
     "test:coverage": "npx vitest run --coverage",
     "send-test": "node scripts/test-email.js --send",

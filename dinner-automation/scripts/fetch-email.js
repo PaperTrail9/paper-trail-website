@@ -1,7 +1,12 @@
 const { execSync } = require('child_process');
 
 // Fetch full email with RFC822
-const result = execSync(`curl.exe -s --url "imaps://imap.mail.me.com:993/INBOX" --user "MarvinMartian9@icloud.com:hazf-gpml-kpha-bqmu" --request "FETCH 11 RFC822"`, { encoding: 'utf8', maxBuffer: 1024 * 1024 });
+const result = execSync(`curl.exe -s --url "imaps://imap.mail.me.com:993/INBOX" --user "MarvinMartian9@icloud.com:hazf-gpml-kpha-bqmu" --request "FETCH 11 RFC822"`, {
+  encoding: 'utf8',
+  maxBuffer: 1024 * 1024,
+  stdio: ['ignore', 'pipe', 'pipe'],
+  windowsHide: true
+});
 
 // Parse the IMAP response to extract the actual email content
 const lines = result.split('\r\n');

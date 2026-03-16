@@ -1802,7 +1802,8 @@ async function syncToAllSystems() {
   try {
     execSync('node sync-dinner-to-icloud.js', {
       cwd: __dirname,
-      stdio: 'inherit'
+      stdio: ['ignore', 'pipe', 'pipe'],
+      windowsHide: true
     });
     results.calendar = true;
     console.log('   ✅ Calendar synced\n');

@@ -140,7 +140,7 @@
     },
     {
       "name": "Basmati rice",
-      "searchTerm": "basmati rice",
+      "searchTerm": "H-E-B Basmati Rice",
       "amount": "2 lbs",
       "status": "pending"
     },
@@ -254,7 +254,7 @@
     },
     {
       "name": "Naan bread",
-      "searchTerm": "naan bread",
+      "searchTerm": "Stonefire Naan",
       "amount": "1 pack",
       "status": "pending"
     },
@@ -266,5 +266,5 @@
     }
   ],
   "autoStart": true,
-  "timestamp": 1771167601128
+  "timestamp": 1771772400709
 }

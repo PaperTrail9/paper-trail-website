@@ -278,20 +278,28 @@ async function getUsageStats() {
     const data = await fs.readFile(USAGE_FILE, 'utf8');
     const usage = JSON.parse(data);
     
-    let totalDailyUsed = 0, totalMonthlySpent = 0, totalBudget = 0;
+    let totalDailyUsed = 0, totalMonthlySpent = 0, totalSubscriptions = 0;
+    
+    // Add subscriptions if present
+    if (usage.subscriptions) {
+      totalSubscriptions = usage.subscriptions.total || 0;
+    }
     
     for (const model of Object.values(usage.models)) {
       totalDailyUsed += model.dailyUsed || 0;
       totalMonthlySpent += model.monthlySpent || 0;
-      totalBudget += model.monthlyCost || 0;
     }
+    
+    // Total = subscriptions + token spend
+    const totalCost = totalSubscriptions + totalMonthlySpent;
     
     return {
       lastUpdated: usage.lastUpdated,
       totalDailyUsed,
       totalMonthlySpent,
-      totalBudget,
-      remainingBudget: totalBudget - totalMonthlySpent,
+      totalSubscriptions,
+      totalCost,
+      remainingBudget: 0, // No fixed budget
       models: Object.keys(usage.models).length
     };
   } catch {
@@ -417,10 +425,9 @@ function printUsageSummary(stats) {
   logSection('MODEL USAGE SUMMARY');
   log(`📊 Daily Tokens: ${stats.totalDailyUsed.toLocaleString()}`, 'cyan');
   const spent = typeof stats.totalMonthlySpent === 'number' ? stats.totalMonthlySpent.toFixed(2) : stats.totalMonthlySpent;
-  const budget = typeof stats.totalBudget === 'number' ? stats.totalBudget.toFixed(2) : stats.totalBudget;
-  log(`💰 Monthly: $${spent} / $${budget}`, 'cyan');
-  const remaining = typeof stats.remainingBudget === 'number' ? stats.remainingBudget : 0;
-  log(`💵 Remaining: $${typeof remaining === 'number' ? remaining.toFixed(2) : remaining}`, remaining < 20 ? 'yellow' : 'green');
+  const subs = typeof stats.totalSubscriptions === 'number' ? stats.totalSubscriptions.toFixed(0) : '0';
+  const total = typeof stats.totalCost === 'number' ? stats.totalCost.toFixed(2) : stats.totalCost;
+  log(`💰 This Month: $${spent} (tokens) + $${subs}/mo (subs) = $${total} total`, 'cyan');
   log(`🤖 Models: ${stats.models}`, 'cyan');
 }
 

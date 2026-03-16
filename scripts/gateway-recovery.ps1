@@ -21,8 +21,29 @@ function Write-Log {
     param([string]$Message, [string]$Level = "INFO")
     $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $LogEntry = "[$Timestamp] [$Level] $Message"
-    Write-Host $LogEntry
     Add-Content -Path $LogFile -Value $LogEntry
+}
+
+# Helper function to run commands hidden
+function Invoke-HiddenCommand {
+    param($Command, $Arguments)
+    try {
+        $psi = New-Object System.Diagnostics.ProcessStartInfo
+        $psi.FileName = $Command
+        $psi.Arguments = $Arguments
+        $psi.UseShellExecute = $false
+        $psi.RedirectStandardOutput = $true
+        $psi.RedirectStandardError = $true
+        $psi.CreateNoWindow = $true
+        $psi.WindowStyle = 'Hidden'
+        
+        $process = [System.Diagnostics.Process]::Start($psi)
+        $stdout = $process.StandardOutput.ReadToEnd()
+        $process.WaitForExit()
+        return $stdout
+    } catch {
+        return $null
+    }
 }
 
 function Test-GatewayHealth {
@@ -38,7 +59,7 @@ function Test-GatewayHealth {
     
     # Check 2: Gateway service is actually running (not stopped/zombie)
     try {
-        $StatusOutput = & openclaw gateway status 2>&1
+        $StatusOutput = Invoke-HiddenCommand -Command "openclaw" -Arguments "gateway status"
         if ($StatusOutput -match "Runtime: stopped") {
             Write-Log "Gateway HTTP responds but service reports stopped (zombie process)" "WARN"
             return $false
@@ -71,9 +92,11 @@ function Stop-GatewayProcesses {
         Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue
     }
     
-    # Kill any Chrome processes in openclaw profile
+    # Kill any Chrome processes in openclaw profile (but NOT the Facebook Chrome on port 9224)
     Get-Process -Name "chrome" -ErrorAction SilentlyContinue | Where-Object {
-        $_.CommandLine -like "*openclaw*"
+        $_.CommandLine -like "*openclaw*" -and 
+        $_.CommandLine -notlike "*9224*" -and
+        $_.CommandLine -notlike "*chrome-marvin-only-profile*"
     } | ForEach-Object {
         Write-Log "Killing Chrome process: $($_.Id)" "WARN"
         Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue
@@ -86,9 +109,9 @@ function Start-GatewayService {
     Write-Log "Starting OpenClaw gateway service..." "INFO"
     
     try {
-        # Try using the scheduled task first
-        $TaskResult = schtasks /Run /TN "OpenClaw Gateway" 2>&1
-        Write-Log "Scheduled task result: $TaskResult" "INFO"
+        # Try using the scheduled task first (hidden)
+        $TaskResult = Start-Process -FilePath "schtasks.exe" -ArgumentList "/Run", "/TN", "OpenClaw Gateway" -WindowStyle Hidden -Wait -PassThru 2>&1
+        Write-Log "Scheduled task started (PID: $($TaskResult.Id))" "INFO"
         
         Start-Sleep -Seconds 5
         
@@ -146,8 +169,14 @@ function Reset-BrowserProfile {
     Write-Log "Resetting OpenClaw browser profile..." "WARN"
     
     try {
-        # Kill any running Chrome processes
-        Get-Process -Name "chrome" -ErrorAction SilentlyContinue | ForEach-Object {
+        # Kill Chrome processes ONLY in the openclaw browser profile directory (port 18800)
+        # Preserve Facebook Chrome (port 9224, chrome-marvin-only-profile)
+        Get-Process -Name "chrome" -ErrorAction SilentlyContinue | Where-Object {
+            $_.CommandLine -like "*openclaw*" -and 
+            $_.CommandLine -notlike "*9224*" -and
+            $_.CommandLine -notlike "*chrome-marvin-only-profile*"
+        } | ForEach-Object {
+            Write-Log "Killing Chrome process for profile reset: $($_.Id)" "WARN"
             Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue
         }
         

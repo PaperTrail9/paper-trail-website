@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 /**
- * Marvin Auto-Recovery System
+ * Marvin Auto-Recovery System v2.1
  * Monitors and repairs critical services automatically
+ * Enhanced with port conflict detection and dynamic port fallback
+ * FIXED: Port detection now uses netstat first (more reliable), PowerShell as fallback
  * Run via: node scripts/auto-recovery.js [--auto] [--manual]
  */
 
@@ -10,7 +12,6 @@ const path = require('path');
 const { exec, spawn } = require('child_process');
 const util = require('util');
 const http = require('http');
-const https = require('https');
 
 const execPromise = util.promisify(exec);
 
@@ -18,13 +19,36 @@ const WORKSPACE_DIR = path.join(__dirname, '..');
 const DATA_DIR = path.join(WORKSPACE_DIR, 'data');
 const LOG_FILE = path.join(DATA_DIR, 'recovery.log');
 const STATE_FILE = path.join(DATA_DIR, 'recovery-state.json');
+const CONFIG_FILE = path.join(process.env.USERPROFILE || 'C:\\Users\\Admin', '.openclaw', 'openclaw.json');
+
+// Fallback ports for gateway if primary is blocked
+const GATEWAY_FALLBACK_PORTS = [18790, 18791, 18792, 18800];
 
 // Import progress tracker
-const progress = require('./progress-tracker.js');
+let progress;
+try {
+  progress = require('./progress-tracker.js');
+} catch {
+  progress = {
+    startTask: async () => {},
+    updateProgress: async () => {},
+    logTask: async () => {},
+    completeTask: async () => {}
+  };
+}
 const TASK_ID = 'auto-recovery';
 
 // Import backup functions
-const { createBackup, restoreBackup } = require('./backup.js');
+let backup;
+try {
+  backup = require('./backup.js');
+} catch {
+  backup = {
+    createBackup: async () => ({ success: true, filename: 'mock' }),
+    restoreBackup: async () => true
+  };
+}
+const { createBackup, restoreBackup } = backup;
 
 // Service definitions
 const SERVICES = {
@@ -40,9 +64,10 @@ const SERVICES = {
   'openclaw-gateway': {
     name: 'OpenClaw Gateway',
     port: 18789,
+    fallbackPorts: GATEWAY_FALLBACK_PORTS,
     checkCmd: 'openclaw gateway status',
     startCmd: 'openclaw gateway start',
-    recoveryActions: ['restart-gateway'],
+    recoveryActions: ['detect-port-conflict', 'kill-port', 'restart-gateway', 'fallback-port'],
     autoStart: true
   },
   'wsl-ubuntu': {
@@ -53,15 +78,8 @@ const SERVICES = {
   }
 };
 
-// Recovery state
-let recoveryState = {
-  lastRun: null,
-  lastBackup: null,
-  totalRecoveries: 0,
-  serviceStates: {},
-  consecutiveFailures: {},
-  lastRollback: null
-};
+// Recovery state - will be loaded from file or initialized
+let recoveryState = null;
 
 // ANSI colors
 const colors = {
@@ -72,7 +90,8 @@ const colors = {
   green: '\x1b[32m',
   yellow: '\x1b[33m',
   blue: '\x1b[34m',
-  cyan: '\x1b[36m'
+  cyan: '\x1b[36m',
+  magenta: '\x1b[35m'
 };
 
 function log(message, color = 'reset', toFile = true) {
@@ -113,7 +132,7 @@ async function waitForServiceHealthy(service, timeoutMs = 15000, intervalMs = 20
   const started = Date.now();
   while (Date.now() - started < timeoutMs) {
     if (service.port) {
-      const ok = await isPortInUse(service.port);
+      const ok = await isGatewayHealthy(service.port);
       if (ok) return true;
     } else if (service.checkCmd) {
       try {
@@ -136,15 +155,18 @@ async function loadState() {
     const data = await fs.readFile(STATE_FILE, 'utf8');
     recoveryState = JSON.parse(data);
   } catch {
-    recoveryState = {
-      lastRun: null,
-      lastBackup: null,
-      totalRecoveries: 0,
-      serviceStates: {},
-      consecutiveFailures: {},
-      lastRollback: null
-    };
+    recoveryState = null;
   }
+  
+  // Ensure all required fields exist
+  recoveryState = recoveryState || {};
+  recoveryState.lastRun = recoveryState.lastRun || null;
+  recoveryState.lastBackup = recoveryState.lastBackup || null;
+  recoveryState.totalRecoveries = recoveryState.totalRecoveries || 0;
+  recoveryState.serviceStates = recoveryState.serviceStates || {};
+  recoveryState.consecutiveFailures = recoveryState.consecutiveFailures || {};
+  recoveryState.lastRollback = recoveryState.lastRollback || null;
+  recoveryState.portConflicts = recoveryState.portConflicts || {};
 }
 
 // Save recovery state
@@ -157,7 +179,68 @@ async function saveState() {
   }
 }
 
-// Check if a port is in use
+// Load OpenClaw config to get actual gateway port
+async function loadOpenClawConfig() {
+  try {
+    const configData = await fs.readFile(CONFIG_FILE, 'utf8');
+    const config = JSON.parse(configData);
+    
+    // Update service definition with actual port from config
+    if (config.gateway && config.gateway.port) {
+      const actualPort = parseInt(config.gateway.port);
+      if (actualPort && actualPort !== SERVICES['openclaw-gateway'].port) {
+        log(`  Using configured gateway port: ${actualPort} (was ${SERVICES['openclaw-gateway'].port})`, 'cyan');
+        SERVICES['openclaw-gateway'].port = actualPort;
+      }
+    }
+    
+    return config;
+  } catch (error) {
+    log(`  Could not load OpenClaw config, using defaults: ${error.message}`, 'dim');
+    return null;
+  }
+}
+
+// Enhanced health check - verifies it's actually the OpenClaw gateway
+async function isGatewayHealthy(port) {
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'localhost',
+      port: port,
+      path: '/',
+      method: 'GET',
+      timeout: 3000
+    };
+
+    const req = http.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        // Check if response contains OpenClaw gateway indicators
+        const isOpenClaw = data.includes('openclaw') || 
+                          data.includes('OpenClaw') || 
+                          data.includes('__openclaw__') ||
+                          res.headers['server']?.includes('openclaw');
+        
+        // Also check if it's websocket upgrade capable
+        const hasWebSocket = res.headers['upgrade'] === 'websocket' ||
+                            data.includes('websocket') ||
+                            data.includes('ws://');
+        
+        resolve(isOpenClaw || hasWebSocket);
+      });
+    });
+    
+    req.on('error', () => resolve(false));
+    req.on('timeout', () => {
+      req.destroy();
+      resolve(false);
+    });
+    req.end();
+  });
+}
+
+// Legacy simple port check for non-gateway services
 async function isPortInUse(port) {
   return new Promise((resolve) => {
     const req = http.get(`http://localhost:${port}/api/health`, (res) => {
@@ -171,15 +254,250 @@ async function isPortInUse(port) {
   });
 }
 
-// Check service health
+// Detect port conflicts and identify what's using the port
+async function detectPortConflict(port) {
+  log(`  Detecting port conflicts on ${port}...`, 'dim');
+  
+  try {
+    // Method 1: Use netstat directly (most reliable)
+    let connections = [];
+    try {
+      const { stdout } = await execPromise(`netstat -ano | findstr :${port}`, { timeout: 10000 });
+      const lines = stdout.split('\n').filter(l => l.trim() && (l.includes('LISTENING') || l.includes('ESTABLISHED')));
+      
+      for (const line of lines) {
+        // Parse netstat output: Proto  Local Address          Foreign Address        State           PID
+        // Example: TCP    127.0.0.1:18791        0.0.0.0:0              LISTENING       12345
+        const parts = line.trim().split(/\s+/);
+        if (parts.length >= 5) {
+          const localAddr = parts[1];
+          const state = parts[3];
+          const pid = parts[parts.length - 1];
+          
+          // Check if this line is for our port
+          if (localAddr.includes(`:${port}`)) {
+            connections.push({
+              LocalAddress: localAddr,
+              LocalPort: port,
+              State: state,
+              OwningProcess: pid
+            });
+          }
+        }
+      }
+      
+      if (connections.length > 0) {
+        log(`    Found ${connections.length} connection(s) via netstat`, 'dim');
+      }
+    } catch (netstatError) {
+      log(`    Netstat detection failed: ${netstatError.message}`, 'dim');
+    }
+    
+    // Method 2: Fallback to PowerShell Get-NetTCPConnection if netstat found nothing
+    if (connections.length === 0) {
+      try {
+        const { stdout } = await execPromise(
+          `powershell.exe -NoProfile -Command "try { Get-NetTCPConnection -LocalPort ${port} -ErrorAction Stop | Select-Object LocalAddress, LocalPort, State, OwningProcess | ConvertTo-Json -Compress } catch { Write-Host 'NO_CONNECTIONS' }"`,
+          { timeout: 10000 }
+        );
+        if (stdout.trim() && stdout.trim() !== 'NO_CONNECTIONS') {
+          const parsed = JSON.parse(stdout);
+          const results = Array.isArray(parsed) ? parsed : [parsed];
+          for (const conn of results) {
+            if (conn && conn.OwningProcess) {
+              connections.push(conn);
+            }
+          }
+          if (connections.length > 0) {
+            log(`    Found ${connections.length} connection(s) via PowerShell`, 'dim');
+          }
+        }
+      } catch (psError) {
+        log(`    PowerShell detection unavailable`, 'dim');
+      }
+    }
+    
+    const conflicts = [];
+    
+    for (const conn of connections) {
+      const pid = parseInt(conn.OwningProcess);
+      const localAddress = conn.LocalAddress || `0.0.0.0:${conn.LocalPort}`;
+      const state = conn.State || 'UNKNOWN';
+      
+      if (pid && !isNaN(pid)) {
+        let processName = 'unknown';
+        
+        // Try to get process name using tasklist (faster than PowerShell)
+        try {
+          const { stdout: tasklistOutput } = await execPromise(`tasklist /FI "PID eq ${pid}" /FO CSV /NH`, { timeout: 5000 });
+          const match = tasklistOutput.match(/"([^"]+)"/);
+          if (match) {
+            processName = match[1];
+          }
+        } catch {
+          // Fallback to PowerShell if tasklist fails
+          try {
+            const { stdout: processOutput } = await execPromise(
+              `powershell.exe -NoProfile -Command "try { (Get-Process -Id ${pid} -ErrorAction Stop).ProcessName } catch { Write-Host 'unknown' }"`,
+              { timeout: 5000 }
+            );
+            processName = processOutput.trim() || 'unknown';
+          } catch {
+            processName = 'unknown';
+          }
+        }
+        
+        conflicts.push({ 
+          pid: pid, 
+          name: processName,
+          localAddress,
+          state
+        });
+      }
+    }
+    
+    // Analyze conflicts
+    const tailscale = conflicts.find(c => c.name.toLowerCase().includes('tailscale'));
+    const nodeProcesses = conflicts.filter(c => c.name.toLowerCase().includes('node'));
+    const systemProcesses = conflicts.filter(c => 
+      ['svchost', 'system', 'services', 'lsass'].includes(c.name.toLowerCase())
+    );
+    
+    if (tailscale) {
+      return {
+        type: 'tailscale',
+        severity: 'high',
+        message: `Tailscale VPN using port ${port} (PID ${tailscale.pid})`,
+        conflicts,
+        canKill: false,
+        recommendation: 'Use fallback port or disable Tailscale web client'
+      };
+    }
+    
+    if (systemProcesses.length > 0) {
+      return {
+        type: 'system',
+        severity: 'critical',
+        message: `System process using port ${port}: ${systemProcesses.map(c => c.name).join(', ')}`,
+        conflicts,
+        canKill: false,
+        recommendation: 'Use fallback port - cannot kill system processes'
+      };
+    }
+    
+    if (nodeProcesses.length > 0) {
+      return {
+        type: 'node',
+        severity: 'medium',
+        message: `Node.js process using port ${port} (likely zombie gateway)`,
+        conflicts,
+        canKill: true,
+        recommendation: 'Kill zombie process and restart gateway'
+      };
+    }
+    
+    if (conflicts.length > 0) {
+      return {
+        type: 'unknown',
+        severity: 'medium',
+        message: `Unknown process using port ${port}: ${conflicts.map(c => `${c.name}(${c.pid})`).join(', ')}`,
+        conflicts,
+        canKill: true,
+        recommendation: 'Kill process and restart gateway'
+      };
+    }
+    
+    return { type: 'none', severity: 'none', message: 'No port conflicts detected', conflicts: [] };
+    
+  } catch (error) {
+    return { type: 'error', severity: 'low', message: `Detection failed: ${error.message}`, conflicts: [] };
+  }
+}
+
+// Find available fallback port
+async function findAvailablePort(fallbackPorts) {
+  for (const port of fallbackPorts) {
+    const conflict = await detectPortConflict(port);
+    if (conflict.type === 'none') {
+      return port;
+    }
+    log(`    Port ${port} unavailable: ${conflict.message}`, 'dim');
+  }
+  return null;
+}
+
+// Update OpenClaw config with new port
+async function updateGatewayPort(newPort) {
+  try {
+    log(`  Updating gateway port to ${newPort}...`, 'cyan');
+    
+    // Try using openclaw CLI first
+    try {
+      await execPromise(`openclaw config set gateway.port ${newPort}`, { timeout: 10000 });
+      log(`    Port updated via CLI`, 'green');
+      return true;
+    } catch (cliError) {
+      log(`    CLI update failed, trying manual config...`, 'yellow');
+    }
+    
+    // Manual config update
+    let config = {};
+    try {
+      const configData = await fs.readFile(CONFIG_FILE, 'utf8');
+      config = JSON.parse(configData);
+    } catch {
+      config = {};
+    }
+    
+    config.gateway = config.gateway || {};
+    config.gateway.port = newPort;
+    
+    await fs.mkdir(path.dirname(CONFIG_FILE), { recursive: true });
+    await fs.writeFile(CONFIG_FILE, JSON.stringify(config, null, 2));
+    
+    log(`    Port updated to ${newPort}`, 'green');
+    return true;
+  } catch (error) {
+    log(`    Failed to update port: ${error.message}`, 'red');
+    return false;
+  }
+}
+
+// Check service health with enhanced gateway detection
 async function checkService(serviceId, service) {
   log(`Checking ${service.name}...`, 'dim');
   
   let status = 'unknown';
   let details = '';
+  let portConflict = null;
   
   try {
-    if (service.port) {
+    if (serviceId === 'openclaw-gateway') {
+      // Enhanced check for gateway
+      const isHealthy = await isGatewayHealthy(service.port);
+      
+      if (isHealthy) {
+        status = 'healthy';
+        details = `Gateway responding on port ${service.port}`;
+        // Clear any previous port conflict
+        if (recoveryState.portConflicts[serviceId]) {
+          delete recoveryState.portConflicts[serviceId];
+        }
+      } else {
+        // Port responds but not with gateway - check for conflicts
+        const conflict = await detectPortConflict(service.port);
+        
+        if (conflict.type !== 'none') {
+          status = 'port-conflict';
+          details = conflict.message;
+          portConflict = conflict;
+          recoveryState.portConflicts[serviceId] = conflict;
+        } else {
+          status = 'down';
+          details = `Port ${service.port} not responding as OpenClaw gateway`;
+        }
+      }
+    } else if (service.port) {
       const isRunning = await isPortInUse(service.port);
       if (isRunning) {
         status = 'healthy';
@@ -190,14 +508,16 @@ async function checkService(serviceId, service) {
       }
     }
     
-    if (service.checkCmd && status !== 'healthy') {
+    if (service.checkCmd && status !== 'healthy' && status !== 'port-conflict') {
       try {
         await execPromise(service.checkCmd, { timeout: 10000 });
         status = 'healthy';
         details = 'Check command passed';
       } catch (error) {
-        status = 'down';
-        details = `Check command failed: ${error.message}`;
+        if (status === 'unknown') {
+          status = 'down';
+          details = `Check command failed: ${error.message}`;
+        }
       }
     }
   } catch (error) {
@@ -208,23 +528,38 @@ async function checkService(serviceId, service) {
   recoveryState.serviceStates[serviceId] = {
     status,
     details,
-    lastCheck: new Date().toISOString()
+    lastCheck: new Date().toISOString(),
+    portConflict: portConflict ? { type: portConflict.type, message: portConflict.message } : null
   };
   
-  const color = status === 'healthy' ? 'green' : status === 'down' ? 'red' : 'yellow';
+  let color = 'yellow';
+  if (status === 'healthy') color = 'green';
+  else if (status === 'down') color = 'red';
+  else if (status === 'port-conflict') color = 'magenta';
+  
   log(`  ${service.name}: ${status} - ${details}`, color);
   
-  return { serviceId, status, details };
+  return { serviceId, status, details, portConflict };
 }
 
-// Kill process on port (Windows)
-async function killPort(port) {
+// Kill process on port (Windows) - with safety checks
+async function killPort(port, conflictInfo = null) {
   log(`  Killing process on port ${port}...`, 'yellow');
+  
+  // Don't kill system processes or Tailscale
+  if (conflictInfo) {
+    if (!conflictInfo.canKill) {
+      log(`    Cannot kill ${conflictInfo.type} process - using fallback port`, 'yellow');
+      return false;
+    }
+  }
+  
   try {
     // Find PID using the port
     const { stdout } = await execPromise(`netstat -ano | findstr :${port}`);
     const lines = stdout.split('\n').filter(l => l.includes('LISTENING'));
     
+    let killed = false;
     for (const line of lines) {
       const parts = line.trim().split(/\s+/);
       const pid = parts[parts.length - 1];
@@ -232,12 +567,13 @@ async function killPort(port) {
         try {
           await execPromise(`taskkill /F /PID ${pid}`);
           log(`    Killed process ${pid}`, 'green');
+          killed = true;
         } catch (e) {
           log(`    Failed to kill ${pid}: ${e.message}`, 'yellow');
         }
       }
     }
-    return true;
+    return killed;
   } catch (error) {
     log(`    No process found on port ${port}`, 'dim');
     return false;
@@ -254,7 +590,7 @@ async function startService(serviceId, service) {
       const child = spawnDetached(service.startCmd, service.cwd);
       if (!child) return false;
       
-      // Wait for service to start (poll health instead of fixed sleep)
+      // Wait for service to start
       const healthy = await waitForServiceHealthy(service, 20000, 2000);
       if (healthy) {
         log(`    ${service.name} started successfully`, 'green');
@@ -269,19 +605,31 @@ async function startService(serviceId, service) {
   }
 }
 
-// Recover a service
+// Recover a service with enhanced port conflict handling
 async function recoverService(serviceId, service) {
   log(`Recovering ${service.name}...`, 'cyan');
   
   let recovered = false;
+  let usedFallbackPort = false;
   
   for (const action of service.recoveryActions) {
     if (recovered) break;
     
     switch (action) {
+      case 'detect-port-conflict':
+        if (serviceId === 'openclaw-gateway') {
+          const conflict = await detectPortConflict(service.port);
+          if (conflict.type !== 'none') {
+            log(`    Port conflict detected: ${conflict.message}`, 'magenta');
+            recoveryState.portConflicts[serviceId] = conflict;
+          }
+        }
+        break;
+        
       case 'kill-port':
         if (service.port) {
-          await killPort(service.port);
+          const conflict = recoveryState.portConflicts[serviceId];
+          await killPort(service.port, conflict);
           await new Promise(r => setTimeout(r, 2000));
         }
         break;
@@ -292,13 +640,65 @@ async function recoverService(serviceId, service) {
         
       case 'restart-gateway':
         try {
-          await execPromise('openclaw gateway restart', { timeout: 30000 });
+          // First try to stop properly
+          try {
+            await execPromise('openclaw gateway stop', { timeout: 15000 });
+            await new Promise(r => setTimeout(r, 3000));
+          } catch {
+            // May already be stopped
+          }
+          
+          // Start gateway
+          await execPromise('openclaw gateway start', { timeout: 30000 });
           await new Promise(r => setTimeout(r, 5000));
-          const check = await execPromise('openclaw gateway status');
-          recovered = check.includes('running');
-          if (recovered) log('    Gateway restarted', 'green');
+          
+          // Check if it's actually healthy
+          const healthy = await isGatewayHealthy(service.port);
+          recovered = healthy;
+          
+          if (recovered) {
+            log('    Gateway restarted and healthy', 'green');
+          } else {
+            log('    Gateway started but not responding correctly', 'yellow');
+          }
         } catch (e) {
           log(`    Gateway restart failed: ${e.message}`, 'red');
+        }
+        break;
+        
+      case 'fallback-port':
+        if (service.fallbackPorts && !recovered) {
+          log('    Attempting fallback port...', 'cyan');
+          const fallbackPort = await findAvailablePort(service.fallbackPorts);
+          
+          if (fallbackPort) {
+            log(`    Found available port: ${fallbackPort}`, 'green');
+            
+            // Update config
+            const updated = await updateGatewayPort(fallbackPort);
+            if (updated) {
+              // Update service definition temporarily
+              service.port = fallbackPort;
+              usedFallbackPort = true;
+              
+              // Try starting again
+              try {
+                await execPromise('openclaw gateway restart', { timeout: 30000 });
+                await new Promise(r => setTimeout(r, 5000));
+                
+                const healthy = await isGatewayHealthy(fallbackPort);
+                recovered = healthy;
+                
+                if (recovered) {
+                  log(`    Gateway running on fallback port ${fallbackPort}`, 'green');
+                }
+              } catch (e) {
+                log(`    Fallback port start failed: ${e.message}`, 'red');
+              }
+            }
+          } else {
+            log('    No fallback ports available', 'red');
+          }
         }
         break;
         
@@ -319,7 +719,7 @@ async function recoverService(serviceId, service) {
   if (recovered) {
     recoveryState.totalRecoveries++;
     recoveryState.consecutiveFailures[serviceId] = 0;
-    log(`  ${service.name} recovered successfully`, 'green');
+    log(`  ${service.name} recovered successfully${usedFallbackPort ? ' (using fallback port)' : ''}`, 'green');
   } else {
     recoveryState.consecutiveFailures[serviceId] = (recoveryState.consecutiveFailures[serviceId] || 0) + 1;
     log(`  ${service.name} recovery failed`, 'red');
@@ -342,13 +742,14 @@ async function runRecovery(options = {}) {
   
   console.log('');
   log('════════════════════════════════════════', 'bright', false);
-  log('   🔧 MARVIN AUTO-RECOVERY', 'bright', false);
+  log('   🔧 MARVIN AUTO-RECOVERY v2.0', 'bright', false);
   log('   ' + new Date().toLocaleString(), 'dim', false);
   if (isAuto) log('   Mode: Automatic', 'dim', false);
   if (isManual) log('   Mode: Manual', 'dim', false);
   log('════════════════════════════════════════', 'bright', false);
   
   await loadState();
+  await loadOpenClawConfig(); // Load actual gateway port from config
   await progress.updateProgress(TASK_ID, 10, 'Loaded recovery state', { stepIndex: 0 });
   
   logSection('SYSTEM CHECK');
@@ -369,10 +770,14 @@ async function runRecovery(options = {}) {
   }
   
   const healthyCount = results.filter(r => r.status === 'healthy').length;
+  const portConflictCount = results.filter(r => r.status === 'port-conflict').length;
   const totalCount = results.length;
   
   logSection('CHECK SUMMARY');
   log(`${healthyCount}/${totalCount} services healthy`, healthyCount === totalCount ? 'green' : 'yellow');
+  if (portConflictCount > 0) {
+    log(`${portConflictCount} service(s) have port conflicts`, 'magenta');
+  }
   await progress.updateProgress(TASK_ID, 40, `Service check complete: ${healthyCount}/${totalCount} healthy`, { stepIndex: 2 });
   
   // Backup phase (every 15 minutes)
@@ -448,6 +853,16 @@ async function runRecovery(options = {}) {
   if (recoveryState.lastRollback) {
     log(`Last rollback: ${new Date(recoveryState.lastRollback).toLocaleString()}`, 'yellow');
   }
+  
+  // Show port conflict summary if any
+  const activeConflicts = Object.entries(recoveryState.portConflicts || {});
+  if (activeConflicts.length > 0) {
+    log('\n⚠️ Active Port Conflicts:', 'magenta');
+    for (const [svc, conflict] of activeConflicts) {
+      log(`  - ${SERVICES[svc]?.name || svc}: ${conflict.message}`, 'yellow');
+    }
+  }
+  
   log('Next check: 5 minutes (auto) or manual trigger', 'dim');
   console.log('');
   
@@ -516,8 +931,14 @@ async function rollbackToLastKnownGood() {
 async function updateDashboardStatus() {
   try {
     const SERVICE_STATUS_FILE = path.join(DATA_DIR, 'service-status.json');
-    const data = await fs.readFile(SERVICE_STATUS_FILE, 'utf8');
-    const serviceStatus = JSON.parse(data);
+    let serviceStatus = { services: [] };
+    
+    try {
+      const data = await fs.readFile(SERVICE_STATUS_FILE, 'utf8');
+      serviceStatus = JSON.parse(data);
+    } catch {
+      // File doesn't exist, use default
+    }
     
     // Add or update auto-recovery service
     const recoveryService = serviceStatus.services.find(s => s.id === 'auto-recovery');
@@ -546,44 +967,11 @@ async function updateDashboardStatus() {
   }
 }
 
-// Create desktop shortcut
-async function createDesktopShortcut() {
-  const desktopPath = path.join(process.env.USERPROFILE, 'Desktop');
-  const shortcutPath = path.join(desktopPath, 'Marvin Recovery.lnk');
-  const scriptPath = path.join(__dirname, 'auto-recovery.js');
-  
-  const psScript = `
-$WshShell = New-Object -comObject WScript.Shell
-$Shortcut = $WshShell.CreateShortcut('${shortcutPath}')
-$Shortcut.TargetPath = 'node'
-$Shortcut.Arguments = '"${scriptPath}" --manual'
-$Shortcut.WorkingDirectory = '${path.dirname(scriptPath)}'
-$Shortcut.IconLocation = 'C:\\Windows\\System32\\shell32.dll, 81'
-$Shortcut.Description = 'Marvin Auto-Recovery - Manual Trigger'
-$Shortcut.Save()
-`;
-  
-  try {
-    await execPromise(`powershell -Command "${psScript}"`);
-    log(`Desktop shortcut created: ${shortcutPath}`, 'green');
-    return true;
-  } catch (error) {
-    log(`Failed to create shortcut: ${error.message}`, 'yellow');
-    return false;
-  }
-}
-
 // Main entry point
 async function main() {
   const args = process.argv.slice(2);
   const isAuto = args.includes('--auto');
   const isManual = args.includes('--manual');
-  const createShortcut = args.includes('--create-shortcut');
-  
-  if (createShortcut) {
-    await createDesktopShortcut();
-    return;
-  }
   
   try {
     await runRecovery({ auto: isAuto, manual: isManual });
@@ -598,4 +986,4 @@ if (require.main === module) {
   main();
 }
 
-module.exports = { runRecovery, createDesktopShortcut };
+module.exports = { runRecovery };

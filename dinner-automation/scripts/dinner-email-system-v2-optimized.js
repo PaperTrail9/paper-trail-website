@@ -405,7 +405,7 @@ async function sendEmailViaSmtp(to, subject, htmlBody, config) {
       '--upload-file', tempFile,
       '--user', `${config.email}:${config.app_specific_password}`,
       '--tlsv1.2', '--max-time', '30'
-    ].join(' '));
+    ].join(' '), { windowsHide: true });
     
     await fs.unlink(tempFile).catch(() => {});
     return { success: true };
@@ -426,7 +426,7 @@ async function syncToAllSystems() {
   const calendarPromise = (async () => {
     console.log('1️⃣ Syncing to Apple Calendar...');
     try {
-      await execAsync('node sync-dinner-to-icloud.js', { cwd: __dirname, timeout: 60000 });
+      await execAsync('node sync-dinner-to-icloud.js', { cwd: __dirname, timeout: 60000, windowsHide: true });
       results.calendar = true;
       console.log('   ✅ Calendar synced');
     } catch (error) {

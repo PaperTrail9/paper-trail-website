@@ -57,7 +57,9 @@ function runScript(scriptName, args = [], timeout = 120000) {
     
     const process = spawn('node', [scriptPath, ...args], {
       cwd: SCRIPTS_DIR,
-      timeout
+      timeout,
+      windowsHide: true,
+      stdio: ['ignore', 'pipe', 'pipe']
     });
     
     process.stdout.on('data', (data) => {

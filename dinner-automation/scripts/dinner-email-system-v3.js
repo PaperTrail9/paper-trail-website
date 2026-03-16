@@ -465,8 +465,12 @@ class ImageService {
     }
   }
 
-  async getMealImage(mealName, cuisine) {
-    const cache = await this.loadCache();
+  async getMealImage(mealName, cuisine, cache) {
+    // Allow caller to pass in a shared cache object so we only
+    // hit the filesystem once per run instead of per meal.
+    if (!cache) {
+      cache = await this.loadCache();
+    }
     
     // Check cache first
     if (cache[mealName] && !this.isExpired(cache[mealName])) {
@@ -593,9 +597,13 @@ class ImageService {
   async getImagesForPlan(meals, recipes) {
     const images = {};
     
+    // Load cache once and reuse for all meals to avoid repeated
+    // disk reads when resolving images for a single plan.
+    const cache = await this.loadCache();
+    
     for (const meal of meals) {
       const recipe = recipes[meal.name];
-      images[meal.name] = await this.getMealImage(meal.name, recipe?.cuisine);
+      images[meal.name] = await this.getMealImage(meal.name, recipe?.cuisine, cache);
     }
     
     return images;

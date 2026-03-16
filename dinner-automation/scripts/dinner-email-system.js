@@ -453,7 +453,8 @@ async function checkEmailReplies() {
   // Check if there's a manual changes file
   try {
     const changesData = await fs.readFile(PENDING_CHANGES_FILE, 'utf8');
-    const changes = JSON.parse(changesData);
+    const changesFile = JSON.parse(changesData);
+    const changes = changesFile.changes || [];
     
     if (changes.length > 0) {
       console.log(`✅ Found ${changes.length} pending changes from email reply`);
@@ -537,9 +538,10 @@ async function syncToAllSystems() {
   // 1. Sync to Apple Calendar
   console.log('1️⃣ Syncing to Apple Calendar...');
   try {
-    execSync('node sync-dinner-to-icloud.js', {
+    execSync('node calendar-sync.js', {
       cwd: __dirname,
-      stdio: 'inherit'
+      stdio: ['ignore', 'pipe', 'pipe'],
+      windowsHide: true
     });
     results.calendar = true;
     console.log('   ✅ Calendar synced\n');

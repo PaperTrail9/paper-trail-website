@@ -52,12 +52,30 @@ async function isBrowserRunning() {
 /**
  * Launch browser with debug port (truly detached)
  */
+function resolveEdgePath() {
+  // Try configured path first, then common Edge locations
+  const candidates = [
+    LOCAL_CONFIG.chromePath,
+    'C\\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+    'C\\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+  ];
+
+  for (const p of candidates) {
+    if (p && fs.existsSync(p)) {
+      return p;
+    }
+  }
+
+  throw new Error('Microsoft Edge not found in expected locations.');
+}
+
 function launchBrowser() {
   const browserName = getBrowserName();
+  const edgePath = resolveEdgePath();
   log.info(`Launching ${browserName} with shared debug port...`);
   
   const args = [
-    `"${LOCAL_CONFIG.chromePath}"`,
+    `"${edgePath}"`,
     `--remote-debugging-port=${LOCAL_CONFIG.debugPort}`,
     `--user-data-dir="${LOCAL_CONFIG.userDataDir}"`,
     `--profile-directory=${LOCAL_CONFIG.profileDirectory}`,
@@ -71,9 +89,7 @@ function launchBrowser() {
   const batPath = path.join(__dirname, '..', 'data', 'launch-edge.bat');
   
   // Write batch file dynamically
-  const batContent = `@echo off
-start "" ${args}
-`;
+  const batContent = `@echo off\r\nstart "" ${args}\r\n`;
   fs.writeFileSync(batPath, batContent);
   
   // Execute batch (completely detached)
@@ -155,21 +171,36 @@ async function getPage(browser, url = null) {
 
 /**
  * Close excess pages, keep only main page
+ * Note: Page closing can hang, so we use a short timeout and skip on failure
  */
 async function cleanupPages(browser, keepPages = 1) {
   try {
     const { context } = cdpClient.getConnection();
+    if (!context) {
+      log.warn('No context available for page cleanup');
+      return;
+    }
     const pages = context.pages();
     
     if (pages.length > keepPages) {
       log.info(`Closing ${pages.length - keepPages} excess pages...`);
-      for (let i = keepPages; i < pages.length; i++) {
+      // Close pages with timeout - don't block if it hangs
+      const closePromises = pages.slice(keepPages).map(async (page) => {
         try {
-          await pages[i].close();
+          await Promise.race([
+            page.close(),
+            sleep(2000).then(() => { throw new Error('timeout'); })
+          ]);
         } catch (e) {
-          // Page may already be closed
+          // Page may already be closed or timed out - ignore
         }
-      }
+      });
+      // Wait max 5 seconds total for all closures
+      await Promise.race([
+        Promise.all(closePromises),
+        sleep(5000)
+      ]);
+      log.success('Page cleanup complete');
     }
   } catch (e) {
     log.warn('Page cleanup error: ' + e.message);
@@ -180,7 +211,7 @@ async function cleanupPages(browser, keepPages = 1) {
  * Disconnect (don't close browser, just disconnect)
  * REFACTORED: Uses CDPClient for clean disconnect
  */
-async function releaseBrowser(browser, closePages = true) {
+async function releaseBrowser(browser, closePages = false) {
   const browserName = getBrowserName();
   try {
     // Close excess pages before disconnecting

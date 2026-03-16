@@ -175,9 +175,17 @@ const TASKS = {
     name: 'Rebuild YouTube Cache',
     fn: async () => {
       return new Promise((resolve, reject) => {
-        const { exec } = require('child_process');
-        exec('node build-youtube-cache.js', { cwd: __dirname, timeout: 300000 }, (err, stdout) => {
-          if (err) reject(err);
+        const { spawn } = require('child_process');
+        const proc = spawn('node', ['build-youtube-cache.js'], {
+          cwd: __dirname,
+          timeout: 300000,
+          windowsHide: true,
+          stdio: ['ignore', 'pipe', 'pipe']
+        });
+        let stdout = '';
+        proc.stdout.on('data', (data) => { stdout += data; });
+        proc.on('close', (code) => {
+          if (code !== 0) reject(new Error(`Exit code: ${code}`));
           else resolve({ output: stdout });
         });
       });
