@@ -1,8 +1,60 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-03-16T02:32:02.582Z",
+  "lastUpdated": "2026-03-16T02:37:02.594Z",
   "activeTasks": [],
   "completedTasks": [
+    {
+      "id": "auto-recovery",
+      "name": "Auto Recovery System",
+      "description": "Monitors and repairs critical services automatically",
+      "category": "system",
+      "status": "complete",
+      "percentComplete": 100,
+      "currentStep": "Updating dashboard status...",
+      "steps": [
+        "Load state",
+        "Check services",
+        "Run backup if needed",
+        "Recover failed services",
+        "Update dashboard"
+      ],
+      "currentStepIndex": 2,
+      "startedAt": "2026-03-16T02:37:02.408Z",
+      "lastUpdated": "2026-03-16T02:37:02.593Z",
+      "eta": null,
+      "estimatedDuration": null,
+      "metadata": {},
+      "logs": [
+        {
+          "timestamp": "2026-03-16T02:37:02.437Z",
+          "message": "Checking Dashboard Server...",
+          "level": "info"
+        },
+        {
+          "timestamp": "2026-03-16T02:37:02.458Z",
+          "message": "Checking OpenClaw Gateway...",
+          "level": "info"
+        },
+        {
+          "timestamp": "2026-03-16T02:37:02.464Z",
+          "message": "Checking WSL Ubuntu...",
+          "level": "info"
+        },
+        {
+          "timestamp": "2026-03-16T02:37:02.586Z",
+          "message": "Backup not needed (done recently)",
+          "level": "info"
+        }
+      ],
+      "completedAt": "2026-03-16T02:37:02.593Z",
+      "result": {
+        "healthyCount": 3,
+        "totalCount": 3,
+        "recoveryFailed": false,
+        "totalRecoveries": 2
+      },
+      "duration": 185
+    },
     {
       "id": "auto-recovery",
       "name": "Auto Recovery System",
@@ -5275,63 +5327,11 @@
         "totalRecoveries": 2
       },
       "duration": 175
-    },
-    {
-      "id": "auto-recovery",
-      "name": "Auto Recovery System",
-      "description": "Monitors and repairs critical services automatically",
-      "category": "system",
-      "status": "complete",
-      "percentComplete": 100,
-      "currentStep": "Updating dashboard status...",
-      "steps": [
-        "Load state",
-        "Check services",
-        "Run backup if needed",
-        "Recover failed services",
-        "Update dashboard"
-      ],
-      "currentStepIndex": 2,
-      "startedAt": "2026-03-15T18:17:01.988Z",
-      "lastUpdated": "2026-03-15T18:17:02.182Z",
-      "eta": null,
-      "estimatedDuration": null,
-      "metadata": {},
-      "logs": [
-        {
-          "timestamp": "2026-03-15T18:17:02.020Z",
-          "message": "Checking Dashboard Server...",
-          "level": "info"
-        },
-        {
-          "timestamp": "2026-03-15T18:17:02.041Z",
-          "message": "Checking OpenClaw Gateway...",
-          "level": "info"
-        },
-        {
-          "timestamp": "2026-03-15T18:17:02.047Z",
-          "message": "Checking WSL Ubuntu...",
-          "level": "info"
-        },
-        {
-          "timestamp": "2026-03-15T18:17:02.176Z",
-          "message": "Backup not needed (done recently)",
-          "level": "info"
-        }
-      ],
-      "completedAt": "2026-03-15T18:17:02.182Z",
-      "result": {
-        "healthyCount": 3,
-        "totalCount": 3,
-        "recoveryFailed": false,
-        "totalRecoveries": 2
-      },
-      "duration": 194
     }
   ],
   "taskDefinitions": {},
   "stats": {
-    "totalTasksCompleted": 4332,
+    "totalTasksCompleted": 4333,
     "totalTasksFailed": 4,
     "averageCompletionTime": 1081,
     "last24Hours": {
