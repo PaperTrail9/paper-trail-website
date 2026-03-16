@@ -129,9 +129,7 @@
                     <span>Paper Trail</span>
                 </a>
                 
-                <div class="nav-center">
-                    <a href="/blog/" class="nav-blog-title">The Paper Trail</a>
-                </div>
+                <!-- Blog title removed - was duplicate of logo brand -->
                 
                 <div class="nav-right">
                     <a href="#newsletter" class="btn btn-primary">Subscribe</a>
@@ -335,6 +333,38 @@
             </div>
         </div>
     </footer>
+
+    <!-- Category Filter Script - Makes the category nav functional -->
+    <script>
+        // Category filtering functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryLinks = document.querySelectorAll('.category-link');
+            const postCards = document.querySelectorAll('.post-card');
+            
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Update active state
+                    categoryLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const category = this.textContent.trim();
+                    
+                    // Filter posts
+                    postCards.forEach(card => {
+                        const cardCategory = card.querySelector('.post-category')?.textContent.trim();
+                        
+                        if (category === 'All' || cardCategory === category) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>

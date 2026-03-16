@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "totalSize": 2027137,
+  "totalSize": 2033327,
   "files": [
     {
       "filename": "usage-2026-02-24-1771955374752.json",
@@ -18491,8 +18491,68 @@
       "filename": "usage-2026-03-15-1773622200569.json",
       "timestamp": 1773622200569,
       "size": 517
+    },
+    {
+      "filename": "usage-2026-03-15-1773622500430.json",
+      "timestamp": 1773622500430,
+      "size": 516
+    },
+    {
+      "filename": "usage-2026-03-15-1773623100009.json",
+      "timestamp": 1773623100009,
+      "size": 515
+    },
+    {
+      "filename": "usage-2026-03-15-1773623400699.json",
+      "timestamp": 1773623400699,
+      "size": 515
+    },
+    {
+      "filename": "usage-2026-03-15-1773624000456.json",
+      "timestamp": 1773624000456,
+      "size": 516
+    },
+    {
+      "filename": "usage-2026-03-15-1773624900593.json",
+      "timestamp": 1773624900593,
+      "size": 516
+    },
+    {
+      "filename": "usage-2026-03-15-1773625200180.json",
+      "timestamp": 1773625200180,
+      "size": 516
+    },
+    {
+      "filename": "usage-2026-03-15-1773625800897.json",
+      "timestamp": 1773625800897,
+      "size": 516
+    },
+    {
+      "filename": "usage-2026-03-15-1773626100380.json",
+      "timestamp": 1773626100380,
+      "size": 516
+    },
+    {
+      "filename": "usage-2026-03-15-1773626700407.json",
+      "timestamp": 1773626700407,
+      "size": 517
+    },
+    {
+      "filename": "usage-2026-03-15-1773627000998.json",
+      "timestamp": 1773627000998,
+      "size": 516
+    },
+    {
+      "filename": "usage-2026-03-15-1773627600719.json",
+      "timestamp": 1773627600719,
+      "size": 514
+    },
+    {
+      "filename": "usage-2026-03-15-1773627900392.json",
+      "timestamp": 1773627900392,
+      "size": 517
     }
   ],
   "oldestEntry": 1771955374752,
-  "newestEntry": 1773622200569
+  "newestEntry": 1773627900392
 }
