@@ -1,17 +1,17 @@
 {
-  "lastUpdated": "2026-03-16T05:25:06.514Z",
+  "lastUpdated": "2026-03-17T11:50:04.206Z",
   "monthlyBudget": 200,
-  "totalSpent": 2605.1264558023317,
+  "totalSpent": 2781.9400531214433,
   "totalRemaining": 0,
-  "budgetPercent": 1302.5632279011659,
-  "dailyAverage": 162.82040348764573,
-  "projectedMonthly": 4884.612104629372,
+  "budgetPercent": 1390.9700265607216,
+  "dailyAverage": 163.64353253655548,
+  "projectedMonthly": 4909.305976096664,
   "openRouterCredits": {
     "totalCredits": 40,
-    "totalUsage": 30.6173574,
-    "remaining": 9.3826426,
-    "source": "OpenRouter /credits API (direct)",
-    "lastFetch": "2026-03-16T05:25:06.513Z"
+    "totalUsage": 30.62,
+    "remaining": 9.38,
+    "source": "fallback (estimated)",
+    "lastFetch": null
   },
   "providers": {
     "kimi": {
@@ -20,19 +20,19 @@
         {
           "id": "moonshot/kimi-k2.5",
           "name": "Moonshot Kimi K2.5 (Primary - ALL BOTS)",
-          "monthlySpent": 882.7961561773194,
+          "monthlySpent": 944.0651101245359,
           "monthlyCost": 50
         },
         {
           "id": "kimi-coding/k2p5",
           "name": "Kimi Code K2.5 (Sub-agent - ALL BOTS)",
-          "monthlySpent": 868.880180226774,
+          "monthlySpent": 926.630960552046,
           "monthlyCost": 30
         }
       ],
-      "totalSpent": 1751.6763364040935,
+      "totalSpent": 1870.6960706765817,
       "budget": 10,
-      "budgetPercent": 17516.763364040933,
+      "budgetPercent": 18706.960706765818,
       "remaining": 0,
       "status": "exceeded"
     },
@@ -42,13 +42,13 @@
         {
           "id": "minimax/MiniMax-M2.1",
           "name": "MiniMax M2.1 (Coding)",
-          "monthlySpent": 853.4501193982384,
+          "monthlySpent": 911.2439824448613,
           "monthlyCost": 30
         }
       ],
-      "totalSpent": 853.4501193982384,
+      "totalSpent": 911.2439824448613,
       "budget": 10,
-      "budgetPercent": 8534.501193982383,
+      "budgetPercent": 9112.439824448613,
       "remaining": 0,
       "status": "exceeded"
     }
