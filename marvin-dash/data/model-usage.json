@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-17T15:35:00.888Z",
+  "lastUpdated": "2026-03-17T15:40:00.444Z",
   "teamConfig": {
     "lead": "Trillian",
     "members": [
@@ -17,30 +17,30 @@
       "name": "Moonshot Kimi K2.5 (Primary - ALL BOTS)",
       "role": "primary",
       "dailyLimit": 100000,
-      "dailyUsed": 187103,
+      "dailyUsed": 187185,
       "monthlyCost": 50,
-      "monthlySpent": 950.572433731721,
-      "accountBalance": -900.572433731721,
+      "monthlySpent": 950.6848040771952,
+      "accountBalance": -900.6848040771952,
       "status": "ACTIVE - Use for main agent"
     },
     "kimi-coding/k2p5": {
       "name": "Kimi Code K2.5 (Sub-agent - ALL BOTS)",
       "role": "subagent",
       "dailyLimit": 200000,
-      "dailyUsed": 189404,
+      "dailyUsed": 189462,
       "monthlyCost": 30,
-      "monthlySpent": 933.442213802333,
-      "accountBalance": -903.442213802333,
+      "monthlySpent": 933.5156154645895,
+      "accountBalance": -903.5156154645895,
       "status": "ACTIVE - Use for sub-tasks, spawning"
     },
     "minimax/MiniMax-M2.1": {
       "name": "MiniMax M2.1 (Coding)",
       "role": "coding",
       "dailyLimit": 200000,
-      "dailyUsed": 185517,
+      "dailyUsed": 185583,
       "monthlyCost": 30,
-      "monthlySpent": 918.6319773245361,
-      "accountBalance": -888.6319773245361,
+      "monthlySpent": 918.9146051528521,
+      "accountBalance": -888.9146051528521,
       "status": "STANDBY - Conservative usage"
     }
   },
