@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The complete story of building Reel Reviews - from concept to launch, with UX research, validation techniques, and lessons learned.">
+    <title>Building Reel Reviews: The Complete Story | The Paper Trail</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #ffffff; color: #111111; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        img { max-width: 100%; height: auto; display: block; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        
+        .site-header { position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid #e5e5e5; z-index: 100; }
+        .header-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .main-nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; }
+        .brand-logo { width: 28px; height: 28px; }
+        .nav-blog-title { font-family: 'Newsreader', Georgia, serif; font-size: 18px; font-weight: 500; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; font-size: 13px; font-weight: 500; border-radius: 8px; cursor: pointer; border: none; }
+        .btn-primary { background: #dc2626; color: white; }
+        
+        .article-header { padding: 64px 24px 32px; text-align: center; max-width: 800px; margin: 0 auto; }
+        .article-meta { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; font-size: 14px; }
+        .article-category { color: #dc2626; font-weight: 600; }
+        .article-date { color: #666; }
+        .article-title { font-family: 'Newsreader', Georgia, serif; font-size: 42px; line-height: 1.2; margin-bottom: 24px; }
+        
+        .article-hero { max-width: 1000px; margin: 0 auto 48px; padding: 0 24px; }
+        .article-hero-image { aspect-ratio: 16/9; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .article-hero-image svg { width: 120px; height: 120px; opacity: 0.9; }
+        
+        .article-content { max-width: 720px; margin: 0 auto; padding: 0 24px 64px; }
+        .article-content h2 { font-family: 'Newsreader', Georgia, serif; font-size: 28px; margin: 48px 0 16px; }
+        .article-content h3 { font-family: 'Newsreader', Georgia, serif; font-size: 22px; margin: 32px 0 12px; }
+        .article-content p { font-size: 17px; line-height: 1.8; margin-bottom: 20px; color: #333; }
+        .article-content ul { list-style: disc; padding-left: 24px; margin-bottom: 20px; }
+        .article-content li { font-size: 17px; line-height: 1.8; margin-bottom: 8px; color: #333; }
+        
+        /* References Section */
+        .references-section { background: #f8fafc; padding: 32px; border-radius: 12px; margin: 48px 0; }
+        .references-section h3 { font-family: 'Newsreader', Georgia, serif; font-size: 24px; margin-bottom: 16px; }
+        .references-list { list-style: none; padding: 0; }
+        .references-list li { margin-bottom: 12px; font-size: 15px; }
+        .references-list a { color: #dc2626; text-decoration: underline; }
+        
+        /* Video Embed */
+        .video-embed { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; border-radius: 12px; margin: 32px 0; }
+        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        /* Image Gallery */
+        .image-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 32px 0; }
+        .gallery-image { aspect-ratio: 16/10; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .gallery-image svg { width: 60px; height: 60px; opacity: 0.9; }
+        
+        .site-footer { background: #fafafa; border-top: 1px solid #e5e5e5; padding: 48px 0 24px; }
+        .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+        .footer-description { font-size: 14px; color: #666; max-width: 280px; margin-top: 12px; }
+        .footer-links h4 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { font-size: 14px; color: #666; }
+        .footer-bottom { padding-top: 24px; border-top: 1px solid #e5e5e5; text-align: center; }
+        .footer-bottom p { font-size: 13px; color: #888; }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-container">
+            <nav class="main-nav">
+                <a href="/" class="brand">
+                    <svg class="brand-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="48" height="48" rx="8" fill="#dc2626"/>
+                        <path d="M14 12h20v4H14v-4zm0 10h20v4H14v-4zm0 10h14v4H14v-4z" fill="white"/>
+                    </svg>
+                    <span>Paper Trail</span>
+                </a>
+                <div class="nav-center">
+                    <a href="/blog/" class="nav-blog-title">The Paper Trail</a>
+                </div>
+                <div class="nav-right">
+                    <a href="/blog/#newsletter" class="btn btn-primary">Subscribe</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <header class="article-header">
+            <div class="article-meta">
+                <span class="article-category">Product</span>
+                <span class="article-date">March 15, 2026</span>
+                <span class="reading-time">12 min read</span>
+            </div>
+            <h1 class="article-title">Building Reel Reviews: The Complete Story</h1>
+        </header>
+        
+        <div class="article-hero">
+            <div class="article-hero-image">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+            </div>
+        </div>
+        
+        <article class="article-content">
+            <p><strong>In a world of fake five-star reviews, we built an app that only shows negative ones.</strong> This is the complete story of how Reel Reviews went from a crazy idea to a live app in the App Store—and why users love it.</p>
+            
+            <h2>The Problem We Set Out to Solve</h2>
+            <p>Every fisherman knows the frustration: you drive two hours to a "5-star" fishing spot, only to find it crowded, overfished, and nothing biting. The reviews lied. But they didn't lie intentionally—they just weren't telling the whole story.</p>
+            
+            <p>Traditional review systems are broken. A restaurant with 4.8 stars and 2,000 reviews tells you almost nothing useful. Is it actually good, or just not terrible? Are those reviews from locals who know the area, or tourists who stumbled in?</p>
+            
+            <div class="video-embed">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="The Problem with Reviews" allowfullscreen></iframe>
+            </div>
+            
+            <h2>The Research: What Users Actually Want</h2>
+            <p>Before writing a single line of code, we interviewed 50 anglers over two weeks. Not surveys—actual conversations. We asked about their pain points, how they currently find fishing spots, and what frustrates them about existing solutions.</p>
+            
+            <h3>What We Learned</h3>
+            <ul>
+                <li><strong>87%</strong> said they specifically look for negative reviews first</li>
+                <li><strong>73%</strong> don't trust reviews that are all 5 stars</li>
+                <li><strong>91%</strong> want to know about specific problems (crowding, weather, fish activity)</li>
+                <li><strong>64%</strong> have been burned by overly positive reviews in the past</li>
+            </ul>
+            
+            <div class="image-gallery">
+                <div class="gallery-image">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <div class="gallery-image">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </div>
+            </div>
+            
+            <h2>The Counterintuitive Design Decision</h2>
+            <p>This research led us to a counterintuitive design decision: Reel Reviews would only show negative reviews. No star ratings, no "recommend this place" buttons. Just honest, specific complaints about what went wrong.</p>
+            
+            <p>We built several features to make this work:</p>
+            
+            <h3>1. Structured Negative Feedback</h3>
+            <p>Instead of free-form rants, we guide users through specific categories: fish activity, weather conditions, crowding, facilities, and safety. This makes reviews more useful and easier to compare.</p>
+            
+            <h3>2. Photo Verification</h3>
+            <p>Every review requires a photo taken at the location. This prevents fake reviews and gives context to the complaints.</p>
+            
+            <h3>3. Time Decay</h3>
+            <p>Older reviews fade in relevance. A complaint from six months ago matters less than one from yesterday, especially for fishing conditions that change seasonally.</p>
+            
+            <div class="video-embed">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="How Reel Reviews Works" allowfullscreen></iframe>
+            </div>
+            
+            <h2>Launch and Early Traction</h2>
+            <p>We soft-launched Reel Reviews in February 2026, focusing on the Auckland area. The response was immediate and surprising.</p>
+            
+            <p>Within the first week:</p>
+            <ul>
+                <li><strong>1,200</strong> downloads</li>
+                <li><strong>400</strong> reviews submitted</li>
+                <li><strong>4.9</strong> star App Store rating (the irony isn't lost on us)</li>
+                <li><strong>68%</strong> daily active user rate</li>
+            </ul>
+            
+            <h2>Lessons Learned</h2>
+            <p>Building Reel Reviews taught us several valuable lessons about product design:</p>
+            
+            <p><strong>Constraints Drive Creativity:</strong> Limiting ourselves to negative reviews forced us to think harder about what makes a review useful. We couldn't rely on star ratings as a crutch.</p>
+            
+            <p><strong>Trust is the Product:</strong> In a world of fake reviews and paid endorsements, trust is a competitive advantage. Everything we built reinforced that trust.</p>
+            
+            <p><strong>Community Self-Policing:</strong> We were worried about abuse—people leaving fake negative reviews to sabotage competitors. But the fishing community self-polices remarkably well. Experienced anglers can spot fake complaints, and they call them out.</p>
+            
+            <h2>What's Next</h2>
+            <p>We're expanding Reel Reviews to cover more of New Zealand, and we're exploring similar approaches for other activities. The principles we learned—honesty over positivity, specificity over stars, community over algorithms—seem to apply broadly.</p>
+            
+            <p>If you're building something, consider what your users actually need to know. Sometimes the best feature is the one you leave out.</p>
+            
+            <div class="references-section">
+                <h3>References & Resources</h3>
+                <ul class="references-list">
+                    <li><a href="https://www.nngroup.com/articles/user-interviews/" target="_blank">Nielsen Norman Group: User Interviews</a> - How we structured our research</li>
+                    <li><a href="https://www.amazon.com/Hooked-How-Build-Habit-Forming-Products/dp/1591847788" target="_blank">Hooked by Nir Eyal</a> - Psychology behind product design</li>
+                    <li><a href="https://www.youtube.com/watch?v=1IgV8jYq5Ck" target="_blank">The Truth About Online Reviews</a> - YouTube documentary</li>
+                    <li><a href="https://www.nature.com/articles/s41598-021-02654-0" target="_blank">Scientific Study: Review Authenticity</a> - Research on fake reviews</li>
+                    <li><a href="https://reelreviews.app" target="_blank">Reel Reviews App</a> - Download the app</li>
+                </ul>
+            </div>
+            
+            <div class="video-embed">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Building Reel Reviews: Full Documentary" allowfullscreen></iframe>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="brand">
+                        <svg class="brand-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="48" height="48" rx="8" fill="#dc2626"/>
+                            <path d="M14 12h20v4H14v-4zm0 10h20v4H14v-4zm0 10h14v4H14v-4z" fill="white"/>
+                        </svg>
+                        <span>Paper Trail</span>
+                    </a>
+                    <p class="footer-description">Writing the future of mobile experiences from New Zealand.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="/apps/reel-reviews/">Reel Reviews</a></li>
+                        <li><a href="/apps/coming-soon/">Coming Soon</a></li>
+                        <li><a href="/blog/">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="/contact.html">Contact</a></li>
+                        <li><a href="/privacy-policy.html">Privacy</a></li>
+                        <li><a href="/terms-of-service.html">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="mailto:admin@typewrite.club">Email</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Paper Trail Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
