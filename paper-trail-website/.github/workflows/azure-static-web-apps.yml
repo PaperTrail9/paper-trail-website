@@ -59,14 +59,14 @@ jobs:
           action: "upload"
           
           # Directory containing the built app
-          # The website files are in the paper-trail-website folder
-          app_location: "paper-trail-website"
+          # Website files are at root level
+          app_location: "/"
           
           # For static sites without a build step, api_location is empty
           api_location: ""
           
           # Output location - same as app_location for static sites
-          output_location: "paper-trail-website"
+          output_location: "/"
 
   # Close pull request job (cleans up preview environment)
   close_pull_request_job:
