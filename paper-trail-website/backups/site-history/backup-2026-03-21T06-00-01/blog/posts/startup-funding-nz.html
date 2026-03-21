@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete guide to startup funding in New Zealand - grants, angel investors, VCs, and alternative funding options for 2026.">
+    <title>The Complete Guide to Startup Funding in New Zealand | The Paper Trail</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #ffffff; color: #111111; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        img { max-width: 100%; height: auto; display: block; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        
+        .site-header { position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid #e5e5e5; z-index: 100; }
+        .header-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .main-nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; }
+        .brand-logo { width: 28px; height: 28px; }
+        .nav-blog-title { font-family: 'Newsreader', Georgia, serif; font-size: 18px; font-weight: 500; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; font-size: 13px; font-weight: 500; border-radius: 8px; cursor: pointer; border: none; }
+        .btn-primary { background: #dc2626; color: white; }
+        .btn-primary:hover { background: #b91c1c; }
+        
+        .article-header { padding: 64px 24px 32px; text-align: center; max-width: 800px; margin: 0 auto; }
+        .article-meta { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; font-size: 14px; }
+        .article-category { color: #dc2626; font-weight: 600; }
+        .article-date { color: #666; }
+        .article-title { font-family: 'Newsreader', Georgia, serif; font-size: 42px; line-height: 1.2; margin-bottom: 24px; }
+        @media (max-width: 640px) { .article-title { font-size: 28px; } }
+        
+        .article-hero { max-width: 1000px; margin: 0 auto 48px; padding: 0 24px; }
+        .article-hero-image { aspect-ratio: 16/9; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .article-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+        .article-hero-image svg { width: 120px; height: 120px; opacity: 0.9; }
+        
+        .article-content { max-width: 720px; margin: 0 auto; padding: 0 24px 64px; }
+        .article-content h2 { font-family: 'Newsreader', Georgia, serif; font-size: 28px; margin: 48px 0 16px; }
+        .article-content h3 { font-family: 'Newsreader', Georgia, serif; font-size: 22px; margin: 32px 0 12px; }
+        .article-content p { font-size: 17px; line-height: 1.8; margin-bottom: 20px; color: #333; }
+        .article-content ul { list-style: disc; padding-left: 24px; margin-bottom: 20px; }
+        .article-content li { font-size: 17px; line-height: 1.8; margin-bottom: 8px; color: #333; }
+        
+        .image-block { margin: 40px 0; }
+        .image-block img { border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .image-caption { font-size: 14px; color: #666; text-align: center; margin-top: 12px; font-style: italic; }
+        
+        .video-block { margin: 40px 0; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; }
+        .video-block iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; }
+        .video-caption { font-size: 14px; color: #666; text-align: center; margin-top: 12px; font-style: italic; }
+        
+        .info-box { background: #f8fafc; border-left: 4px solid #dc2626; padding: 24px; margin: 32px 0; border-radius: 0 8px 8px 0; }
+        .info-box h4 { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111; }
+        .info-box p { font-size: 15px; margin-bottom: 0; }
+        
+        .references { background: #fafafa; padding: 32px; border-radius: 12px; margin-top: 48px; }
+        .references h3 { font-family: 'Newsreader', Georgia, serif; font-size: 22px; margin-bottom: 20px; }
+        .references ol { padding-left: 24px; }
+        .references li { font-size: 15px; margin-bottom: 12px; color: #555; }
+        .references a { color: #dc2626; text-decoration: underline; }
+        
+        .site-footer { background: #fafafa; border-top: 1px solid #e5e5e5; padding: 48px 0 24px; }
+        .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+        @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+        .footer-description { font-size: 14px; color: #666; max-width: 280px; margin-top: 12px; }
+        .footer-links h4 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { font-size: 14px; color: #666; }
+        .footer-links a:hover { color: #111; }
+        .footer-bottom { padding-top: 24px; border-top: 1px solid #e5e5e5; text-align: center; }
+        .footer-bottom p { font-size: 13px; color: #888; }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-container">
+            <nav class="main-nav">
+                <a href="/" class="brand">
+                    <svg class="brand-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="48" height="48" rx="8" fill="#dc2626"/>
+                        <path d="M14 12h20v4H14v-4zm0 10h20v4H14v-4zm0 10h14v4H14v-4z" fill="white"/>
+                    </svg>
+                    <span>Paper Trail</span>
+                </a>
+                <div class="nav-center">
+                    <a href="/blog/" class="nav-blog-title">The Paper Trail</a>
+                </div>
+                <div class="nav-right">
+                    <a href="/blog/#newsletter" class="btn btn-primary">Subscribe</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <header class="article-header">
+            <div class="article-meta">
+                <span class="article-category">Startups</span>
+                <span class="article-date">March 22, 2026</span>
+            </div>
+            <h1 class="article-title">The Complete Guide to Startup Funding in New Zealand</h1>
+        </header>
+        
+        <div class="article-hero">
+            <div class="article-hero-image">
+                <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=1200&q=80" alt="Startup funding concept with financial charts and growth metrics">
+            </div>
+        </div>
+        
+        <article class="article-content">
+            <p>Raising money for a startup in New Zealand is different from Silicon Valley. The checks are smaller, the process is more relationship-driven, and the expectations are more realistic. But that doesn't mean it's impossible—in fact, New Zealand's startup ecosystem has evolved into a sophisticated environment with unique advantages for founders who understand the landscape.</p>
+            
+            <p>In this comprehensive guide, we'll explore every funding option available to New Zealand startups in 2026, from government grants and angel investment to venture capital and alternative funding methods. Whether you're building your first prototype or scaling to international markets, this guide will help you navigate the funding journey with confidence.</p>
+
+            <div class="video-block">
+                <iframe src="https://www.youtube.com/embed/sibykwH8xvQ" title="New Zealand Startup Ecosystem Overview" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <p class="video-caption">Video: An overview of New Zealand's thriving startup ecosystem and funding landscape</p>
+            
+            <h2>The NZ Funding Landscape in 2026</h2>
+            <p>New Zealand's startup ecosystem has matured significantly over the past decade. We now have active angel networks, government grants that actually work, and a growing number of local VCs writing meaningful checks. According to the latest NZ Startup Investment Report, total investment in Kiwi startups reached $380 million in 2025, representing a 15% increase from the previous year.</p>
+            
+            <p>However, it's still a small market—there are perhaps 50 serious tech investors in the entire country who write checks over $100,000. This concentration means you need to be strategic in your approach. You can't spray-and-pray your pitch deck to hundreds of investors like you might in San Francisco or London. Every investor relationship matters deeply, and reputation travels fast in this tight-knit community.</p>
+            
+            <p>The upside? New Zealand investors are often more patient and understanding of the unique challenges facing Kiwi founders. They understand the tyranny of distance, the smaller local market, and the need to think globally from day one. Many are former entrepreneurs themselves who genuinely want to see the next generation succeed.</p>
+
+            <div class="image-block">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1000&q=80" alt="Financial data visualization showing startup growth trends">
+                <p class="image-caption">New Zealand startup investment has grown steadily, with 2025 seeing record levels of angel and venture capital funding</p>
+            </div>
+            
+            <h2>Stage 1: Grants and Non-Dilutive Funding</h2>
+            <p>Before giving away equity in your company, explore the numerous grant programs available to New Zealand startups. Non-dilutive funding—money that doesn't require you to give up ownership—is the holy grail for early-stage founders.</p>
+            
+            <h3>Callaghan Innovation R&D Grants</h3>
+            <p>Callaghan Innovation is the crown jewel of New Zealand's innovation support system. Their Growth Grant provides up to $1 million in matched funding over three years for companies investing in research and development. For early-stage companies, the Project Grant offers up to $150,000 for specific R&D projects.</p>
+            
+            <p>We received $150,000 in R&D funding that didn't dilute our equity whatsoever. The application process is bureaucratic but straightforward—hire a professional grant writer if you can afford it. The key is framing your work as "innovation" rather than just "app development." Callaghan wants to see technical risk, novel solutions, and potential for significant economic impact.</p>
+            
+            <p>The approval process typically takes 8-12 weeks, and you'll need to provide detailed project plans, budgets, and milestones. But once approved, the funding is reliable and the reporting requirements are reasonable. Many successful Kiwi startups including Rocket Lab, Xero, and Lanzatech benefited from Callaghan support in their early days.</p>
+
+            <h3>Provincial Growth Fund (PGF)</h3>
+            <p>The PGF supports regional economic development and can provide significant funding for startups creating jobs outside major centers. If you're building in regions like Waikato, Bay of Plenty, or the South Island, the PGF should be on your radar. Projects can receive anywhere from $100,000 to several million dollars depending on scale and impact.</p>
+
+            <h3>Regional Business Partners Network</h3>
+            <p>Many regions offer co-funding for business development through the Regional Business Partners network. Auckland has the most programs, but don't overlook smaller regions—they're often less competitive and more generous with their support. These programs can fund everything from market research and prototyping to certification and export development.</p>
+            
+            <p>The capability development voucher program is particularly valuable, offering up to $5,000 in matched funding for training and advisory services. We've used these vouchers for everything from UX design courses to financial modeling workshops.</p>
+
+            <div class="image-block">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1000&q=80" alt="Business meeting with documents and financial planning">
+                <p class="image-caption">Preparing comprehensive documentation is crucial for successful grant applications and investor presentations</p>
+            </div>
+            
+            <h2>Stage 2: Angel Investment</h2>
+            <p>Angel investors are typically high-net-worth individuals who invest their own money in early-stage companies. In New Zealand, angels are different from their US counterparts in several important ways. They invest smaller amounts—typically $25,000 to $100,000 per investment—but they bring deep industry expertise and genuine mentorship. Many are former entrepreneurs who genuinely want to give back to the ecosystem.</p>
+            
+            <h3>Major Angel Networks in New Zealand</h3>
+            
+            <p><strong>Auckland Angel Investors (AAI)</strong> is the largest and most active angel network in the country. They run monthly pitch events where selected founders present to their membership of over 100 accredited investors. The process is competitive—you'll need warm introductions and a polished pitch to get on stage—but successful companies often raise $300,000 to $800,000 from AAI members.</p>
+            
+            <p><strong>Icehouse Ventures</strong> operates a structured angel program that combines investment with education and mentoring. Their Flux accelerator program has supported over 200 companies since 2013, and their investor network includes some of New Zealand's most successful tech entrepreneurs. Icehouse typically invests $100,000 to $500,000 in seed-stage companies.</p>
+            
+            <p><strong>Enterprise Angels</strong>, based in Hamilton but investing nationwide, focuses on high-growth technology companies. They're particularly active in agtech, cleantech, and software-as-a-service businesses. Their network includes over 200 investors and they've deployed more than $100 million into Kiwi startups.</p>
+            
+            <p><strong>Angel HQ</strong> in Wellington is another significant player, with a focus on the lower North Island but investments throughout the country. They're known for thorough due diligence and active involvement in portfolio companies.</p>
+
+            <div class="info-box">
+                <h4>Pro Tip: Building Angel Relationships</h4>
+                <p>Don't wait until you need money to start building relationships with angels. Attend pitch nights, join entrepreneur meetups, and connect on LinkedIn months before you're ready to raise. New Zealand angels invest in people first, ideas second.</p>
+            </div>
+            
+            <h3>Our Angel Round Experience</h3>
+            <p>We raised $400,000 from four angels to build our initial product and achieve product-market fit. The process took four months from first conversation to money in the bank—much longer than we expected based on American startup stories we'd read.</p>
+            
+            <p>Each investor wanted multiple meetings, reference checks on our backgrounds, and to see early customer traction before committing. They weren't just evaluating our idea; they were evaluating us as founders. Could we execute? Did we have the grit to survive the inevitable setbacks? Were we coachable yet confident?</p>
+            
+            <p>The key lesson we learned: NZ angels invest in people more than ideas. They need to trust you before they'll trust your business. This means being transparent about your weaknesses, showing self-awareness about what you don't know, and demonstrating a genuine commitment to building something meaningful.</p>
+            
+            <p>Our angels have since opened doors to customers, introduced us to follow-on investors, and provided crucial advice during difficult decisions. The relationship aspect of angel investing in New Zealand cannot be overstated—these aren't passive cheque-writers; they're partners in your journey.</p>
+
+            <div class="video-block">
+                <iframe src="https://www.youtube.com/embed/0Vi5pWi3xQw" title="How to Pitch to Angel Investors" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <p class="video-caption">Video: Essential tips for pitching to angel investors from experienced New Zealand founders</p>
+            
+            <h2>Stage 3: Venture Capital</h2>
+            <p>Venture capital becomes relevant when you've achieved product-market fit and need significant capital to scale—typically $500,000 to $5 million or more. The local VC landscape has improved dramatically over the past five years, with several institutional funds now actively investing in New Zealand startups.</p>
+            
+            <h3>Major VC Firms in New Zealand</h3>
+            
+            <p><strong>Icehouse Ventures</strong> is the largest and most active venture capital firm in New Zealand. With over $200 million under management across multiple funds, they invest from seed through Series B. They're particularly active in SaaS, marketplaces, and climate technology. Icehouse led the Series A rounds for companies like Sharesies, Halter, and Figure.NZ.</p>
+            
+            <p><strong>Movac</strong> is New Zealand's longest-running venture capital firm, having invested in technology companies since 1998. They manage over $300 million and take a more conservative, fundamentals-focused approach than some newer funds. Movac looks for proven business models, strong unit economics, and clear paths to profitability. Their portfolio includes Trade Me, Xero, and Vend.</p>
+            
+            <p><strong>GD1 (Global from Day One)</strong> is a newer fund that focuses on supporting New Zealand companies to expand internationally from their earliest stages. They typically invest $500,000 to $3 million and provide extensive support with US market entry, including connections to customers, partners, and later-stage investors.</p>
+            
+            <p><strong>Phase One Ventures</strong> specializes in deep technology and science-based startups, particularly those spun out of universities and Crown Research Institutes. They work closely with Callaghan Innovation and can leverage significant government co-investment for technical development.</p>
+            
+            <p><strong>Punakaiki Fund</strong> is a publicly-listed venture capital fund that invests in high-growth New Zealand technology companies. They typically participate in later seed rounds and Series A investments, often alongside other VCs.</p>
+            
+            <h3>Understanding NZ VC Expectations</h3>
+            <p>Expectations from New Zealand VCs are generally more reasonable than their US counterparts, but that doesn't mean they're easy to satisfy. A $1 million seed round is considered substantial here, and growth metrics matter—but sustainable unit economics and capital efficiency often matter more than pure growth rates.</p>
+            
+            <p>New Zealand VCs understand that Kiwi companies face unique challenges: smaller domestic markets, distance from major customers, and currency fluctuations. They look for founders who have thought deeply about these challenges and have credible strategies to address them.</p>
+            
+            <p>Most local VCs will expect board representation and significant governance involvement. They're not passive investors—they'll challenge your strategy, help with hiring, and push you to think bigger. This can be invaluable, but it's important to choose investors whose vision aligns with yours.</p>
+
+            <div class="image-block">
+                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1000&q=80" alt="Modern office collaboration and team meeting">
+                <p class="image-caption">Successful VC relationships are partnerships—expect active involvement in strategy, hiring, and governance</p>
+            </div>
+
+            <h2>Alternative Funding Options</h2>
+            <p>While grants, angels, and VCs get the most attention, several alternative funding methods deserve consideration depending on your business model and goals.</p>
+
+            <h3>Revenue-Based Financing</h3>
+            <p>Companies like <strong>Clarke Capital</strong> and <strong>Future Capital</strong> offer revenue-based financing to SaaS and recurring revenue businesses. Instead of giving up equity, you commit a percentage of monthly revenue until a cap is reached. This can be attractive for profitable or fast-growing companies that want to avoid dilution.</p>
+
+            <h3>Crowdfunding</h3>
+            <p>Equity crowdfunding through platforms like <strong>Sharesies</strong> and <strong>Snowball Effect</strong> has become increasingly popular. These platforms allow you to raise capital from hundreds or thousands of small investors, often while building a community of advocates. Snowball Effect has helped companies raise over $100 million since launching in 2014.</p>
+            
+            <p>Crowdfunding works particularly well for consumer-facing businesses with passionate user bases. It requires significant marketing effort—you need to drive your own traffic to the campaign—but can be an excellent way to combine fundraising with customer acquisition.</p>
+
+            <h3>Strategic Corporate Investment</h3>
+            <p>Many large New Zealand corporates have established venture arms or strategic investment programs. Contact Energy, Fonterra, and Air New Zealand have all made strategic investments in startups relevant to their industries. These investors bring industry expertise and potential customer relationships, though they may also have strategic agendas that don't always align with founder interests.</p>
+            
+            <h2>The Bootstrap Alternative</h2>
+            <p>We chose not to take VC money for Paper Trail, and it was the right call for us. Customer revenue funded our growth from day one. It was slower than the venture-backed path, but we maintained control, built the product we wanted without external pressure, and retained full ownership of our destiny.</p>
+            
+            <p>Bootstrapping isn't for everyone. It requires discipline, patience, and a business model that can generate revenue early. You'll trade growth speed for autonomy. But if you're building a lifestyle business, a niche product, or simply aren't excited about the venture capital treadmill, seriously consider whether you need external funding at all.</p>
+            
+            <p>Some of New Zealand's most successful companies—including Xero in its early years, and more recently companies like Timely and Hnry—took hybrid approaches, bootstrapping to significant scale before taking external capital on their own terms.</p>
+
+            <div class="info-box">
+                <h4>Key Consideration: The Venture Treadmill</h4>
+                <p>Once you take VC funding, you're on a path toward an exit—acquisition or IPO. The timeline and growth expectations may not match your personal goals. Be honest with yourself about what you want from your company before pursuing venture capital.</p>
+            </div>
+            
+            <h2>Practical Advice for Kiwi Founders</h2>
+            <p>After going through this process ourselves and talking to dozens of other founders, here's our distilled advice for navigating the New Zealand funding landscape:</p>
+            
+            <p><strong>Start with grants.</strong> They're free money that validates your concept without dilution. Use that validation and runway to build traction and attract angels. Many successful founders raise multiple rounds of grant funding before ever touching equity financing.</p>
+            
+            <p><strong>Only consider VC if you genuinely need growth capital</strong> and are willing to give up control and work toward an exit timeline. Venture capital is a tool for specific types of businesses—high-growth, scalable, with large market opportunities. Don't force your business into the VC box if it doesn't fit.</p>
+            
+            <p><strong>Remember that reputation follows you.</strong> New Zealand investors talk to each other constantly. A promising founder who treats angels poorly will find doors closed when they try to raise their Series A. Be honest in your communications, respect investors' time, and follow through on commitments.</p>
+            
+            <p><strong>Build relationships before you need money.</strong> The best time to meet investors is when you don't need their money. Attend startup events, join founder communities, and connect genuinely with people in the ecosystem. When you do decide to raise, you'll have warm relationships to leverage.</p>
+            
+            <p><strong>Think globally from day one.</strong> New Zealand's domestic market is too small for most venture-scale businesses. Investors want to see that you have a credible strategy for expanding into Australia, the US, or other large markets. Your first customers might be Kiwi, but your growth strategy needs international scope.</p>
+            
+            <p><strong>Get your house in order.</strong> Before approaching investors, ensure your legal structure is clean, your IP is protected, and your financial records are organized. New Zealand investors are thorough in due diligence—being unprepared will kill deals regardless of how promising your product is.</p>
+            
+            <p>Funding a startup in New Zealand requires patience, persistence, and relationship-building skills. The checks may be smaller than in Silicon Valley, but the ecosystem is supportive, the investors are experienced, and the successes are just as sweet. Focus on building something people want, treat your investors as partners, and the funding will follow.</p>
+
+            <div class="references">
+                <h3>References</h3>
+                <ol>
+                    <li><a href="https://www.callaghaninnovation.govt.nz/" target="_blank">Callaghan Innovation Official Website</a> — New Zealand's innovation agency providing R&D grants and support services</li>
+                    <li><a href="https://www.nzventureinvestment.org/" target="_blank">New Zealand Venture Investment Fund</a> — Government-backed fund supporting early-stage venture capital</li>
+                    <li><a href="https://www.icehouseventures.co.nz/" target="_blank">Icehouse Ventures</a> — New Zealand's largest venture capital firm and angel network</li>
+                    <li><a href="https://www.movac.co.nz/" target="_blank">Movac</a> — New Zealand's longest-running technology venture capital firm</li>
+                    <li><a href="https://aucklandangels.co.nz/" target="_blank">Auckland Angel Investors</a> — New Zealand's largest angel investor network</li>
+                    <li><a href="https://www.snowballeffect.co.nz/" target="_blank">Snowball Effect</a> — New Zealand's leading equity crowdfunding platform</li>
+                    <li><a href="https://www.enterpriseangels.co.nz/" target="_blank">Enterprise Angels</a> — Waikato-based angel investment network with national reach</li>
+                    <li><a href="https://www.gd1.co/" target="_blank">GD1 (Global from Day One)</a> — Venture capital fund focused on internationally ambitious startups</li>
+                </ol>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="brand">
+                        <svg class="brand-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="48" height="48" rx="8" fill="#dc2626"/>
+                            <path d="M14 12h20v4H14v-4zm0 10h20v4H14v-4zm0 10h14v4H14v-4z" fill="white"/>
+                        </svg>
+                        <span>Paper Trail</span>
+                    </a>
+                    <p class="footer-description">Writing the future of mobile experiences from New Zealand.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="/apps/reel-reviews/">Reel Reviews</a></li>
+                        <li><a href="/apps/coming-soon/">Coming Soon</a></li>
+                        <li><a href="/blog/">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="/contact.html">Contact</a></li>
+                        <li><a href="/privacy-policy.html">Privacy</a></li>
+                        <li><a href="/terms-of-service.html">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="mailto:admin@typewrite.club">Email</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Paper Trail Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
