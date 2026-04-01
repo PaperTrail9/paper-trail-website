@@ -125,17 +125,14 @@
         
         .article-hero-image {
             aspect-ratio: 16/9;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            overflow: hidden;
         }
-        
-        .article-hero-image svg {
-            width: 120px;
-            height: 120px;
-            opacity: 0.9;
+
+        .article-hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         /* Article Content */
@@ -268,12 +265,7 @@
         <!-- Article Hero -->
         <div class="article-hero">
             <div class="article-hero-image">
-                <!-- Inline SVG as placeholder - prevents broken image issues -->
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1">
-                    <rect x="4" y="4" width="16" height="16" rx="2"/>
-                    <path d="M9 9h6v6H9z"/>
-                    <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"/>
-                </svg>
+                <img src="../../assets/blog/tech-post.jpg" alt="React Native vs Flutter development comparison" style="width:100%;height:100%;object-fit:cover;">
             </div>
         </div>
         

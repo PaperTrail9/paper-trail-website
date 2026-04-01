@@ -126,17 +126,14 @@
         
         .article-hero-image {
             aspect-ratio: 16/9;
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            overflow: hidden;
         }
-        
-        .article-hero-image svg {
-            width: 120px;
-            height: 120px;
-            opacity: 0.9;
+
+        .article-hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         /* Article Content - Readable typography */
@@ -267,17 +264,9 @@
             <h1 class="article-title">App Store Optimization: What Actually Works in 2026</h1>
         </header>
         
-        <!-- Hero Image - Gradient with icon placeholder -->
         <div class="article-hero">
             <div class="article-hero-image">
-                <!-- SVG icon placeholder - replace with actual image when available -->
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1">
-                    <rect x="3" y="3" width="18" height="18" rx="2"/>
-                    <path d="M9 3v18"/>
-                    <path d="M15 3v18"/>
-                    <path d="M3 9h18"/>
-                    <path d="M3 15h18"/>
-                </svg>
+                <img src="../../assets/blog/app-dev-post.jpg" alt="App Store Optimization" style="width:100%;height:100%;object-fit:cover;">
             </div>
         </div>
         
