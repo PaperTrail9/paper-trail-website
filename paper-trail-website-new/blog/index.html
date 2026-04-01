@@ -30,11 +30,9 @@
      - Featured post links to: /blog/posts/building-reel-reviews.html
      - Post cards link to their respective individual pages
   
-  4. FIXED IMAGE PLACEHOLDERS:
-     - Using CSS gradient classes instead of inline styles
-     - Gradients provide visual variety while maintaining consistent sizing
-     - When real images are added, replace gradient divs with img tags:
-       <img src="/blog/images/post-slug.jpg" alt="Descriptive text">
+  4. IMAGES:
+     - All post card and featured images now use real images from /assets/blog/
+     - Images referenced as /assets/blog/[image-name].jpg
   
   5. MATCHES HOME PAGE THEME:
      - Uses /blog/blog-v4.css which shares the same color palette:
@@ -149,12 +147,7 @@
                     
                     <!-- Featured Post Image Link -->
                     <a href="/blog/posts/building-reel-reviews.html" class="featured-image" aria-label="Read: Building Reel Reviews">
-                        <!-- 
-                          Gradient placeholder for featured image
-                          Replace with actual image when available:
-                          <img src="/blog/images/building-reel-reviews.jpg" alt="Building Reel Reviews - Featured Image">
-                        -->
-                        <div class="gradient-purple" style="width:100%;height:100%;" aria-hidden="true"></div>
+                        <img src="/assets/blog/featured-post.jpg" alt="Building Reel Reviews - Featured Image" style="width:100%;height:100%;object-fit:cover;">
                     </a>
                     
                     <!-- Featured Post Content -->
@@ -228,8 +221,7 @@
                             
                             <!-- Post Card Image -->
                             <div class="post-card-image">
-                                <!-- Gradient placeholder - replace with actual image -->
-                                <div class="gradient-pink" style="width:100%;height:100%;" aria-hidden="true"></div>
+                                <img src="/assets/blog/tech-post.jpg" alt="React Native vs Flutter" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
                             </div>
                             
                             <div class="post-card-content">
@@ -264,7 +256,7 @@
                         <a href="/blog/posts/day-in-life.html" class="post-card-link">
                             
                             <div class="post-card-image">
-                                <div class="gradient-blue" style="width:100%;height:100%;" aria-hidden="true"></div>
+                                <img src="/assets/blog/behind-post.jpg" alt="A Day in the Life" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
                             </div>
                             
                             <div class="post-card-content">
@@ -295,7 +287,7 @@
                         <a href="/blog/posts/validating-ideas.html" class="post-card-link">
                             
                             <div class="post-card-image">
-                                <div class="gradient-green" style="width:100%;height:100%;" aria-hidden="true"></div>
+                                <img src="/assets/blog/startup-post.jpg" alt="Validating Ideas" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
                             </div>
                             
                             <div class="post-card-content">
