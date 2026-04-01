@@ -347,7 +347,69 @@
 
     /**
      * =========================================================================
-     * SECTION 8: FORM VALIDATION HELPERS
+     * SECTION 8: THEME TOGGLE (DARK / LIGHT MODE)
+     * =========================================================================
+     * Allows visitors to switch between light and dark themes.
+     *
+     * HOW IT WORKS:
+     * 1. On page load, reads saved preference from localStorage.
+     * 2. If no saved preference, falls back to the OS prefers-color-scheme.
+     * 3. Sets data-theme="dark" on <html> to activate dark CSS variables.
+     * 4. Clicking the .theme-toggle button flips the theme and saves to localStorage.
+     *
+     * USAGE IN HTML:
+     * <button class="theme-toggle" aria-label="Toggle dark mode">
+     *   <svg class="icon-moon">...</svg>
+     *   <svg class="icon-sun">...</svg>
+     * </button>
+     */
+    function initTheme() {
+        const STORAGE_KEY = 'pt-theme';
+
+        /**
+         * Apply theme to <html> element and persist choice.
+         * @param {'dark'|'light'} theme
+         */
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) { /* private browsing */ }
+        }
+
+        // Determine initial theme
+        var saved = null;
+        try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) { /* private browsing */ }
+
+        if (saved === 'dark' || saved === 'light') {
+            applyTheme(saved);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            applyTheme('dark');
+        }
+        // else: default light theme (no attribute needed)
+
+        // Wire up every toggle button on the page
+        document.querySelectorAll('.theme-toggle').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var current = document.documentElement.getAttribute('data-theme');
+                applyTheme(current === 'dark' ? 'light' : 'dark');
+            });
+        });
+
+        // Sync with OS preference changes (user changes system theme while page is open)
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+                // Only follow OS if the user hasn't manually chosen
+                try {
+                    if (!localStorage.getItem(STORAGE_KEY)) {
+                        applyTheme(e.matches ? 'dark' : 'light');
+                    }
+                } catch (err) { /* private browsing */ }
+            });
+        }
+    }
+
+    /**
+     * =========================================================================
+     * SECTION 9: FORM VALIDATION HELPERS
      * =========================================================================
      * Basic form validation for forms with data-validate attribute
      * 
@@ -421,6 +483,7 @@
      */
     function onReady() {
         // Initialize all modules
+        initTheme();          // Must be first — avoids FOUC on theme-aware pages
         initMobileNavigation();
         initCurrentYear();
         initSmoothScroll();
@@ -431,6 +494,7 @@
 
         // Log initialization (remove in production if desired)
         console.log('📝 Paper Trail website initialized');
+        console.log('   - Theme toggle: active');
         console.log('   - Mobile navigation: active');
         console.log('   - Smooth scroll: active');
         console.log('   - Scroll animations: active');
