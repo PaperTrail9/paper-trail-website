@@ -409,7 +409,64 @@
 
     /**
      * =========================================================================
-     * SECTION 9: FORM VALIDATION HELPERS
+     * SECTION 9: SEARCH TOGGLE
+     * =========================================================================
+     * Opens/closes the search overlay in the universal header.
+     *
+     * HOW IT WORKS:
+     * 1. Clicking .search-toggle removes the [hidden] attribute on #search-overlay.
+     * 2. The search input receives focus automatically.
+     * 3. Pressing Escape or clicking .search-close hides the overlay again.
+     *
+     * USAGE IN HTML:
+     * <button class="search-toggle" aria-expanded="false" aria-label="Search">…</button>
+     * <div class="search-overlay" id="search-overlay" hidden>
+     *   <form class="search-form" action="/blog/" method="get">
+     *     <input type="search" name="q" class="search-input">
+     *     <button type="submit" class="search-submit">…</button>
+     *     <button type="button" class="search-close">…</button>
+     *   </form>
+     * </div>
+     */
+    function initSearch() {
+        var toggleBtn  = document.querySelector('.search-toggle');
+        var overlay    = document.getElementById('search-overlay');
+        var closeBtn   = overlay && overlay.querySelector('.search-close');
+        var input      = overlay && overlay.querySelector('.search-input');
+
+        if (!toggleBtn || !overlay) return;
+
+        function openSearch() {
+            overlay.removeAttribute('hidden');
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            if (input) { input.value = ''; input.focus(); }
+        }
+
+        function closeSearch() {
+            overlay.setAttribute('hidden', '');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            toggleBtn.focus();
+        }
+
+        toggleBtn.addEventListener('click', function() {
+            var isOpen = !overlay.hasAttribute('hidden');
+            if (isOpen) { closeSearch(); } else { openSearch(); }
+        });
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeSearch);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !overlay.hasAttribute('hidden')) {
+                closeSearch();
+            }
+        });
+    }
+
+    /**
+     * =========================================================================
+     * SECTION 10: FORM VALIDATION HELPERS
      * =========================================================================
      * Basic form validation for forms with data-validate attribute
      * 
@@ -485,6 +542,7 @@
         // Initialize all modules
         initTheme();          // Must be first — avoids FOUC on theme-aware pages
         initMobileNavigation();
+        initSearch();
         initCurrentYear();
         initSmoothScroll();
         initScrollAnimations();
@@ -495,6 +553,7 @@
         // Log initialization (remove in production if desired)
         console.log('📝 Paper Trail website initialized');
         console.log('   - Theme toggle: active');
+        console.log('   - Search: active');
         console.log('   - Mobile navigation: active');
         console.log('   - Smooth scroll: active');
         console.log('   - Scroll animations: active');
