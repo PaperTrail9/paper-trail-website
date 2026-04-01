@@ -31,27 +31,30 @@
 
     <!-- Navigation -->
     <header class="site-header" role="banner">
-        <nav class="main-nav" role="navigation">
-            <a href="/" class="brand" aria-label="Paper Trail Home">
-                <span class="brand-icon">
-                    <img src="../../assets/logo.svg" alt="Paper Trail" width="48" height="48">
-                </span>
-                <span class="brand-text">Paper Trail</span>
-            </a>
-            
-            <ul id="nav-menu" class="nav-links">
-                <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="/blog/" class="nav-link">Blog</a></li>
-                <li><a href="/apps/reel-reviews/" class="nav-link">Reel Reviews</a></li>
-                <li><a href="/contact.html" class="nav-link">Contact</a></li>
-            </ul>
-            
-            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </nav>
+        <div class="header-container">
+            <nav class="main-nav" role="navigation">
+                <a href="/" class="brand" aria-label="Paper Trail Home">
+                    <svg class="brand-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect width="48" height="48" rx="8" fill="#dc2626"/>
+                        <path d="M14 12h20v4H14v-4zm0 10h20v4H14v-4zm0 10h14v4H14v-4z" fill="white"/>
+                    </svg>
+                    <span>Paper Trail</span>
+                </a>
+
+                <ul id="nav-menu" class="nav-links">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/blog/" class="nav-link">Blog</a></li>
+                    <li><a href="/apps/reel-reviews/" class="nav-link">Reel Reviews</a></li>
+                    <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                </ul>
+
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
     </header>
 
     <main id="main-content">
@@ -183,9 +186,10 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="/" class="brand">
-                        <span class="brand-icon">
-                            <img src="../../assets/logo.svg" alt="Paper Trail" width="48" height="48">
-                        </span>
+                        <svg class="footer-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <rect width="48" height="48" rx="8" fill="#dc2626"/>
+                            <path d="M14 12h20v4H14v-4zm0 10h20v4H14v-4zm0 10h14v4H14v-4z" fill="white"/>
+                        </svg>
                         <span>Paper Trail</span>
                     </a>
                     <p class="footer-description">
