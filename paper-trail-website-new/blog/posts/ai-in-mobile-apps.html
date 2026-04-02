@@ -7,9 +7,12 @@
     <title>AI in Mobile Apps: Practical Applications for 2026 | The Paper Trail</title>
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="stylesheet" href="post.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%93%9D</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
 </head>
 <body>
+
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="reading-progress"></div>
 
     <!-- Header -->
     <header class="site-header">
@@ -48,59 +51,163 @@
         </div>
     </header>
 
-    <main>
-        <header class="article-header">
+    <!-- Article Header -->
+    <header class="article-header">
+        <div class="container">
             <div class="article-meta">
                 <span class="article-category">Technology</span>
                 <span class="article-date">March 18, 2026</span>
+                <span class="article-reading-time">5 min read</span>
             </div>
             <h1 class="article-title">AI in Mobile Apps: Practical Applications for 2026</h1>
-        </header>
-        
-        <div class="article-hero">
-            <div class="article-hero-image">
-                <img src="../../assets/blog/app-dev-post.jpg" alt="AI in mobile app development" style="width:100%;height:100%;object-fit:cover;">
+            <p class="article-subtitle">Not every AI feature is worth building. Here's what we actually learned integrating AI into Reel Reviews—and what we'd skip if we were starting over.</p>
+            <div class="article-author">
+                <img src="../../assets/author-avatar.png" alt="Paper Trail Team" class="author-avatar-large">
+                <div class="author-info-large">
+                    <span class="author-name-large">Paper Trail Team</span>
+                    <span class="author-title-large">Founders at Paper Trail</span>
+                </div>
             </div>
         </div>
-        
-        <article class="article-content">
-            <p>AI isn't just hype anymore—it's becoming essential for mobile apps that want to stay competitive. But here's the thing: most AI implementations are over-engineered solutions looking for problems. Let's talk about what's actually working in 2026.</p>
-            
-            <h2>The Reality Check</h2>
-            <p>We've integrated AI into Reel Reviews over the past year, and learned some hard lessons. Not every feature needs machine learning. Sometimes a simple algorithm works better than a neural network, and users can't tell the difference.</p>
-            
-            <p>The key is identifying genuine friction points where AI adds real value. Everything else is just technical debt with a fancy name.</p>
-            
-            <h2>What's Actually Working</h2>
-            
-            <h3>1. Smart Content Moderation</h3>
-            <p>We use AI to flag potentially fake reviews before human moderators see them. It's not perfect—maybe 85% accuracy—but it reduces moderator workload by 70%. The humans handle edge cases and appeals. This hybrid approach works better than either pure AI or pure human moderation.</p>
-            
-            <h3>2. Predictive Search</h3>
-            <p>When users search for fishing spots, our AI suggests locations based on weather patterns, seasonal fish behavior, and historical catch data. It's not magic—just pattern recognition—but it saves users from scrolling through hundreds of irrelevant results.</p>
-            
-            <h3>3. Personalized Notifications</h3>
-            <p>Instead of blasting everyone with the same alerts, we use lightweight on-device ML to learn when each user is most likely to engage. Result: 40% higher open rates, 60% fewer uninstalls due to notification fatigue.</p>
-            
-            <h2>What's Not Worth It (Yet)</h2>
-            <ul>
-                <li>AI-generated content for user-facing features—quality is still too inconsistent</li>
-                <li>Voice interfaces for complex tasks—users prefer tapping for multi-step actions</li>
-                <li>Real-time video analysis—battery drain outweighs benefits for most use cases</li>
-                <li>Predictive text for reviews—users find it creepy, not helpful</li>
-            </ul>
-            
-            <h2>The Implementation Strategy That Works</h2>
-            <p>Start small. Pick one specific problem where AI demonstrably outperforms traditional approaches. Build a minimal viable model. Test with real users. Only then consider expanding.</p>
-            
-            <p>We spent six months on our content moderation AI, iterating based on false positive rates. It wasn't glamorous, but it works. That's the bar: it needs to work, not just impress in demos.</p>
-            
-            <h2>Looking Ahead</h2>
-            <p>On-device AI is getting more capable every month. We're experimenting with running small models locally for privacy-sensitive features. The future isn't cloud-only AI—it's intelligent distribution of workloads between device and server.</p>
-            
-            <p>The apps that win in 2026 won't be the ones with the most AI features. They'll be the ones that use AI thoughtfully, where it genuinely improves the user experience without adding complexity or compromising privacy.</p>
-        </article>
-    </main>
+    </header>
+
+    <!-- Article Hero Image -->
+    <figure class="article-hero">
+        <img src="../../assets/blog/app-dev-post.jpg" alt="AI in mobile app development">
+        <figcaption>Integrating AI thoughtfully into Reel Reviews—where it adds real value, not just complexity</figcaption>
+    </figure>
+
+    <!-- Article Content -->
+    <article>
+        <div class="container">
+            <div class="article-layout">
+
+                <!-- Table of Contents (Sticky Sidebar) -->
+                <aside class="toc-sidebar">
+                    <nav class="toc-nav">
+                        <h3>Contents</h3>
+                        <ul>
+                            <li><a href="#reality-check">The Reality Check</a></li>
+                            <li><a href="#whats-working">What's Actually Working</a></li>
+                            <li><a href="#not-worth-it">What's Not Worth It (Yet)</a></li>
+                            <li><a href="#implementation-strategy">The Implementation Strategy</a></li>
+                            <li><a href="#looking-ahead">Looking Ahead</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="article-body">
+                    <p class="article-lead">AI isn't just hype anymore—it's becoming essential for mobile apps that want to stay competitive. But here's the thing: most AI implementations are over-engineered solutions looking for problems. Let's talk about what's actually working in 2026.</p>
+
+                    <h2 id="reality-check">The Reality Check</h2>
+                    <p>We've integrated AI into Reel Reviews over the past year, and learned some hard lessons. Not every feature needs machine learning. Sometimes a simple algorithm works better than a neural network, and users can't tell the difference.</p>
+                    <p>The key is identifying genuine friction points where AI adds real value. Everything else is just technical debt with a fancy name.</p>
+
+                    <h2 id="whats-working">What's Actually Working</h2>
+
+                    <h3>1. Smart Content Moderation</h3>
+                    <p>We use AI to flag potentially fake reviews before human moderators see them. It's not perfect—maybe 85% accuracy—but it reduces moderator workload by 70%. The humans handle edge cases and appeals. This hybrid approach works better than either pure AI or pure human moderation.</p>
+
+                    <h3>2. Predictive Search</h3>
+                    <p>When users search for fishing spots, our AI suggests locations based on weather patterns, seasonal fish behavior, and historical catch data. It's not magic—just pattern recognition—but it saves users from scrolling through hundreds of irrelevant results.</p>
+
+                    <h3>3. Personalized Notifications</h3>
+                    <p>Instead of blasting everyone with the same alerts, we use lightweight on-device ML to learn when each user is most likely to engage. Result: 40% higher open rates, 60% fewer uninstalls due to notification fatigue.</p>
+
+                    <h2 id="not-worth-it">What's Not Worth It (Yet)</h2>
+                    <ul>
+                        <li>AI-generated content for user-facing features—quality is still too inconsistent</li>
+                        <li>Voice interfaces for complex tasks—users prefer tapping for multi-step actions</li>
+                        <li>Real-time video analysis—battery drain outweighs benefits for most use cases</li>
+                        <li>Predictive text for reviews—users find it creepy, not helpful</li>
+                    </ul>
+
+                    <h2 id="implementation-strategy">The Implementation Strategy That Works</h2>
+                    <p>Start small. Pick one specific problem where AI demonstrably outperforms traditional approaches. Build a minimal viable model. Test with real users. Only then consider expanding.</p>
+                    <p>We spent six months on our content moderation AI, iterating based on false positive rates. It wasn't glamorous, but it works. That's the bar: it needs to work, not just impress in demos.</p>
+
+                    <h2 id="looking-ahead">Looking Ahead</h2>
+                    <p>On-device AI is getting more capable every month. We're experimenting with running small models locally for privacy-sensitive features. The future isn't cloud-only AI—it's intelligent distribution of workloads between device and server.</p>
+                    <p>The apps that win in 2026 won't be the ones with the most AI features. They'll be the ones that use AI thoughtfully, where it genuinely improves the user experience without adding complexity or compromising privacy.</p>
+
+                    <hr class="article-divider">
+
+                    <!-- Article Footer -->
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="tag">AI</span>
+                            <span class="tag">Mobile</span>
+                            <span class="tag">Engineering</span>
+                            <span class="tag">Product</span>
+                        </div>
+                        <div class="article-share">
+                            <span>Share this article:</span>
+                            <a href="#" class="share-btn" aria-label="Share on Twitter">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            </a>
+                            <a href="#" class="share-btn" aria-label="Share on LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            </a>
+                            <a href="#" class="share-btn" aria-label="Copy link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Newsletter Section -->
+    <section class="post-newsletter" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box">
+                <h3>Enjoyed this article?</h3>
+                <p>Get our best writing on building apps, shipped weekly.</p>
+                <form class="newsletter-form-inline">
+                    <input type="email" placeholder="your@email.com" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Posts -->
+    <section class="related-posts">
+        <div class="container">
+            <h2 class="section-title">More from The Paper Trail</h2>
+            <div class="posts-grid related-grid">
+                <article class="post-card">
+                    <a href="building-reel-reviews.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/featured-post.jpg" alt="Building Reel Reviews" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Product</span><span class="post-date">Mar 15, 2026</span></div>
+                            <h3 class="post-card-title">Building Reel Reviews: The UX of Negative Reviews</h3>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="react-native-vs-flutter.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/tech-post.jpg" alt="React Native vs Flutter" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Engineering</span><span class="post-date">Mar 12, 2026</span></div>
+                            <h3 class="post-card-title">React Native vs Flutter: A Developer's Perspective</h3>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="app-store-optimization.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/app-dev-post.jpg" alt="App Store Optimization" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Engineering</span><span class="post-date">Feb 25, 2026</span></div>
+                            <h3 class="post-card-title">App Store Optimization: What Actually Works in 2026</h3>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
 
     <footer class="site-footer">
         <div class="container">

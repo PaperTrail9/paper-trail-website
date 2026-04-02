@@ -7,9 +7,12 @@
     <title>How We Validated Reel Reviews Before Writing Code | The Paper Trail</title>
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="stylesheet" href="post.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%93%9D</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
 </head>
 <body>
+
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="reading-progress"></div>
 
     <!-- Header -->
     <header class="site-header">
@@ -48,49 +51,154 @@
         </div>
     </header>
 
-    <main>
-        <header class="article-header">
+    <!-- Article Header -->
+    <header class="article-header">
+        <div class="container">
             <div class="article-meta">
                 <span class="article-category">Product</span>
                 <span class="article-date">March 1, 2026</span>
+                <span class="article-reading-time">4 min read</span>
             </div>
             <h1 class="article-title">How We Validated Reel Reviews Before Writing Code</h1>
-        </header>
-        
-        <div class="article-hero">
-            <div class="article-hero-image">
-                <img src="../../assets/blog/startup-post.jpg" alt="Validating startup ideas before writing code" style="width:100%;height:100%;object-fit:cover;">
+            <p class="article-subtitle">The biggest mistake founders make is building something nobody wants. Here's the exact process we used to prove demand before writing a single line of code.</p>
+            <div class="article-author">
+                <img src="../../assets/author-avatar.png" alt="Paper Trail Team" class="author-avatar-large">
+                <div class="author-info-large">
+                    <span class="author-name-large">Paper Trail Team</span>
+                    <span class="author-title-large">Founders at Paper Trail</span>
+                </div>
             </div>
         </div>
-        
-        <article class="article-content">
-            <p>The biggest mistake founders make is building something nobody wants. We were determined not to be that founder. Here's how we validated Reel Reviews before writing a single line of code.</p>
-            
-            <h2>Step 1: Customer Interviews</h2>
-            <p>We interviewed 50 anglers over two weeks. Not surveys—actual conversations. We asked about their pain points, how they currently find fishing spots, and what frustrates them about existing solutions.</p>
-            
-            <h2>Step 2: The Landing Page Test</h2>
-            <p>Before building the app, we built a simple landing page describing the concept. We ran Facebook ads targeting fishermen in New Zealand. The goal wasn't to get signups—it was to see if people would click.</p>
-            
-            <p>The results: 12% click-through rate. That's incredibly high for a cold audience. We had validation.</p>
-            
-            <h2>Step 3: The Concierge MVP</h2>
-            <p>We manually matched 20 beta testers with fishing spots based on their preferences. No app, just emails and phone calls. We learned more in those two weeks than we would have in six months of guessing.</p>
-            
-            <h2>What We Learned</h2>
-            <ul>
-                <li>People don't trust 5-star reviews—they want to know what went wrong</li>
-                <li>Location matters more than anything else</li>
-                <li>Photos are non-negotiable</li>
-                <li>Timing (season, time of day) is critical information</li>
-            </ul>
-            
-            <h2>The Result</h2>
-            <p>When we finally launched, we had 200 people on the waitlist who had already validated the concept. Our first month retention was 65%—well above industry average.</p>
-            
-            <p>The lesson: Talk to customers before you build. It's uncomfortable, but it's the difference between success and failure.</p>
-        </article>
-    </main>
+    </header>
+
+    <!-- Article Hero Image -->
+    <figure class="article-hero">
+        <img src="../../assets/blog/startup-post.jpg" alt="Validating startup ideas before writing code">
+        <figcaption>Our validation journey—50 customer interviews, a landing page test, and a concierge MVP before a single line of code</figcaption>
+    </figure>
+
+    <!-- Article Content -->
+    <article>
+        <div class="container">
+            <div class="article-layout">
+
+                <!-- Table of Contents (Sticky Sidebar) -->
+                <aside class="toc-sidebar">
+                    <nav class="toc-nav">
+                        <h3>Contents</h3>
+                        <ul>
+                            <li><a href="#customer-interviews">Step 1: Customer Interviews</a></li>
+                            <li><a href="#landing-page-test">Step 2: The Landing Page Test</a></li>
+                            <li><a href="#concierge-mvp">Step 3: The Concierge MVP</a></li>
+                            <li><a href="#what-we-learned">What We Learned</a></li>
+                            <li><a href="#the-result">The Result</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="article-body">
+                    <p class="article-lead">The biggest mistake founders make is building something nobody wants. We were determined not to be that founder. Here's how we validated Reel Reviews before writing a single line of code.</p>
+
+                    <h2 id="customer-interviews">Step 1: Customer Interviews</h2>
+                    <p>We interviewed 50 anglers over two weeks. Not surveys—actual conversations. We asked about their pain points, how they currently find fishing spots, and what frustrates them about existing solutions.</p>
+
+                    <h2 id="landing-page-test">Step 2: The Landing Page Test</h2>
+                    <p>Before building the app, we built a simple landing page describing the concept. We ran Facebook ads targeting fishermen in New Zealand. The goal wasn't to get signups—it was to see if people would click.</p>
+                    <p>The results: 12% click-through rate. That's incredibly high for a cold audience. We had validation.</p>
+
+                    <h2 id="concierge-mvp">Step 3: The Concierge MVP</h2>
+                    <p>We manually matched 20 beta testers with fishing spots based on their preferences. No app, just emails and phone calls. We learned more in those two weeks than we would have in six months of guessing.</p>
+
+                    <h2 id="what-we-learned">What We Learned</h2>
+                    <ul>
+                        <li>People don't trust 5-star reviews—they want to know what went wrong</li>
+                        <li>Location matters more than anything else</li>
+                        <li>Photos are non-negotiable</li>
+                        <li>Timing (season, time of day) is critical information</li>
+                    </ul>
+
+                    <h2 id="the-result">The Result</h2>
+                    <p>When we finally launched, we had 200 people on the waitlist who had already validated the concept. Our first month retention was 65%—well above industry average.</p>
+                    <p>The lesson: Talk to customers before you build. It's uncomfortable, but it's the difference between success and failure.</p>
+
+                    <hr class="article-divider">
+
+                    <!-- Article Footer -->
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="tag">Product</span>
+                            <span class="tag">Validation</span>
+                            <span class="tag">Startups</span>
+                            <span class="tag">Customer Development</span>
+                        </div>
+                        <div class="article-share">
+                            <span>Share this article:</span>
+                            <a href="#" class="share-btn" aria-label="Share on Twitter">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            </a>
+                            <a href="#" class="share-btn" aria-label="Share on LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            </a>
+                            <a href="#" class="share-btn" aria-label="Copy link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Newsletter Section -->
+    <section class="post-newsletter" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box">
+                <h3>Enjoyed this article?</h3>
+                <p>Get our best writing on building apps, shipped weekly.</p>
+                <form class="newsletter-form-inline">
+                    <input type="email" placeholder="your@email.com" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Posts -->
+    <section class="related-posts">
+        <div class="container">
+            <h2 class="section-title">More from The Paper Trail</h2>
+            <div class="posts-grid related-grid">
+                <article class="post-card">
+                    <a href="building-reel-reviews.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/featured-post.jpg" alt="Building Reel Reviews" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Product</span><span class="post-date">Mar 15, 2026</span></div>
+                            <h3 class="post-card-title">Building Reel Reviews: The UX of Negative Reviews</h3>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="startup-funding-nz.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/startup-post-2.jpg" alt="Startup Funding NZ" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Startups</span><span class="post-date">Mar 22, 2026</span></div>
+                            <h3 class="post-card-title">The Complete Guide to Startup Funding in New Zealand</h3>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="customer-story.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/featured-post.jpg" alt="Customer Story" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Community</span><span class="post-date">Mar 5, 2026</span></div>
+                            <h3 class="post-card-title">From Skeptic to Super-User: John's Story</h3>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
 
     <footer class="site-footer">
         <div class="container">

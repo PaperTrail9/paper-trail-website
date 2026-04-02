@@ -7,9 +7,12 @@
     <title>Customer Story: The Big Catch | The Paper Trail</title>
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="stylesheet" href="post.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%93%9D</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
 </head>
 <body>
+
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="reading-progress"></div>
 
     <!-- Header -->
     <header class="site-header">
@@ -48,56 +51,157 @@
         </div>
     </header>
 
-    <main>
-        <header class="article-header">
+    <!-- Article Header -->
+    <header class="article-header">
+        <div class="container">
             <div class="article-meta">
                 <span class="article-category">Customers</span>
                 <span class="article-date">March 5, 2026</span>
+                <span class="article-reading-time">4 min read</span>
             </div>
             <h1 class="article-title">Customer Story: The Big Catch</h1>
-        </header>
-        
-        <div class="article-hero">
-            <div class="article-hero-image">
-                <img src="../../assets/blog/behind-post.jpg" alt="Customer story" style="width:100%;height:100%;object-fit:cover;">
+            <p class="article-subtitle">John had been fishing the same spots for 20 years. Then he found Reel Reviews—and discovered that honest negative reviews are worth more than five-star praise.</p>
+            <div class="article-author">
+                <img src="../../assets/author-avatar.png" alt="Paper Trail Team" class="author-avatar-large">
+                <div class="author-info-large">
+                    <span class="author-name-large">Paper Trail Team</span>
+                    <span class="author-title-large">Founders at Paper Trail</span>
+                </div>
             </div>
         </div>
-        
-        <article class="article-content">
-            <p>John had been fishing the same spots for 20 years. Then he found Reel Reviews, and everything changed.</p>
-            
-            <h2>The Skeptic</h2>
-            <p>"I don't trust apps," John told us when we first met him at the Auckland Boat Show. "They're all written by people who don't actually fish."</p>
-            
-            <p>But something about Reel Reviews caught his attention. Maybe it was the negative reviews—honest complaints from real anglers about what went wrong. Or maybe it was just curiosity.</p>
-            
-            <h2>The Discovery</h2>
-            <p>John downloaded the app on a Tuesday. By Thursday, he'd found a spot he'd never heard of—a small bay on Waiheke Island with terrible reviews.</p>
-            
-            <blockquote>
-                "The reviews said the fish weren't biting, the wind was bad, and the rocks were slippery. But they also said the snapper were huge when conditions were right. I checked the weather forecast and saw a window."
-            </blockquote>
-            
-            <h2>The Trip</h2>
-            <p>John drove to the ferry, crossed to Waiheke, and hiked down to the bay. It was exactly as described—rocky, windy, and completely empty. Perfect.</p>
-            
-            <p>He cast his line at 6 AM. By 8 AM, he'd caught three snapper, the biggest weighing 8 pounds. His personal best.</p>
-            
-            <h2>The Review</h2>
-            <p>John posted his first review that evening. Five stars? No. He gave it three stars—honest about the difficult access and weather sensitivity. But he also noted the fish size and recommended the early morning window.</p>
-            
-            <p>"That's the thing about Reel Reviews," he told us later. "It's not about finding perfect spots. It's about finding the right spot for the right day. The negative reviews tell you more than the positive ones ever could."</p>
-            
-            <h2>The Result</h2>
-            <p>John has been using Reel Reviews for six months now. He's discovered four new spots, avoided three overfished areas, and caught more fish than ever.</p>
-            
-            <p>He's also become one of our most active reviewers, posting honest, detailed reports that help other anglers make informed decisions.</p>
-            
-            <blockquote>
-                "I was skeptical. Now I tell every fisherman I know to download it. Just don't tell them about my spots."
-            </blockquote>
-        </article>
-    </main>
+    </header>
+
+    <!-- Article Hero Image -->
+    <figure class="article-hero">
+        <img src="../../assets/blog/behind-post.jpg" alt="Customer story - fishing in New Zealand">
+        <figcaption>Reel Reviews helped John find a hidden Waiheke Island spot he'd never have discovered on his own</figcaption>
+    </figure>
+
+    <!-- Article Content -->
+    <article>
+        <div class="container">
+            <div class="article-layout">
+
+                <!-- Table of Contents (Sticky Sidebar) -->
+                <aside class="toc-sidebar">
+                    <nav class="toc-nav">
+                        <h3>Contents</h3>
+                        <ul>
+                            <li><a href="#the-skeptic">The Skeptic</a></li>
+                            <li><a href="#the-discovery">The Discovery</a></li>
+                            <li><a href="#the-trip">The Trip</a></li>
+                            <li><a href="#the-review">The Review</a></li>
+                            <li><a href="#the-result">The Result</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="article-body">
+                    <p class="article-lead">John had been fishing the same spots for 20 years. Then he found Reel Reviews, and everything changed.</p>
+
+                    <h2 id="the-skeptic">The Skeptic</h2>
+                    <p>"I don't trust apps," John told us when we first met him at the Auckland Boat Show. "They're all written by people who don't actually fish."</p>
+                    <p>But something about Reel Reviews caught his attention. Maybe it was the negative reviews—honest complaints from real anglers about what went wrong. Or maybe it was just curiosity.</p>
+
+                    <h2 id="the-discovery">The Discovery</h2>
+                    <p>John downloaded the app on a Tuesday. By Thursday, he'd found a spot he'd never heard of—a small bay on Waiheke Island with terrible reviews.</p>
+                    <blockquote>
+                        "The reviews said the fish weren't biting, the wind was bad, and the rocks were slippery. But they also said the snapper were huge when conditions were right. I checked the weather forecast and saw a window."
+                    </blockquote>
+
+                    <h2 id="the-trip">The Trip</h2>
+                    <p>John drove to the ferry, crossed to Waiheke, and hiked down to the bay. It was exactly as described—rocky, windy, and completely empty. Perfect.</p>
+                    <p>He cast his line at 6 AM. By 8 AM, he'd caught three snapper, the biggest weighing 8 pounds. His personal best.</p>
+
+                    <h2 id="the-review">The Review</h2>
+                    <p>John posted his first review that evening. Five stars? No. He gave it three stars—honest about the difficult access and weather sensitivity. But he also noted the fish size and recommended the early morning window.</p>
+                    <p>"That's the thing about Reel Reviews," he told us later. "It's not about finding perfect spots. It's about finding the right spot for the right day. The negative reviews tell you more than the positive ones ever could."</p>
+
+                    <h2 id="the-result">The Result</h2>
+                    <p>John has been using Reel Reviews for six months now. He's discovered four new spots, avoided three overfished areas, and caught more fish than ever.</p>
+                    <p>He's also become one of our most active reviewers, posting honest, detailed reports that help other anglers make informed decisions.</p>
+                    <blockquote>
+                        "I was skeptical. Now I tell every fisherman I know to download it. Just don't tell them about my spots."
+                    </blockquote>
+
+                    <hr class="article-divider">
+
+                    <!-- Article Footer -->
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="tag">Customers</span>
+                            <span class="tag">Fishing</span>
+                            <span class="tag">New Zealand</span>
+                            <span class="tag">Reel Reviews</span>
+                        </div>
+                        <div class="article-share">
+                            <span>Share this article:</span>
+                            <a href="#" class="share-btn" aria-label="Share on Twitter">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            </a>
+                            <a href="#" class="share-btn" aria-label="Share on LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            </a>
+                            <a href="#" class="share-btn" aria-label="Copy link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Newsletter Section -->
+    <section class="post-newsletter" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box">
+                <h3>Enjoyed this article?</h3>
+                <p>Get our best writing on building apps, shipped weekly.</p>
+                <form class="newsletter-form-inline">
+                    <input type="email" placeholder="your@email.com" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Posts -->
+    <section class="related-posts">
+        <div class="container">
+            <h2 class="section-title">More from The Paper Trail</h2>
+            <div class="posts-grid related-grid">
+                <article class="post-card">
+                    <a href="building-reel-reviews.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/featured-post.jpg" alt="Building Reel Reviews" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Product</span><span class="post-date">Mar 15, 2026</span></div>
+                            <h3 class="post-card-title">Building Reel Reviews: The UX of Negative Reviews</h3>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="validating-ideas.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/startup-post.jpg" alt="Validating Ideas" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Product</span><span class="post-date">Mar 1, 2026</span></div>
+                            <h3 class="post-card-title">How We Validated Reel Reviews Before Writing Code</h3>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="day-in-life.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/behind-post.jpg" alt="Day in the Life" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Company</span><span class="post-date">Mar 8, 2026</span></div>
+                            <h3 class="post-card-title">A Day in the Life: Running an App Company from Auckland</h3>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
 
     <footer class="site-footer">
         <div class="container">

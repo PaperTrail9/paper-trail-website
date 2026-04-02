@@ -7,9 +7,12 @@
     <title>The Complete Guide to Startup Funding in New Zealand | The Paper Trail</title>
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="stylesheet" href="post.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%93%9D</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
 </head>
 <body>
+
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="reading-progress"></div>
 
     <!-- Header -->
     <header class="site-header">
@@ -48,73 +51,175 @@
         </div>
     </header>
 
-    <main>
-        <header class="article-header">
+    <!-- Article Header -->
+    <header class="article-header">
+        <div class="container">
             <div class="article-meta">
                 <span class="article-category">Startups</span>
                 <span class="article-date">March 22, 2026</span>
+                <span class="article-reading-time">7 min read</span>
             </div>
             <h1 class="article-title">The Complete Guide to Startup Funding in New Zealand</h1>
-        </header>
-        
-        <div class="article-hero">
-            <div class="article-hero-image">
-                <img src="../../assets/blog/startup-post-2.jpg" alt="Startup funding in New Zealand" style="width:100%;height:100%;object-fit:cover;">
+            <p class="article-subtitle">Raising money in New Zealand is different from Silicon Valley. Here's everything we learned going from grants to angel investors—and why we ultimately chose to bootstrap.</p>
+            <div class="article-author">
+                <img src="../../assets/author-avatar.png" alt="Paper Trail Team" class="author-avatar-large">
+                <div class="author-info-large">
+                    <span class="author-name-large">Paper Trail Team</span>
+                    <span class="author-title-large">Founders at Paper Trail</span>
+                </div>
             </div>
         </div>
-        
-        <article class="article-content">
-            <p>Raising money for a startup in New Zealand is different from Silicon Valley. The checks are smaller, the process is more relationship-driven, and the expectations are more realistic. Here's everything we learned funding Paper Trail.</p>
-            
-            <h2>The NZ Funding Landscape in 2026</h2>
-            <p>New Zealand's startup ecosystem has matured significantly. We now have active angel networks, government grants that actually work, and a growing number of local VCs. But it's still a small market—there are maybe 50 serious tech investors in the entire country.</p>
-            
-            <p>This means you need to be strategic. You can't spray-and-pray your pitch deck. Every investor relationship matters.</p>
-            
-            <h2>Stage 1: Grants and Non-Dilutive Funding</h2>
-            
-            <h3>Callaghan Innovation R&D Grants</h3>
-            <p>The best place to start. We received $150,000 in R&D funding that didn't dilute our equity. The application process is bureaucratic but straightforward—hire a grant writer if you can afford it. The key is framing your work as "innovation" rather than just "app development."</p>
-            
-            <h3>Regional Business Partners</h3>
-            <p>Many regions offer co-funding for business development. Auckland has the most programs, but don't overlook smaller regions—they're often less competitive and more generous.</p>
-            
-            <h2>Stage 2: Angel Investment</h2>
-            <p>NZ angels are different from their US counterparts. They invest smaller amounts ($25K-$100K typically), but they bring deep industry expertise and genuine mentorship. Many are former entrepreneurs who want to give back.</p>
-            
-            <p>The main networks to know:</p>
-            <ul>
-                <li>Auckland Angel Investors - the largest network, monthly pitch events</li>
-                <li>Icehouse Ventures - structured angel program with education</li>
-                <li>Various industry-specific groups (fintech, agtech, etc.)</li>
-            </ul>
-            
-            <h3>Our Angel Round Experience</h3>
-            <p>We raised $400K from four angels. The process took four months—much longer than we expected. Each investor wanted multiple meetings, reference checks, and to see customer traction before committing.</p>
-            
-            <p>The key lesson: NZ angels invest in people more than ideas. They need to trust you before they'll trust your business.</p>
-            
-            <h2>Stage 3: Venture Capital</h2>
-            <p>The local VC landscape has improved dramatically. We now have:</p>
-            <ul>
-                <li>Icehouse Ventures (largest, most active)</li>
-                <li>Movac (longest-running, more conservative)</li>
-                <li>Several smaller funds focused on specific sectors</li>
-            </ul>
-            
-            <p>Expectations are reasonable compared to the US. A $1M seed round is considered large here. Growth metrics matter, but unit economics and sustainable business models matter more.</p>
-            
-            <h2>The Alternative: Bootstrap</h2>
-            <p>We chose not to take VC money, and it was the right call for us. Customer revenue funded our growth. It was slower, but we kept control and built the product we wanted.</p>
-            
-            <p>If you're building a lifestyle business or a niche product, seriously consider whether you need external funding at all.</p>
-            
-            <h2>Practical Advice</h2>
-            <p>Start with grants. They're free money that validates your concept. Use that validation to attract angels. Only consider VC if you genuinely need growth capital and are willing to give up control.</p>
-            
-            <p>And remember: NZ investors talk to each other. Your reputation follows you. Be honest, be patient, and build relationships before you need money.</p>
-        </article>
-    </main>
+    </header>
+
+    <!-- Article Hero Image -->
+    <figure class="article-hero">
+        <img src="../../assets/blog/startup-post-2.jpg" alt="Startup funding in New Zealand">
+        <figcaption>Auckland's startup ecosystem is growing—and so are the options for early-stage funding</figcaption>
+    </figure>
+
+    <!-- Article Content -->
+    <article>
+        <div class="container">
+            <div class="article-layout">
+
+                <!-- Table of Contents (Sticky Sidebar) -->
+                <aside class="toc-sidebar">
+                    <nav class="toc-nav">
+                        <h3>Contents</h3>
+                        <ul>
+                            <li><a href="#nz-funding-landscape">The NZ Funding Landscape</a></li>
+                            <li><a href="#stage-1-grants">Stage 1: Grants</a></li>
+                            <li><a href="#stage-2-angels">Stage 2: Angel Investment</a></li>
+                            <li><a href="#stage-3-vc">Stage 3: Venture Capital</a></li>
+                            <li><a href="#bootstrap">The Alternative: Bootstrap</a></li>
+                            <li><a href="#practical-advice">Practical Advice</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="article-body">
+                    <p class="article-lead">Raising money for a startup in New Zealand is different from Silicon Valley. The checks are smaller, the process is more relationship-driven, and the expectations are more realistic. Here's everything we learned funding Paper Trail.</p>
+
+                    <h2 id="nz-funding-landscape">The NZ Funding Landscape in 2026</h2>
+                    <p>New Zealand's startup ecosystem has matured significantly. We now have active angel networks, government grants that actually work, and a growing number of local VCs. But it's still a small market—there are maybe 50 serious tech investors in the entire country.</p>
+                    <p>This means you need to be strategic. You can't spray-and-pray your pitch deck. Every investor relationship matters.</p>
+
+                    <h2 id="stage-1-grants">Stage 1: Grants and Non-Dilutive Funding</h2>
+
+                    <h3>Callaghan Innovation R&amp;D Grants</h3>
+                    <p>The best place to start. We received $150,000 in R&amp;D funding that didn't dilute our equity. The application process is bureaucratic but straightforward—hire a grant writer if you can afford it. The key is framing your work as "innovation" rather than just "app development."</p>
+
+                    <h3>Regional Business Partners</h3>
+                    <p>Many regions offer co-funding for business development. Auckland has the most programs, but don't overlook smaller regions—they're often less competitive and more generous.</p>
+
+                    <h2 id="stage-2-angels">Stage 2: Angel Investment</h2>
+                    <p>NZ angels are different from their US counterparts. They invest smaller amounts ($25K–$100K typically), but they bring deep industry expertise and genuine mentorship. Many are former entrepreneurs who want to give back.</p>
+                    <p>The main networks to know:</p>
+                    <ul>
+                        <li>Auckland Angel Investors – the largest network, monthly pitch events</li>
+                        <li>Icehouse Ventures – structured angel program with education</li>
+                        <li>Various industry-specific groups (fintech, agtech, etc.)</li>
+                    </ul>
+
+                    <h3>Our Angel Round Experience</h3>
+                    <p>We raised $400K from four angels. The process took four months—much longer than we expected. Each investor wanted multiple meetings, reference checks, and to see customer traction before committing.</p>
+                    <p>The key lesson: NZ angels invest in people more than ideas. They need to trust you before they'll trust your business.</p>
+
+                    <h2 id="stage-3-vc">Stage 3: Venture Capital</h2>
+                    <p>The local VC landscape has improved dramatically. We now have:</p>
+                    <ul>
+                        <li>Icehouse Ventures (largest, most active)</li>
+                        <li>Movac (longest-running, more conservative)</li>
+                        <li>Several smaller funds focused on specific sectors</li>
+                    </ul>
+                    <p>Expectations are reasonable compared to the US. A $1M seed round is considered large here. Growth metrics matter, but unit economics and sustainable business models matter more.</p>
+
+                    <h2 id="bootstrap">The Alternative: Bootstrap</h2>
+                    <p>We chose not to take VC money, and it was the right call for us. Customer revenue funded our growth. It was slower, but we kept control and built the product we wanted.</p>
+                    <p>If you're building a lifestyle business or a niche product, seriously consider whether you need external funding at all.</p>
+
+                    <h2 id="practical-advice">Practical Advice</h2>
+                    <p>Start with grants. They're free money that validates your concept. Use that validation to attract angels. Only consider VC if you genuinely need growth capital and are willing to give up control.</p>
+                    <p>And remember: NZ investors talk to each other. Your reputation follows you. Be honest, be patient, and build relationships before you need money.</p>
+
+                    <hr class="article-divider">
+
+                    <!-- Article Footer -->
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="tag">Startups</span>
+                            <span class="tag">Funding</span>
+                            <span class="tag">New Zealand</span>
+                            <span class="tag">Entrepreneurship</span>
+                        </div>
+                        <div class="article-share">
+                            <span>Share this article:</span>
+                            <a href="#" class="share-btn" aria-label="Share on Twitter">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            </a>
+                            <a href="#" class="share-btn" aria-label="Share on LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            </a>
+                            <a href="#" class="share-btn" aria-label="Copy link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Newsletter Section -->
+    <section class="post-newsletter" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box">
+                <h3>Enjoyed this article?</h3>
+                <p>Get our best writing on building apps, shipped weekly.</p>
+                <form class="newsletter-form-inline">
+                    <input type="email" placeholder="your@email.com" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Posts -->
+    <section class="related-posts">
+        <div class="container">
+            <h2 class="section-title">More from The Paper Trail</h2>
+            <div class="posts-grid related-grid">
+                <article class="post-card">
+                    <a href="validating-ideas.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/startup-post.jpg" alt="Validating Ideas" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Product</span><span class="post-date">Mar 1, 2026</span></div>
+                            <h3 class="post-card-title">How We Validated Reel Reviews Before Writing Code</h3>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="day-in-life.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/behind-post.jpg" alt="Day in the Life" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Company</span><span class="post-date">Mar 8, 2026</span></div>
+                            <h3 class="post-card-title">A Day in the Life: Running an App Company from Auckland</h3>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="nz-tech-scene.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/nz-post.jpg" alt="NZ Tech Scene" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Startups</span><span class="post-date">Feb 20, 2026</span></div>
+                            <h3 class="post-card-title">Why We Chose Auckland Over San Francisco</h3>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
 
     <footer class="site-footer">
         <div class="container">

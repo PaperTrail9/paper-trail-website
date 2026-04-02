@@ -13,11 +13,13 @@
     -->
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="stylesheet" href="post.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%93%9D</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="reading-progress"></div>
+
     <!-- Header -->
     <header class="site-header">
         <div class="header-container">
@@ -55,42 +57,144 @@
         </div>
     </header>
 
-    <main>
-        <!-- Article Header -->
-        <header class="article-header">
+    <!-- Article Header -->
+    <header class="article-header">
+        <div class="container">
             <div class="article-meta">
                 <span class="article-category">Engineering</span>
                 <span class="article-date">March 12, 2026</span>
+                <span class="article-reading-time">5 min read</span>
             </div>
             <h1 class="article-title">React Native vs Flutter: A Developer's Perspective</h1>
-        </header>
-        
-        <!-- Article Hero -->
-        <div class="article-hero">
-            <div class="article-hero-image">
-                <img src="../../assets/blog/tech-post.jpg" alt="React Native vs Flutter development comparison" style="width:100%;height:100%;object-fit:cover;">
+            <p class="article-subtitle">After shipping production apps with both frameworks, here's our honest take on when to use each—and why the answer isn't as simple as you'd think.</p>
+            <div class="article-author">
+                <img src="../../assets/author-avatar.png" alt="Paper Trail Team" class="author-avatar-large">
+                <div class="author-info-large">
+                    <span class="author-name-large">Paper Trail Team</span>
+                    <span class="author-title-large">Founders at Paper Trail</span>
+                </div>
             </div>
         </div>
-        
-        <!-- Article Content -->
-        <article class="article-content">
-            <p>After building production apps with both React Native and Flutter, I've formed strong opinions about when to use each. This isn't a theoretical comparison—it's based on real shipping experience.</p>
-            
-            <h2>The Projects</h2>
-            <p>We built Reel Reviews with React Native first, then rewrote parts of it in Flutter as an experiment. Both versions shipped to the App Store and Google Play. Here's what we learned.</p>
-            
-            <h2>Performance</h2>
-            <p>Flutter wins on raw performance. The 60fps animations are buttery smooth, and startup time is noticeably faster. React Native has improved with the new architecture, but Flutter still feels snappier.</p>
-            
-            <h2>Developer Experience</h2>
-            <p>This is where it gets interesting. React Native's hot reload is faster and more reliable. The JavaScript ecosystem is massive—you can find a package for almost anything. But Flutter's Dart is type-safe and the tooling is more consistent.</p>
-            
-            <h2>Our Recommendation</h2>
-            <p>For most teams, I'd recommend React Native if you have JavaScript expertise in-house. The hiring pool is larger and the ecosystem is mature. Choose Flutter if performance is critical or if you're starting fresh with a team that doesn't mind learning Dart.</p>
-            
-            <p>Both are excellent choices in 2026. The gap has narrowed significantly, and you can't really go wrong with either.</p>
-        </article>
-    </main>
+    </header>
+
+    <!-- Article Hero Image -->
+    <figure class="article-hero">
+        <img src="../../assets/blog/tech-post.jpg" alt="React Native vs Flutter development comparison">
+        <figcaption>Building Reel Reviews—first in React Native, then partly in Flutter</figcaption>
+    </figure>
+
+    <!-- Article Content -->
+    <article>
+        <div class="container">
+            <div class="article-layout">
+
+                <!-- Table of Contents (Sticky Sidebar) -->
+                <aside class="toc-sidebar">
+                    <nav class="toc-nav">
+                        <h3>Contents</h3>
+                        <ul>
+                            <li><a href="#the-projects">The Projects</a></li>
+                            <li><a href="#performance">Performance</a></li>
+                            <li><a href="#developer-experience">Developer Experience</a></li>
+                            <li><a href="#our-recommendation">Our Recommendation</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="article-body">
+                    <p class="article-lead">After building production apps with both React Native and Flutter, I've formed strong opinions about when to use each. This isn't a theoretical comparison—it's based on real shipping experience.</p>
+
+                    <h2 id="the-projects">The Projects</h2>
+                    <p>We built Reel Reviews with React Native first, then rewrote parts of it in Flutter as an experiment. Both versions shipped to the App Store and Google Play. Here's what we learned.</p>
+
+                    <h2 id="performance">Performance</h2>
+                    <p>Flutter wins on raw performance. The 60fps animations are buttery smooth, and startup time is noticeably faster. React Native has improved with the new architecture, but Flutter still feels snappier.</p>
+
+                    <h2 id="developer-experience">Developer Experience</h2>
+                    <p>This is where it gets interesting. React Native's hot reload is faster and more reliable. The JavaScript ecosystem is massive—you can find a package for almost anything. But Flutter's Dart is type-safe and the tooling is more consistent.</p>
+
+                    <h2 id="our-recommendation">Our Recommendation</h2>
+                    <p>For most teams, I'd recommend React Native if you have JavaScript expertise in-house. The hiring pool is larger and the ecosystem is mature. Choose Flutter if performance is critical or if you're starting fresh with a team that doesn't mind learning Dart.</p>
+                    <p>Both are excellent choices in 2026. The gap has narrowed significantly, and you can't really go wrong with either.</p>
+
+                    <hr class="article-divider">
+
+                    <!-- Article Footer -->
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="tag">React Native</span>
+                            <span class="tag">Flutter</span>
+                            <span class="tag">Engineering</span>
+                            <span class="tag">Mobile</span>
+                        </div>
+                        <div class="article-share">
+                            <span>Share this article:</span>
+                            <a href="#" class="share-btn" aria-label="Share on Twitter">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            </a>
+                            <a href="#" class="share-btn" aria-label="Share on LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            </a>
+                            <a href="#" class="share-btn" aria-label="Copy link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Newsletter Section -->
+    <section class="post-newsletter" id="newsletter">
+        <div class="container">
+            <div class="newsletter-box">
+                <h3>Enjoyed this article?</h3>
+                <p>Get our best writing on building apps, shipped weekly.</p>
+                <form class="newsletter-form-inline">
+                    <input type="email" placeholder="your@email.com" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Posts -->
+    <section class="related-posts">
+        <div class="container">
+            <h2 class="section-title">More from The Paper Trail</h2>
+            <div class="posts-grid related-grid">
+                <article class="post-card">
+                    <a href="ai-in-mobile-apps.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/app-dev-post.jpg" alt="AI in Mobile Apps" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Technology</span><span class="post-date">Mar 18, 2026</span></div>
+                            <h3 class="post-card-title">AI in Mobile Apps: Practical Applications for 2026</h3>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="building-reel-reviews.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/featured-post.jpg" alt="Building Reel Reviews" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Product</span><span class="post-date">Mar 15, 2026</span></div>
+                            <h3 class="post-card-title">Building Reel Reviews: The UX of Negative Reviews</h3>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="app-store-optimization.html" class="post-card-link">
+                        <div class="post-card-image"><img src="../../assets/blog/app-dev-post.jpg" alt="App Store Optimization" loading="lazy"></div>
+                        <div class="post-card-content">
+                            <div class="post-card-meta"><span class="post-category">Engineering</span><span class="post-date">Feb 25, 2026</span></div>
+                            <h3 class="post-card-title">App Store Optimization: What Actually Works in 2026</h3>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="site-footer">
