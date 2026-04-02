@@ -325,7 +325,7 @@
                     </article>
 
                     <!-- POST CARD 4: Startup Funding NZ (hidden) -->
-                    <article class="post-card post-card--hidden">
+                    <article class="post-card" style="display:none">
                         <a href="/blog/posts/startup-funding-nz.html" class="post-card-link">
                             <div class="post-card-image">
                                 <img src="/assets/blog/startup-post-2.jpg" alt="Startup Funding NZ" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
@@ -349,7 +349,7 @@
                     </article>
 
                     <!-- POST CARD 5: AI in Mobile Apps (hidden) -->
-                    <article class="post-card post-card--hidden">
+                    <article class="post-card" style="display:none">
                         <a href="/blog/posts/ai-in-mobile-apps.html" class="post-card-link">
                             <div class="post-card-image">
                                 <img src="/assets/blog/app-dev-post.jpg" alt="AI in Mobile Apps" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
@@ -373,7 +373,7 @@
                     </article>
 
                     <!-- POST CARD 6: Customer Story (hidden) -->
-                    <article class="post-card post-card--hidden">
+                    <article class="post-card" style="display:none">
                         <a href="/blog/posts/customer-story.html" class="post-card-link">
                             <div class="post-card-image">
                                 <img src="/assets/blog/behind-post.jpg" alt="Customer Story" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
@@ -397,7 +397,7 @@
                     </article>
 
                     <!-- POST CARD 7: App Store Optimization (hidden) -->
-                    <article class="post-card post-card--hidden">
+                    <article class="post-card" style="display:none">
                         <a href="/blog/posts/app-store-optimization.html" class="post-card-link">
                             <div class="post-card-image">
                                 <img src="/assets/blog/app-dev-post.jpg" alt="App Store Optimization" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
@@ -421,7 +421,7 @@
                     </article>
 
                     <!-- POST CARD 8: NZ Tech Scene (hidden) -->
-                    <article class="post-card post-card--hidden">
+                    <article class="post-card" style="display:none">
                         <a href="/blog/posts/nz-tech-scene.html" class="post-card-link">
                             <div class="post-card-image">
                                 <img src="/assets/blog/nz-post.jpg" alt="NZ Tech Scene" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
@@ -445,7 +445,7 @@
                     </article>
 
                     <!-- POST CARD 9: NZ Gaming Industry (hidden) -->
-                    <article class="post-card post-card--hidden">
+                    <article class="post-card" style="display:none">
                         <a href="/blog/posts/nz-gaming-industry-2024.html" class="post-card-link">
                             <div class="post-card-image">
                                 <img src="/assets/blog/nz-gaming-post.jpg" alt="NZ Gaming Industry" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
@@ -541,17 +541,18 @@
     <script>
         (function () {
             var btn = document.getElementById('load-more-btn');
-            var hidden = Array.from(document.querySelectorAll('.post-card--hidden'));
+            // Find all cards that are currently hidden via inline style
+            var allCards = Array.from(document.querySelectorAll('.post-card'));
+            var hidden = allCards.filter(function (c) { return c.style.display === 'none'; });
             var batchSize = 3;
             var shown = 0;
 
-            if (!btn || hidden.length === 0) return;
+            if (!btn || hidden.length === 0) { btn && (btn.style.display = 'none'); return; }
 
             btn.addEventListener('click', function () {
                 var next = hidden.slice(shown, shown + batchSize);
                 next.forEach(function (card) {
-                    card.style.display = '';
-                    card.classList.remove('post-card--hidden');
+                    card.style.display = 'flex';
                 });
                 shown += next.length;
                 if (shown >= hidden.length) {
