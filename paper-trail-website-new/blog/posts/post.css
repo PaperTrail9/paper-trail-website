@@ -11,6 +11,15 @@ Clean, readable article layout with table of contents
     --article-max-width: 720px;
 }
 
+/* Map legacy variable names to the current design system */
+:root {
+    --color-text-secondary: var(--color-text-muted);
+    --color-text-tertiary:  var(--color-text-subtle);
+    --color-bg-secondary:   var(--color-surface);
+    --color-bg-tertiary:    var(--color-border);
+    --color-border-light:   var(--color-border);
+}
+
 /* Article Header */
 .article-header {
     padding: 64px 0 48px;
@@ -117,17 +126,24 @@ Clean, readable article layout with table of contents
     margin-top: 16px;
 }
 
-/* Article Layout */
+/* Article Layout — complex posts (with sidebar) */
 .article-layout {
     display: grid;
     grid-template-columns: 240px 1fr;
     gap: 64px;
     max-width: 1100px;
     margin: 0 auto;
+    padding: 64px 0;
+}
+
+/* Right-sidebar variant: wide content on left, narrow sidebar on right */
+.article-layout.layout-right-sidebar {
+    grid-template-columns: 1fr 240px;
 }
 
 @media (max-width: 900px) {
-    .article-layout {
+    .article-layout,
+    .article-layout.layout-right-sidebar {
         grid-template-columns: 1fr;
         gap: 32px;
     }
@@ -183,9 +199,103 @@ Clean, readable article layout with table of contents
     border-left-color: var(--color-accent);
 }
 
-/* Article Body */
+/* Article Body (TOC-sidebar posts) */
 .article-body {
     max-width: var(--article-max-width);
+}
+
+/* Article Main (right-sidebar posts — full width of its grid column) */
+.article-main {
+    min-width: 0; /* prevent grid blowout */
+}
+
+/* Article Sidebar (right-sidebar posts) */
+.article-sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+@media (max-width: 900px) {
+    .article-sidebar {
+        position: static;
+    }
+}
+
+.sidebar-widget {
+    padding: 24px;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+}
+
+.sidebar-widget h3 {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.sidebar-widget p {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-bottom: 16px;
+}
+
+.author-avatar-large {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 12px;
+}
+
+.related-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.related-list a {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.related-list a:hover { color: var(--color-accent); }
+
+.related-title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.related-date {
+    font-size: 12px;
+    color: var(--color-text-muted);
+}
+
+.sidebar-newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-newsletter-form input {
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    background: var(--color-bg);
+    color: var(--color-text);
 }
 
 .article-lead {
@@ -196,8 +306,9 @@ Clean, readable article layout with table of contents
     margin-bottom: 48px;
 }
 
-/* Typography */
-.article-body h2 {
+/* Typography — shared between TOC-sidebar (.article-body) and right-sidebar (.article-main) */
+.article-body h2,
+.article-main h2 {
     font-family: var(--font-serif);
     font-size: 32px;
     font-weight: 500;
@@ -205,14 +316,16 @@ Clean, readable article layout with table of contents
     letter-spacing: -0.01em;
 }
 
-.article-body h3 {
+.article-body h3,
+.article-main h3 {
     font-family: var(--font-serif);
     font-size: 24px;
     font-weight: 500;
     margin: 40px 0 20px;
 }
 
-.article-body p {
+.article-body p,
+.article-main p {
     font-size: 17px;
     line-height: 1.8;
     margin-bottom: 24px;
@@ -220,29 +333,35 @@ Clean, readable article layout with table of contents
 }
 
 .article-body ul,
-.article-body ol {
+.article-body ol,
+.article-main ul,
+.article-main ol {
     margin-bottom: 24px;
     padding-left: 24px;
 }
 
-.article-body li {
+.article-body li,
+.article-main li {
     font-size: 17px;
     line-height: 1.8;
     margin-bottom: 12px;
     color: var(--color-text);
 }
 
-.article-body strong {
+.article-body strong,
+.article-main strong {
     font-weight: 600;
     color: var(--color-text);
 }
 
-.article-body em {
+.article-body em,
+.article-main em {
     font-style: italic;
 }
 
 /* Blockquote */
-.article-body blockquote {
+.article-body blockquote,
+.article-main blockquote {
     margin: 40px 0;
     padding: 24px 32px;
     background: var(--color-bg-secondary);
@@ -250,7 +369,8 @@ Clean, readable article layout with table of contents
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
 }
 
-.article-body blockquote p {
+.article-body blockquote p,
+.article-main blockquote p {
     font-family: var(--font-serif);
     font-size: 20px;
     font-style: italic;
@@ -258,14 +378,16 @@ Clean, readable article layout with table of contents
     line-height: 1.5;
 }
 
-.article-body blockquote cite {
+.article-body blockquote cite,
+.article-main blockquote cite {
     font-size: 14px;
     font-style: normal;
     color: var(--color-text-secondary);
 }
 
 /* Code Blocks */
-.article-body pre {
+.article-body pre,
+.article-main pre {
     background: #1a1a1a;
     color: #e5e5e5;
     padding: 24px;
@@ -277,7 +399,8 @@ Clean, readable article layout with table of contents
     line-height: 1.6;
 }
 
-.article-body code {
+.article-body code,
+.article-main code {
     font-family: 'Fira Code', monospace;
     font-size: 0.9em;
     background: var(--color-bg-tertiary);
@@ -286,7 +409,8 @@ Clean, readable article layout with table of contents
     color: var(--color-accent);
 }
 
-.article-body pre code {
+.article-body pre code,
+.article-main pre code {
     background: none;
     padding: 0;
     color: inherit;
