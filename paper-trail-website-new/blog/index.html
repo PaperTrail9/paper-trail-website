@@ -325,7 +325,7 @@
                     </article>
 
                     <!-- POST CARD 4: Startup Funding NZ (hidden) -->
-                    <article class="post-card" style="display:none">
+                    <article class="post-card" style="display:none" data-more="true">
                         <a href="/blog/posts/startup-funding-nz.html" class="post-card-link">
                             <div class="post-card-image">
                                 <img src="/assets/blog/startup-post-2.jpg" alt="Startup Funding NZ" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
@@ -349,7 +349,7 @@
                     </article>
 
                     <!-- POST CARD 5: AI in Mobile Apps (hidden) -->
-                    <article class="post-card" style="display:none">
+                    <article class="post-card" style="display:none" data-more="true">
                         <a href="/blog/posts/ai-in-mobile-apps.html" class="post-card-link">
                             <div class="post-card-image">
                                 <img src="/assets/blog/app-dev-post.jpg" alt="AI in Mobile Apps" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
@@ -373,7 +373,7 @@
                     </article>
 
                     <!-- POST CARD 6: Customer Story (hidden) -->
-                    <article class="post-card" style="display:none">
+                    <article class="post-card" style="display:none" data-more="true">
                         <a href="/blog/posts/customer-story.html" class="post-card-link">
                             <div class="post-card-image">
                                 <img src="/assets/blog/behind-post.jpg" alt="Customer Story" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
@@ -397,7 +397,7 @@
                     </article>
 
                     <!-- POST CARD 7: App Store Optimization (hidden) -->
-                    <article class="post-card" style="display:none">
+                    <article class="post-card" style="display:none" data-more="true">
                         <a href="/blog/posts/app-store-optimization.html" class="post-card-link">
                             <div class="post-card-image">
                                 <img src="/assets/blog/app-dev-post.jpg" alt="App Store Optimization" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
@@ -421,7 +421,7 @@
                     </article>
 
                     <!-- POST CARD 8: NZ Tech Scene (hidden) -->
-                    <article class="post-card" style="display:none">
+                    <article class="post-card" style="display:none" data-more="true">
                         <a href="/blog/posts/nz-tech-scene.html" class="post-card-link">
                             <div class="post-card-image">
                                 <img src="/assets/blog/nz-post.jpg" alt="NZ Tech Scene" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
@@ -445,7 +445,7 @@
                     </article>
 
                     <!-- POST CARD 9: NZ Gaming Industry (hidden) -->
-                    <article class="post-card" style="display:none">
+                    <article class="post-card" style="display:none" data-more="true">
                         <a href="/blog/posts/nz-gaming-industry-2024.html" class="post-card-link">
                             <div class="post-card-image">
                                 <img src="/assets/blog/nz-gaming-post.jpg" alt="NZ Gaming Industry" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
@@ -472,7 +472,7 @@
 
                 <!-- Load More Button -->
                 <div class="load-more-container">
-                    <button class="btn-load-more" type="button" id="load-more-btn">Load more articles</button>
+                    <button class="btn-load-more" type="button" id="load-more-btn" onclick="ptLoadMore()">Load more articles</button>
                 </div>
             </div>
         </section>
@@ -539,27 +539,25 @@
 
     <script src="/js/main.js"></script>
     <script>
-        (function () {
+        // Load-more: reveal hidden post cards 3 at a time
+        // Cards are marked with data-more="true" and style="display:none"
+        var _ptShown = 0;
+        function ptLoadMore() {
             var btn = document.getElementById('load-more-btn');
-            // Find all cards that are currently hidden via inline style
-            var allCards = Array.from(document.querySelectorAll('.post-card'));
-            var hidden = allCards.filter(function (c) { return c.style.display === 'none'; });
-            var batchSize = 3;
-            var shown = 0;
-
-            if (!btn || hidden.length === 0) { btn && (btn.style.display = 'none'); return; }
-
-            btn.addEventListener('click', function () {
-                var next = hidden.slice(shown, shown + batchSize);
-                next.forEach(function (card) {
-                    card.style.display = 'flex';
-                });
-                shown += next.length;
-                if (shown >= hidden.length) {
-                    btn.style.display = 'none';
-                }
+            // Select only cards still hidden (not yet revealed)
+            var stillHidden = Array.from(document.querySelectorAll('[data-more]')).filter(function(c) {
+                return c.style.display === 'none';
             });
-        })();
+            // Reveal the next 3
+            stillHidden.slice(0, 3).forEach(function(card) {
+                card.style.display = 'flex';
+                card.style.animation = 'none'; // skip fadeInUp so card appears immediately
+            });
+            // Hide button once nothing left to show
+            if (stillHidden.length <= 3) {
+                btn.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
