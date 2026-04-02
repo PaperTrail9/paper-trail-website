@@ -47,6 +47,17 @@
         .about-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--color-text); }
         .about-card p { font-size: 15px; color: var(--color-text-muted); line-height: 1.6; }
 
+        /* Founders Section */
+        .founders-section { padding: 80px 0; background: var(--color-surface); border-top: 1px solid var(--color-border); }
+        .founders-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 800px; margin: 0 auto; }
+        @media (max-width: 640px) { .founders-grid { grid-template-columns: 1fr; } }
+        .founder-card { text-align: center; padding: 40px 32px; background: var(--color-bg); border-radius: 16px; border: 1px solid var(--color-border); }
+        .founder-photo { width: 120px; height: 120px; border-radius: 50%; overflow: hidden; margin: 0 auto 20px; border: 3px solid var(--color-border); }
+        .founder-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .founder-name { font-family: 'Newsreader', Georgia, serif; font-size: 22px; font-weight: 600; color: var(--color-text); margin-bottom: 4px; }
+        .founder-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-accent); margin-bottom: 16px; }
+        .founder-bio { font-size: 15px; color: var(--color-text-muted); line-height: 1.7; }
+
         /* Newsletter */
         .newsletter-section { padding: 80px 0; background: #111; color: white; }
         .newsletter-section .section-title { color: white; }
@@ -224,6 +235,39 @@
                         <h3>Our Home</h3>
                         <p>Proudly based in Parnell, Auckland, New Zealand. Creating global products from the edge of the world, where innovation meets the Pacific.</p>
                         <p style="margin-top: 12px;">Our office at 1 Tika Street sits in one of Auckland's most vibrant neighborhoods, surrounded by the energy of New Zealand's largest city while maintaining the calm focus needed to build exceptional software.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Meet the Founders -->
+        <section class="founders-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">The People</span>
+                    <h2 class="section-title">Meet the Founders</h2>
+                    <p class="section-description">The people building honest software from Auckland, New Zealand.</p>
+                </div>
+
+                <div class="founders-grid">
+                    <!-- Founder headshot: replace src with real photo at assets/founders/alex-headshot.jpg -->
+                    <div class="founder-card">
+                        <div class="founder-photo">
+                            <img src="/assets/author-avatar.png" alt="Alex, Founder of Paper Trail">
+                        </div>
+                        <p class="founder-name">Alex</p>
+                        <p class="founder-title">Founder</p>
+                        <p class="founder-bio">Started Paper Trail after years of being burned by dishonest reviews. Built the first version of Reel Reviews in a Parnell apartment at 2am. Believes software should do one thing well.</p>
+                    </div>
+
+                    <!-- Co-founder headshot: replace src with real photo at assets/founders/cofounder-headshot.jpg -->
+                    <div class="founder-card">
+                        <div class="founder-photo">
+                            <img src="/assets/author-avatar.png" alt="Co-founder of Paper Trail">
+                        </div>
+                        <p class="founder-name">Co-Founder</p>
+                        <p class="founder-title">Co-Founder</p>
+                        <p class="founder-bio">Brings the product and design eye to Paper Trail. Passionate about user experience that gets out of the way. Thinks the best interface is one you forget you're using.</p>
                     </div>
                 </div>
             </div>
