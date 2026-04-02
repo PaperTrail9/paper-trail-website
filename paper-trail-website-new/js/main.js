@@ -536,6 +536,32 @@
     }
 
     /**
+     * =========================================================================
+     * SECTION 11: BLOG LOAD MORE
+     * =========================================================================
+     * Reveals hidden post cards 3 at a time on the blog index page.
+     * Cards are marked with data-more="true" and style="display:none".
+     * Uses an external script (main.js) to comply with script-src CSP.
+     */
+    function initLoadMore() {
+        var btn = document.getElementById('load-more-btn');
+        if (!btn) return;
+
+        btn.addEventListener('click', function () {
+            var stillHidden = Array.from(document.querySelectorAll('[data-more]')).filter(function (c) {
+                return c.style.display === 'none';
+            });
+            stillHidden.slice(0, 3).forEach(function (card) {
+                card.style.display = 'flex';
+                card.style.animation = 'none'; // skip fadeInUp so card appears immediately
+            });
+            if (stillHidden.length <= 3) {
+                btn.style.display = 'none';
+            }
+        });
+    }
+
+    /**
      * Called when DOM is ready - initializes all modules
      */
     function onReady() {
@@ -549,6 +575,7 @@
         initHeaderScroll();
         initActiveNavHighlight();
         initFormValidation();
+        initLoadMore();
 
         // Log initialization (remove in production if desired)
         console.log('📝 Paper Trail website initialized');
@@ -558,6 +585,7 @@
         console.log('   - Smooth scroll: active');
         console.log('   - Scroll animations: active');
         console.log('   - Form validation: active');
+        console.log('   - Load more: active');
     }
 
     // Start the application

@@ -472,7 +472,7 @@
 
                 <!-- Load More Button -->
                 <div class="load-more-container">
-                    <button class="btn-load-more" type="button" id="load-more-btn" onclick="ptLoadMore()">Load more articles</button>
+                    <button class="btn-load-more" type="button" id="load-more-btn">Load more articles</button>
                 </div>
             </div>
         </section>
@@ -538,26 +538,5 @@
     </footer>
 
     <script src="/js/main.js"></script>
-    <script>
-        // Load-more: reveal hidden post cards 3 at a time
-        // Cards are marked with data-more="true" and style="display:none"
-        var _ptShown = 0;
-        function ptLoadMore() {
-            var btn = document.getElementById('load-more-btn');
-            // Select only cards still hidden (not yet revealed)
-            var stillHidden = Array.from(document.querySelectorAll('[data-more]')).filter(function(c) {
-                return c.style.display === 'none';
-            });
-            // Reveal the next 3
-            stillHidden.slice(0, 3).forEach(function(card) {
-                card.style.display = 'flex';
-                card.style.animation = 'none'; // skip fadeInUp so card appears immediately
-            });
-            // Hide button once nothing left to show
-            if (stillHidden.length <= 3) {
-                btn.style.display = 'none';
-            }
-        }
-    </script>
 </body>
 </html>
