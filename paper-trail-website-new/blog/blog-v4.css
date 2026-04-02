@@ -626,6 +626,10 @@ Features: Clean minimalism, excellent typography, smooth interactions
     margin-top: 48px;
 }
 
+.post-card--hidden {
+    display: none;
+}
+
 .btn-load-more {
     padding: 12px 24px;
     background: transparent;
