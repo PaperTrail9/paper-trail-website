@@ -107,82 +107,6 @@ Purpose: Styles for legal documentation pages
     min-width: 100px;
 }
 
-/* Legal Footer */
-.legal-footer {
-    background-color: var(--color-surface);
-    color: var(--color-text-muted);
-    padding: var(--space-12) 0 var(--space-6);
-    margin-top: var(--space-16);
-}
-
-.legal-footer .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: var(--space-8);
-    margin-bottom: var(--space-8);
-}
-
-.legal-footer .footer-brand {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-}
-
-.legal-footer .footer-icon {
-    font-size: var(--text-3xl);
-}
-
-.legal-footer .footer-name {
-    font-family: var(--font-serif);
-    font-size: 1.25rem;
-    color: var(--color-text);
-}
-
-.legal-footer .footer-tagline {
-    color: var(--color-text-muted);
-}
-
-.legal-footer .footer-links h4 {
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text);
-    margin-bottom: var(--space-4);
-}
-
-.legal-footer .footer-links ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.legal-footer .footer-links li {
-    margin-bottom: var(--space-2);
-}
-
-.legal-footer .footer-links a {
-    color: var(--color-text-muted);
-    text-decoration: none;
-    transition: color var(--transition-fast);
-}
-
-.legal-footer .footer-links a:hover {
-    color: var(--color-accent);
-}
-
-.legal-footer .footer-bottom {
-    border-top: 1px solid var(--color-border);
-    padding-top: var(--space-6);
-    text-align: center;
-}
-
-.legal-footer .footer-address {
-    color: var(--color-text-muted);
-    font-size: 0.875rem;
-    margin-top: var(--space-2);
-}
-
 /* Responsive */
 @media (max-width: 768px) {
     .legal-content {
@@ -191,11 +115,5 @@ Purpose: Styles for legal documentation pages
     
     .legal-header h1 {
         font-size: 2rem;
-    }
-    
-    .legal-footer .footer-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-6);
-        text-align: center;
     }
 }
