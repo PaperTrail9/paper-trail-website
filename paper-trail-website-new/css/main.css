@@ -90,6 +90,9 @@ img  { max-width: 100%; height: auto; display: block; }
 a    { text-decoration: none; color: inherit; }
 ul   { list-style: none; }
 
+/* Headings always use the theme text colour — prevents dark text on dark bg in dark mode */
+h1, h2, h3, h4, h5, h6 { color: var(--color-text); }
+
 :focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
 
 /* ============================================================================
