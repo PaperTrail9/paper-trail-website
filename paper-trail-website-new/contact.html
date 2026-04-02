@@ -14,8 +14,8 @@
     <style>
         /* Page Header */
         .page-header { padding: 64px 0 32px; text-align: center; }
-        .page-header h1 { font-family: 'Newsreader', Georgia, serif; font-size: 48px; margin-bottom: 16px; }
-        .page-header p { font-size: 18px; color: #666; max-width: 600px; margin: 0 auto; }
+        .page-header h1 { font-family: 'Newsreader', Georgia, serif; font-size: 48px; margin-bottom: 16px; color: var(--color-text); }
+        .page-header p { font-size: 18px; color: var(--color-text-muted); max-width: 600px; margin: 0 auto; }
 
         /* Contact Grid */
         .contact-section { padding: 32px 0 64px; }
@@ -24,29 +24,29 @@
 
         /* Contact Methods */
         .contact-methods { display: flex; flex-direction: column; gap: 24px; }
-        .contact-method { display: flex; gap: 16px; padding: 24px; background: #fafafa; border: 1px solid #e5e5e5; border-radius: 12px; }
-        .contact-icon { font-size: 24px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: white; border-radius: 12px; border: 1px solid #e5e5e5; }
-        .contact-content h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-        .contact-content p { font-size: 14px; color: #666; margin-bottom: 8px; }
-        .contact-link { font-size: 15px; color: #dc2626; font-weight: 500; }
+        .contact-method { display: flex; gap: 16px; padding: 24px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; }
+        .contact-icon { font-size: 24px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: var(--color-bg); border-radius: 12px; border: 1px solid var(--color-border); }
+        .contact-content h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; color: var(--color-text); }
+        .contact-content p { font-size: 14px; color: var(--color-text-muted); margin-bottom: 8px; }
+        .contact-link { font-size: 15px; color: var(--color-accent); font-weight: 500; }
         .contact-link:hover { text-decoration: underline; }
-        address { font-style: normal; font-size: 15px; color: #111; line-height: 1.6; }
+        address { font-style: normal; font-size: 15px; color: var(--color-text); line-height: 1.6; }
 
         /* Contact Form */
-        .contact-form-container { background: #fafafa; border: 1px solid #e5e5e5; border-radius: 12px; padding: 32px; }
-        .contact-form-container h2 { font-family: 'Newsreader', Georgia, serif; font-size: 24px; margin-bottom: 8px; }
-        .contact-form-container > p { font-size: 14px; color: #666; margin-bottom: 24px; }
+        .contact-form-container { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 32px; }
+        .contact-form-container h2 { font-family: 'Newsreader', Georgia, serif; font-size: 24px; margin-bottom: 8px; color: var(--color-text); }
+        .contact-form-container > p { font-size: 14px; color: var(--color-text-muted); margin-bottom: 24px; }
 
         /* Map Section */
-        .map-section { padding: 64px 0; background: #fafafa; border-top: 1px solid #e5e5e5; }
-        .map-section h2 { font-family: 'Newsreader', Georgia, serif; font-size: 32px; text-align: center; margin-bottom: 32px; }
-        .map-card { display: block; background: white; border: 1px solid #e5e5e5; border-radius: 12px; overflow: hidden; transition: box-shadow 0.2s; }
+        .map-section { padding: 64px 0; background: var(--color-surface); border-top: 1px solid var(--color-border); }
+        .map-section h2 { font-family: 'Newsreader', Georgia, serif; font-size: 32px; text-align: center; margin-bottom: 32px; color: var(--color-text); }
+        .map-card { display: block; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 12px; overflow: hidden; transition: box-shadow 0.2s; }
         .map-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
         .map-visual { aspect-ratio: 21/9; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative; display: flex; align-items: center; justify-content: center; }
         .map-pin { font-size: 48px; }
         .map-info { padding: 24px; text-align: center; }
-        .map-info h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
-        .map-info p { font-size: 14px; color: #666; }
+        .map-info h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; color: var(--color-text); }
+        .map-info p { font-size: 14px; color: var(--color-text-muted); }
     </style>
 </head>
 <body>
