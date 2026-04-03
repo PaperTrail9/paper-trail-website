@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lessons learned from building mobile apps in New Zealand and shipping to a global audience.">
+    
+    <title>Shipping from the Edge: Lessons from Building Apps in New Zealand | The Paper Trail</title>
+    
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="post.css">
+    <link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="reading-progress"></div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <nav class="main-nav">
+                <a href="/" class="brand">
+                    <svg class="brand-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="48" height="48" rx="8" fill="#dc2626"/>
+                        <path d="M14 12h20v4H14v-4zm0 10h20v4H14v-4zm0 10h14v4H14v-4z" fill="white"/>
+                    </svg>
+                    <span>Paper Trail</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/blog/" class="nav-link active">Blog</a></li>
+                    <li><a href="/apps/reel-reviews/" class="nav-link">Reel Reviews</a></li>
+                    <li><a href="/apps/coming-soon/" class="nav-link">Coming Soon</a></li>
+                    <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="search-toggle" aria-label="Search" aria-expanded="false">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    </button>
+                    <button class="theme-toggle" aria-label="Toggle dark mode">
+                        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </div>
+            </nav>
+        </div>
+        <div class="search-overlay" id="search-overlay" hidden>
+            <form class="search-form" action="/blog/" method="get" role="search">
+                <input type="search" name="q" class="search-input" placeholder="Search articles..." autocomplete="off">
+                <button type="submit" class="search-submit" aria-label="Submit search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+                <button type="button" class="search-close" aria-label="Close search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+            </form>
+        </div>
+    </header>
+
+    <main>
+        <header class="article-header">
+            <div class="article-meta">
+                <span class="article-category">Development</span>
+                <span class="article-date">April 3, 2026</span>
+                <span class="article-reading-time">6 min read</span>
+            </div>
+            <h1 class="article-title">Shipping from the Edge: Lessons from Building Apps in New Zealand</h1>
+            <p class="article-subtitle">What three years of remote development taught us about async communication, time zone challenges, and building for a global market from the bottom of the world.</p>
+            <div class="article-author">
+                <img src="../../assets/author-avatar.png" alt="Paper Trail Team" class="author-avatar-large">
+                <div class="author-info-large">
+                    <span class="author-name-large">Paper Trail Team</span>
+                    <span class="author-title-large">Founders at Paper Trail</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Article Hero Image -->
+        <figure class="article-hero">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80" alt="Global network connection concept with New Zealand highlighted">
+            <figcaption>Building for the world from the edge of the map. Photo by Unsplash.</figcaption>
+        </figure>
+
+        <article class="article-content">
+            <p>When we started Paper Trail three years ago, we knew building a global software company from New Zealand would come with unique challenges. What we didn't anticipate was how those challenges would become our greatest advantages.</p>
+
+            <p>The time zone gap, the distance from Silicon Valley, the smaller local market — these aren't handicaps. They're forcing functions that shape how you build, communicate, and ship software.</p>
+
+            <h2>The 19-Hour Advantage</h2>
+
+            <p>Our primary users are in North America. When they wake up, we've already put in a full day. When they go to bed, we're just starting ours. This 19-hour time difference isn't a bug — it's a feature.</p>
+
+            <p>We ship code while they sleep. By the time they wake up, new features are live, bugs are fixed, and support tickets are answered. It's like having a 24-hour development cycle without the burnout of night shifts.</p>
+
+            <p>But this only works because we've built our entire workflow around asynchronous communication. No standups. No synchronous meetings. Everything is documented, searchable, and designed to be consumed across time zones.</p>
+
+            <h2>Documentation as Culture</h2>
+
+            <p>When you can't tap someone on the shoulder for a quick question, you learn to write things down. Our codebase is extensively documented not because we're pedantic, but because we have to be.</p>
+
+            <p>Every decision gets a brief write-up. Every bug gets a post-mortem. Every feature ships with context about why we built it, not just what it does.</p>
+
+            <p>This documentation-first approach has an unexpected side effect: our onboarding is incredibly fast. New team members can get up to speed without anyone holding their hand because everything they need is already written down.</p>
+
+            <h2>Building for Constraints</h2>
+
+            <p>New Zealand's internet infrastructure is good, but not great. Our users in rural areas have spotty connections. Our international users deal with latency. We can't assume fast, reliable connectivity.</p>
+
+            <p>This has made us obsessive about performance. Our apps are lightweight. They work offline. They sync efficiently. They respect bandwidth.</p>
+
+            <p>Ironically, this focus on performance has made our apps more successful in markets we never initially targeted. Emerging markets with similar connectivity challenges love our software because it just works.</p>
+
+            <h2>The Small Market Advantage</h2>
+
+            <p>New Zealand's population is only 5 million. That's tiny. But it's also an advantage.</p>
+
+            <p>We can test features with a small, engaged local audience before shipping globally. If something doesn't resonate with Kiwis, we know it probably won't work elsewhere either. If it does, we have confidence to scale.</p>
+
+            <p>Our local users are also incredibly patient and honest. They'll tell us when something is confusing or broken. They understand we're a small team building for the world, and they root for us.</p>
+
+            <h2>What We'd Do Differently</h2>
+
+            <p>Looking back, there are things we'd change. We spent too long trying to replicate Silicon Valley patterns that don't make sense here. We worried too much about fundraising and not enough about revenue. We tried to be everywhere at once instead of dominating one market first.</p>
+
+            <p>But the core insight remains: building from the edge isn't a disadvantage. It's a different set of constraints that, if embraced, can lead to better software.</p>
+
+            <p>You learn to communicate clearly. You learn to build resilient systems. You learn to trust your users and give them the tools to succeed without constant hand-holding.</p>
+
+            <p>Three years in, we wouldn't trade our position for anything. The view from the edge is pretty spectacular.</p>
+
+            <div class="article-cta">
+                <p>Building something from an unusual location? We'd love to hear about it.</p>
+                <a href="/contact.html" class="btn btn-primary">Get in Touch</a>
+            </div>
+        </article>
+
+        <!-- Article Footer -->
+        <footer class="article-footer">
+            <div class="article-tags">
+                <span class="tag">Remote Work</span>
+                <span class="tag">Development</span>
+                <span class="tag">New Zealand</span>
+                <span class="tag">Global Teams</span>
+            </div>
+            
+            <nav class="article-nav">
+                <a href="/blog/posts/building-reel-reviews.html" class="article-nav-prev">
+                    <span class="article-nav-label">Previous</span>
+                    <span class="article-nav-title">Building Reel Reviews: The UX of Negative Reviews</span>
+                </a>
+                <a href="/blog/posts/day-in-life.html" class="article-nav-next">
+                    <span class="article-nav-label">Next</span>
+                    <span class="article-nav-title">A Day in the Life: Running an App Company from Auckland</span>
+                </a>
+            </nav>
+        </footer>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">PT</span>
+                        <span class="logo-text">Paper Trail</span>
+                    </a>
+                    <p class="footer-description">Writing the future of mobile experiences from New Zealand.</p>
+                </div>
+                
+                <nav class="footer-nav" aria-label="Footer navigation">
+                    <div class="footer-nav-column">
+                        <h4>Product</h4>
+                        <ul class="footer-nav-list">
+                            <li><a href="/apps/reel-reviews/">Reel Reviews</a></li>
+                            <li><a href="/apps/coming-soon/">Coming Soon</a></li>
+                            <li><a href="/blog/">Blog</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-nav-column">
+                        <h4>Company</h4>
+                        <ul class="footer-nav-list">
+                            <li><a href="/contact.html">Contact</a></li>
+                            <li><a href="/privacy-policy.html">Privacy</a></li>
+                            <li><a href="/terms-of-service.html">Terms</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-nav-column">
+                        <h4>Connect</h4>
+                        <ul class="footer-nav-list">
+                            <li><a href="mailto:admin@typewrite.club">Email</a></li>
+                            <li><a href="https://github.com/PaperTrail9">GitHub</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2026 Paper Trail Limited. Made with care in New Zealand.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script src="/js/main.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('mobile-menu-toggle');
+            const nav = document.getElementById('main-nav');
+            
+            if (toggle && nav) {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const isOpen = nav.classList.contains('mobile-open');
+                    if (isOpen) {
+                        nav.classList.remove('mobile-open');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    } else {
+                        nav.classList.add('mobile-open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
